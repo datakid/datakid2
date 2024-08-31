@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بيان الخارجي</title>
+    <style>
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #ecf0f1;
+    --text-color: #34495e;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    --invalid-bg-color: #fde8e8;
+}
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+margin: 0;
+background-color: var(--background-color);
+color: var(--text-color);
+}
+.container {
+background-color: #ffffff;
+padding: 2rem;
+border-radius: var(--border-radius);
+box-shadow: var(--box-shadow);
+width: 95%;
+max-width: 1000px;
+position: relative;
+overflow: hidden;
+}
+.title {
+text-align: center;
+font-size: 2.5rem;
+color: var(--primary-color);
+margin-bottom: 2rem;
+text-transform: uppercase;
+}
+input, select {
+width: 100%;
+padding: 0.8rem;
+margin-bottom: 1rem;
+border: 2px solid #bdc3c7;
+border-radius: var(--border-radius);
+font-size: 1rem;
+transition: all 0.3s ease;
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+background-color: #ffffff;
+box-sizing: border-box;
+}
+select {
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%233498db' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+background-repeat: no-repeat;
+background-position: right 1rem center;
+background-size: 1.5em;
+padding-right: 3rem;
+}
+select option:first-child {
+color: #95a5a6;
+}
+select:not(:focus):invalid,
+select:invalid,
+select:required:invalid {
+color: #95a5a6;
+background-color: var(--invalid-bg-color);
+}
+input:focus, select:focus {
+outline: none;
+border-color: var(--primary-color);
+box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+.button-container {
+display: flex;
+justify-content: center;
+gap: 1rem;
+margin-top: 2rem;
+margin-bottom: 2rem;
+}
+.btn {
+background-color: var(--primary-color);
+color: white;
+border: none;
+cursor: pointer;
+font-weight: bold;
+text-transform: uppercase;
+transition: all 0.3s ease;
+padding: 0.8rem 1.6rem;
+font-size: 1rem;
+border-radius: 50px;
+box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.btn:hover {
+background-color: #2980b9;
+transform: translateY(-2px);
+box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+}
+#results, #legacyResults {
+margin-top: 2rem;
+width: 100%;
+overflow-x: auto;
+}
+.autocomplete-items {
+border: 2px solid #bdc3c7;
+border-top: none;
+border-radius: 0 0 var(--border-radius) var(--border-radius);
+max-height: 300px;
+overflow-y: auto;
+position: absolute;
+z-index: 99;
+background-color: #ffffff;
+width: calc(100% - 4rem);
+}
+.autocomplete-items div {
+padding: 0.8rem;
+cursor: pointer;
+background-color: #fff;
+border-bottom: 1px solid #ecf0f1;
+transition: background-color 0.3s ease;
+}
+.autocomplete-items div:hover, .autocomplete-active {
+background-color: #f4f6f7;
+}
+.already-in-table {
+background-color: var(--invalid-bg-color);
+color: #e74c3c;
+}
+table {
+width: 100%;
+border-collapse: separate;
+border-spacing: 0 10px;
+margin-top: 1.5rem;
+background-color: #fff;
+}
+th, td {
+padding: 0.8rem;
+text-align: left;
+}
+th {
+background-color: var(--primary-color);
+color: #fff;
+text-transform: uppercase;
+}
+tr {
+background-color: #f8f9fa;
+transition: all 0.3s ease;
+}
+tr:hover {
+transform: translateY(-3px);
+box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.recycle-bin {
+font-size: 1.5rem;
+color: #e74c3c;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+.recycle-bin:hover {
+transform: scale(1.2);
+}
+.delete-btn {
+background: none;
+border: none;
+cursor: pointer;
+padding: 5px;
+border-radius: 50%;
+transition: all 0.3s ease;
+}
+.delete-btn:hover {
+transform: scale(1.2);
+background-color: rgba(231, 76, 60, 0.1);
+}
+.delete-btn svg {
+width: 20px;
+height: 20px;
+stroke: #e74c3c;
+}
+.product-unit {
+color: var(--primary-color);
+font-weight: bold;
+}
+#legacyMode {
+display: none;
+padding: 1rem;
+border-radius: var(--border-radius);
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #ffffff;
+overflow-y: auto;
+z-index: 1000;
+}
+.selected-row {
+background-color: #eaf2f8;
+}
+.legacy-mode-toggle {
+position: absolute;
+top: 20px;
+right: 20px;
+display: flex;
+align-items: center;
+font-size: 0.9rem;
+}
+.toggle-switch {
+position: relative;
+display: inline-block;
+width: 50px;
+height: 28px;
+margin-left: 10px;
+}
+.toggle-switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+.slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: rgba(231, 76, 60, 0.2);
+transition: .4s;
+border-radius: 34px;
+}
+.slider:before {
+position: absolute;
+content: "";
+height: 22px;
+width: 22px;
+left: 3px;
+bottom: 3px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
+}
+input:checked + .slider {
+background-color: rgba(46, 204, 113, 0.2);
+}
+input:checked + .slider:before {
+transform: translateX(22px);
+}
+td[contenteditable="true"] {
+background-color: #f9f9f9;
+border: 1px solid #bdc3c7;
+border-radius: 4px;
+padding: 0.6rem;
+transition: all 0.3s ease;
+}
+td[contenteditable="true"]:hover, td[contenteditable="true"]:focus {
+background-color: #f0f0f0;
+border-color: #95a5a6;
+box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+td[contenteditable="true"]::before {
+content: '';
+display: inline-block;
+width: 18px;
+height: 18px;
+margin-right: 5px;
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233498db' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z'%3E%3C/path%3E%3C/svg%3E");
+background-repeat: no-repeat;
+background-position: center;
+background-size: contain;
+vertical-align: middle;
+}
+td[contenteditable="true"]:focus::before {
+display: none;
+}
+#saveAndQuitBtn {
+position: fixed;
+bottom: 20px;
+left: 50%;
+transform: translateX(-50%);
+z-index: 1000;
+padding: 0.8em 1.6em;
+font-size: 1em;
+font-weight: bold;
+color: white;
+background-color: var(--primary-color);
+border: none;
+border-radius: 50px;
+cursor: pointer;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease;
+width: auto;
+max-width: 90%;
+}
+#saveAndQuitBtn:hover {
+background-color: #2980b9;
+transform: translateX(-50%) translateY(-2px);
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+.modal {
+display: none;
+position: fixed;
+z-index: 1000;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+overflow: auto;
+background-color: rgba(0,0,0,0.4);
+}
+.modal-content {
+background-color: #fefefe;
+margin: 15% auto;
+padding: 20px;
+border: 1px solid #bdc3c7;
+width: 80%;
+max-width: 500px;
+border-radius: var(--border-radius);
+box-shadow: var(--box-shadow);
+}
+.modal-content h2 {
+color: var(--primary-color);
+margin-bottom: 20px;
+}
+.modal-content select,
+.modal-content input {
+width: 100%;
+margin-bottom: 15px;
+}
+.modal-content .button-container {
+justify-content: flex-end;
+margin-top: 20px;
+}
+#addNameBtn {
+background-color: var(--secondary-color);
+}
+#addNameBtn:hover {
+background-color: #27ae60;
+}
+#addNameBtn:disabled {
+background-color: #95a5a6;
+cursor: not-allowed;
+}
+@media print {
+body {
+padding: 0;
+margin: 0;
+}
+Copy.container {
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+#results {
+    position: static;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    margin: 0;
+    page-break-inside: auto;
+}
+
+tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+}
+
+body * {
+    visibility: hidden;
+}
+
+header, 
+#results, 
+#results * {
+    visibility: visible;
+}
+
+.no-print {
+    display: none;
+}
+
+#results {
+    margin-top: 0;
+}
+
+table {
+    page-break-inside: auto;
+}
+
+tr, td, th {
+    page-break-inside: avoid;
+    page-break-after: auto;
+}
+}
+@media (max-width: 768px) {
+.container {
+width: 95%;
+padding: 1rem;
+}
+table {
+font-size: 0.9rem;
+}
+th, td {
+padding: 0.8rem;
+}
+input, select {
+padding: 0.8rem;
+font-size: 0.9rem;
+}
+.button-container {
+flex-direction: column;
+}
+.btn {
+width: 100%;
+}
+.title {
+font-size: 2rem;
+margin-top: 3rem;
+}
+.legacy-mode-toggle {
+top: 10px;
+}
+}
+.action-icons {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 20px;
+margin-top: 20px;
+}
+.icon-wrapper {
+cursor: pointer;
+transition: all 0.3s ease;
+padding: 10px;
+border-radius: 50%;
+background-color: #f0f0f0;
+}
+.icon-wrapper:hover {
+transform: scale(1.1);
+background-color: #e0e0e0;
+}
+.icon-wrapper::after {
+content: attr(data-action);
+position: absolute;
+bottom: -30px;
+left: 50%;
+transform: translateX(-50%);
+background-color: rgba(0, 0, 0, 0.7);
+color: white;
+padding: 5px 10px;
+border-radius: 5px;
+font-size: 12px;
+opacity: 0;
+transition: opacity 0.3s ease;
+white-space: nowrap;
+}
+.icon-wrapper:hover::after {
+opacity: 1;
+}
+.print-icon svg {
+color: var(--secondary-color);
+}
+.submit-icon svg {
+color: var(--primary-color);
+}
+.action-icons {
+position: relative;
+}
+.icon-wrapper {
+position: relative;
+}
+.icon-label {
+position: absolute;
+font-size: 14px;
+color: #3498db;
+font-weight: bold;
+white-space: nowrap;
+}
+.print-icon .icon-label {
+right: calc(100% + 10px);
+top: 50%;
+transform: translateY(-50%);
+color: #2ecc71;
+}
+.submit-icon .icon-label {
+left: calc(100% + 10px);
+top: 50%;
+transform: translateY(-50%);
+}
+.print-icon svg {
+color: #2ecc71;
+}
+
+td[contenteditable="true"] {
+    direction: ltr;
+    text-align: left;
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">خارجي طلاب</h1>
+        <div class="legacy-mode-toggle">
+            <span>Legacy Mode</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="legacyModeToggle" onchange="toggleLegacyMode()" title="Toggle Legacy Mode">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="no-print">
+            <label for="regionSelect">المنطقة</label>
+            <select id="regionSelect" title="Select Region" required>
+                <option value="">المنطقة</option>
+                <option value="first">الاولى</option>
+                <option value="second">الثانية</option>
+                <option value="third">الثالثة</option>
+            </select>
+        <label for="pharmacySelect">الصيدلية</label>
+        <select id="pharmacySelect" disabled title="Select Pharmacy" required>
+            <option value="">الصيدلية</option>
+        </select>
+        
+        <label for="monthSelect">الشهر</label>
+        <select id="monthSelect" title="Select Month" required>
+            <option value="">الشهر</option>
+            <option value="January">يناير</option>
+            <option value="February">فبراير</option>
+            <option value="March">مارس</option>
+            <option value="April">ابريل</option>
+            <option value="May">مايو</option>
+            <option value="June">يونيو</option>
+            <option value="July">يوليو</option>
+            <option value="August">اغسطس</option>
+            <option value="September">سبتمبر</option>
+            <option value="October">اكتوبر</option>
+            <option value="November">نوفمبر</option>
+            <option value="December">ديسمبر</option>
+        </select>
+        
+        <div class="autocomplete">
+            <label for="searchInput">Search for a product</label>
+            <input type="text" id="searchInput" placeholder="Search for a product..." title="Search for a product">
+        </div>
+        
+        <label for="unitsSold">Units sold</label>
+        <input type="number" id="unitsSold" placeholder="Units sold" step="1" min="0" title="Enter units sold">
+        
+        <div class="button-container">
+            <button class="btn" onclick="addData()" title="Add Data">Add Data</button>
+            <button class="btn" id="addNameBtn" onclick="showAddNameModal()" disabled title="Add Name">Add Name</button>
+        </div>
+    </div>
+    <div id="results">
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Units Sold</th>
+                    <th class="no-print"></th>
+                </tr>
+            </thead>
+            <tbody id="dataTable">
+            </tbody>
+        </table>
+    </div>
+    <div id="legacyMode">
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Units Sold</th>
+                </tr>
+            </thead>
+            <tbody id="legacyTable">
+            </tbody>
+        </table>
+        <button id="saveAndQuitBtn" onclick="saveAndQuit()" title="Save and Quit">Save and Quit</button>
+    </div>
+<div class="action-icons no-print">
+    <div class="icon-wrapper print-icon" onclick="window.print()" title="Print">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+        <span class="icon-label print-label">Print</span>
+    </div>
+    <div class="icon-wrapper submit-icon" onclick="submitData()" title="Submit">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+        </svg>
+        <span class="icon-label submit-label">Submit</span>
+    </div>
+</div>
+<div id="addNameModal" class="modal">
+    <div class="modal-content">
+        <h2>Add New Name</h2>
+        <label for="nameCategory">سبب الاضافة</label>
+        <select id="nameCategory" title="Select reason for addition" required>
+            <option value="">سبب الاضافة</option>
+            <option value="قرار لجنة">قرار لجنة</option>
+            <option value="حكم قضائي">حكم قضائي</option>
+            <option value="داخل اللستة">داخل اللستة</option>
+            <option value="شئون طبية">شئون طبية</option>
+        </select>
+        <label for="newProductName">Product Name</label>
+        <input type="text" id="newProductName" placeholder="Product Name" title="Enter product name" required>
+        <label for="newProductUnit">Product Unit</label>
+        <input type="text" id="newProductUnit" placeholder="Product Unit (e.g., 10 T)" title="Enter product unit" required>
+        <label for="newProductUnitsSold">Units Sold</label>
+        <input type="number" id="newProductUnitsSold" placeholder="Units Sold" min="0" step="1" title="Enter units sold" required>
+        <div class="button-container">
+            <button class="btn" onclick="addNewName()">Add</button>
+            <button class="btn" onclick="closeAddNameModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+    <script>
+    
+    const products =  [
+  "Antacid Syp|Bottle",
+  "Acetazolamide 250mg|10 T",
+  "Acetylcysteine Sachets|10 Sach",
+  "Acetylsalicylic Acid 75mg|10 T",
+  "Acetylsalicylic Acid 81mg|10 T",
+  "Acyclovir 0.05 cream|Tube",
+  "Aescin gel|Tube",
+  "Alpha Chymotrypsin|Amp",
+  "Alpha Lipoic Acid 300mg|10 T",
+  "Alpha Lipoic Acid 600mg|10 T",
+  "Amantadine HCL 100mg|10 T",
+  "Amaryl 2mg (حكم قضائي)|30 T",
+  "Ambroxol|10 T",
+  "Ambroxol Syp|Bottle",
+  "Amiodarone 200mg|10 T",
+  "Amitriptyline 10mg|10 T",
+  "Amitriptyline 25mg|10 T",
+  "Amlodipine 10mg & Valsartan 160mg|10 T",
+  "Amlodipine 5mg & Olmesartan 20mg|10 T",
+  "Amlodipine 5mg & Valsartan 160mg|10 T",
+  "Amlodipine, Olmesartan & HCT 10/40/25mg|10 T",
+  "Amlodipine, Olmesartan & HCT 5/20/12.5mg|10 T",
+  "Amoxicillin & Clavulanic acid 1 gm|10 T",
+  "Anagrelide 0.5mg|10 T",
+  "Andovimpamide 100mg (ِشئون طبية)|10 T",
+  "Antacid|10 T",
+  "Antibiotic & Corticosteroid cream|Tube",
+  "Antifungal cream|Tube",
+  "Anti-migraine|10 T",
+  "Antirheumatic gel|Tube",
+  "Apetryl 0.5mg (شئون طبية)|10 T",
+  "Apixaban 2.5mg|10 T",
+  "Apixaban 5mg|10 T",
+  "Aranesp 100mcg|Syringe",
+  "Aripiprazole 30mg|10 T",
+  "Artificial Tears|Bottle",
+  "Atorvastatin & Ezetimibe 20/10 mg|10 T",
+  "Atorvastatin & Ezetimibe 40/10 mg|10 T",
+  "Atorvastatin 20mg|10T",
+  "Atorvastatin 40mg|10 T",
+  "Atropine Sulphate ED|Bottle",
+  "Atropine , Colchicine &Piperazine|12 Sach",
+  "Avonex 30mcg (قرار لجنة)|Syringe",
+  "Azathioprine 50 mg|10 T",
+  "Beclomethasone & Salbutamol Inhalation|Bottle",
+  "Beclomethasone inhalation|Bottle",
+  "Bendamustin 100mg|vial",
+  "Betamethasone & Calcipotriol Cr.|Tube",
+  "Betamethasone & Salicylic acid Lotion|Bottle",
+  "Betamethasone & Salicylic acid Oint.|Tube",
+  "Betamethasone Cr.|Tube",
+  "Betaxolol|Bottle",
+  "Bilichol|12 Cap",
+  "Bional (قرار لجنة )|10 T",
+  "Biperidene 2mg|10 T",
+  "Bisoprolol 2.5mg|10 T",
+  "Bisoprolol 5mg|10 T",
+  "Bisoprolol 5mg & HCT 12.5mg|10 T",
+  "Bleomycin 15 I.U|Vial",
+  "Bosentan 62.5mg|10 T",
+  "Brimonidine e.d|Bottle",
+  "Budesonide 160mcg & Formoterol 4.5mcg|Bottle",
+  "Bumetanide|10 T",
+  "Cabergoline 0.5mg|2 T",
+  "Caelyx|Vial",
+  "Calcium 500mg|10 T",
+  "Candesartan 16 mg|10 T",
+  "Candesartan 16mg & HCT 12.5mg|10 T",
+  "Candesartan 8mg|10 T",
+  "Capecitabine 500mg|T",
+  "Capoten 25mg (حكم قضائي)|10 T",
+  "Carbamazepin 200mg|10 T",
+  "Carbamazepin 400mg CR|10 T",
+  "Carbamide cream|Tube",
+  "Carbimazole 5mg|10 T",
+  "Carfilzomib 60mg|Vial",
+  "Carvedilol 12.5mg|10T",
+  "Carvedilol 25mg|10 T",
+  "Carvedilol 6.25mg|10 T",
+  "Celecoxib 200mg|10 T",
+  "Central Muscle Relaxant & Analgesic|10 T",
+  "Cetirizine|10 T",
+  "Cetuximab 100mg|Vial",
+  "Chlorpromazine 100mg|10 T",
+  "Cholestyramine Sachets|12 Sach",
+  "Chymotrypsin & Trypsin|10 T",
+  "Cidophage 850mg (حكم قضائي)|10 T",
+  "Cilostazole 100mg|10 T",
+  "Cilostazole 50mg|10 T",
+  "Cinacalcet 30mg|10 T",
+  "Cinchocaine & Hydrocortisone cream|Tube",
+  "Cinnarizine 25mg|10 T",
+  "Cipralex 10mg (شئون طبية)|14 T",
+  "Ciprapro 10 mg (شئون طبية)|10 T",
+  "Citalopram 20mg|7 T",
+  "Citicoline 500mg|Amp",
+  "Citicoline Syp|Bottle",
+  "Clobetasol Cream|Tube",
+  "Clomipramine 25mg|10 T",
+  "Clomipramine 75mg|10 T",
+  "Clopidogrel 75mg|10 T",
+  "Clotrimazole Cream|Tube",
+  "Clotrimazole Soln.|Bottle",
+  "Clozapine 100mg|10 T",
+  "Colchicine|10 T",
+  "Cough Sedative|Bottle",
+  "Cyclosporin 50mg|5 T",
+  "Cytarabine 1gm|Vial",
+  "Dapagliflozin 10mg|10 T",
+  "Dapagliflozin 5mg & Met. 1000mg|10 T",
+  "Darbepoetin Alpha (لجنه عليا)|Syringe",
+  "Deferoxamine 500mg|Amp",
+  "Dexamethasone , Neomycine & Polimyxin ED|Bottle",
+  "Dexamethasone , Neomycine & Polimyxin EO|Tube",
+  "Diacerein 50mg|10 T",
+  "Diclofenac gel|Tube",
+  "Digestive|10 T",
+  "Digoxine 0.25mg|10 T",
+  "Diltiazem 60mg|10 T",
+  "Diosmin 450mg & Hesperidin 50mg|10 T",
+  "Domperidone 10mg|10 T",
+  "Dorzolamide & Timolol ED|Bottle",
+  "Dostenix (حكم قضائي)|2 T",
+  "Dothiepin 25mg|10 T",
+  "Dothiepin 75mg|10 T",
+  "Doxazosin 1mg|10 T",
+  "Doxazosin 4mg|10 T",
+  "Doxorubicin 20mg|Vial",
+  "Doxycycline 100mg|10 Cap",
+  "Duloxetine 30mg|10 T",
+  "Empagliflozin 12.5mg & Met. 1000mg|10 T",
+  "Empagliflozin 25mg|10 T",
+  "Empagliflozin 25mg & Met. 1000mg|10 T",
+  "Empagliflozin 5mg & Met. 1000mg|10 T",
+  "Enalapril 20mg & HCT 12.5mg|10 T",
+  "Endoxan 1g|Vial",
+  "Endoxan 50mg|50T",
+  "Enoxaparin 20mg|Syringe",
+  "Enoxaparin 40mg|Syringe",
+  "Enoxaparin 60mg|Syringe",
+  "Enoxaparin 80mg|Syringe",
+  "Entecavir 0.5mg|10 T",
+  "Entecavir 1mg|10 T",
+  "Erythropoietin alpha 4000IU|Vial",
+  "Escitalopram 10mg|14T",
+  "Esomeprazole 40 mg|10 Cap",
+  "Estradiol Valerate & Norgestrel|21 T",
+  "Etoricoxib 120mg|10 T",
+  "Etoricoxib 90mg|10 T",
+  "Famotidine 20 mg|10 T",
+  "Famotidine 40mg|10 T",
+  "Febuxostat 40mg|10 T",
+  "Febuxostat 80mg|10 T",
+  "Fenofibrate 300mg|10 T",
+  "Ferro Sanol Duodenal (موافقة الشئون الطبية)|30 T",
+  "Fexofenadine 120mg|10 T",
+  "Fexofenadine 180mg|10 T",
+  "Flavoxate 200mg|10 T",
+  "Fluconazole 150mg|1 T",
+  "Fluoxetine 20mg|10 T",
+  "Fluticasone 125mcg & Salmeterol 25mcg|Bottle",
+  "Folic acid|10 T",
+  "Formoterol|30 T",
+  "Fucidic Acid Cream|Tube",
+  "Gabapentin 100mg|10 T",
+  "Gabapentin 400mg|10 T",
+  "Galvus 50mg (حكم قضائي )|28 T",
+  "Gastrobiotic 550mg (لجنه عليا)|10 T",
+  "Gentamicin 80mg|Amp",
+  "Gentamicin Cream|Tube",
+  "Gilenya 0.5mg|28 Cap",
+  "Ginkgo biloba|10 T",
+  "Glibenclamide 5mg|10 T",
+  "Glibenclamide 5mg & Met. 1000mg|10 T",
+  "Gliclazide 60mg|10 T",
+  "Glimepiride 2mg|10 T",
+  "Glimepiride 2mg & Met. 1000mg|10 T",
+  "Glimepiride 3mg|10 T",
+  "Glimepiride 4mg|10 T",
+  "Glucosamine|10 T",
+  "Gramicidin, Neomycin, Nystatin & Triamcinolone Cream|Tube",
+  "Haloperidol 5mg|Amp",
+  "Hexamine, Khellin & Piperazin Sachets|12 Sach",
+  "Human chorionic gonadotropin|Amp",
+  "Hydroxychloroquine|10 T",
+  "Hydroxyurea|10 T",
+  "Indomethacin 100mg Supp.|10 Supp",
+  "Insulin Isophane Protamine|Vial",
+  "Insulin Isophane Protamine|Penfill",
+  "Insulin Mix 70/30|Vial",
+  "Insulin Mix 70/30|Penfill",
+  "Insulin Neutral Human|Vial",
+  "Insulin Neutral Human|Penfill",
+  "Invega 100mg (قرار لجنة)|Syringe",
+  "Ipratropium & Salbutamol|Amp",
+  "Irinotecan 100mg|Vial",
+  "Iron|10 T",
+  "Iruxol|Tube",
+  "Isosorbide Mononitrate 20mg|10 T",
+  "Ivabradine 5mg|10 T",
+  "Ivabradine 7.5mg|10 T",
+  "Ketosteril|100 T",
+  "Ketotifen|10 T",
+  "Lacosamide 100 mg|10 T",
+  "Lactulose Syp|Bottle",
+  "Lamivudine|10 T",
+  "Latanoprost ED|Bottle",
+  "L-Carnitine Amp|Amp",
+  "L-Carnitine Cap|10 Cap",
+  "Leflunomide 20mg|10 T",
+  "Lercanidipine 10mg|10 T",
+  "Leucovorin Calcium 50mg|Amp",
+  "Levetiracetam 1000mg|10 T",
+  "Levetiracetam 500mg|10 T",
+  "Levodopa & Carbidopa 250/25mg|10 T",
+  "Levodopa, Carbidopa & Entacapone 150/37.5/200mg|10 T",
+  "Levothyroxine 100mcg|100 T",
+  "Levothyroxine 25mcg|50 T",
+  "Levothyroxine 50mcg|100 T",
+  "Lidocaine cream|Tube",
+  "Linezolid 600 mg|10 T",
+  "Lithium Carbonate 400mg|10 T",
+  "Lolawest (قرار لجنة )|6 Sach",
+  "Long Acting Penicillin|Vial",
+  "Losartan 50mg|10 T",
+  "Magnesium Citrate Eff.|12 Sach",
+  "Mayzent 0.25 mg (لجنة)|12 T",
+  "Mebeverine 100mg & Sulpiride 25mg|10 T",
+  "Meclofenoxate 500mg|10 T",
+  "Memantine 10 mg|10 T",
+  "Mesalazine 500mg|10 T",
+  "Mesalazine Supp|28 Supp",
+  "Metformin 500mg|10 T",
+  "Metformin 850mg|10 T",
+  "Methotrexate|Vial",
+  "Methotrexate 2.5mg|10 T",
+  "Methyl Folate (لجنة دواء)|10 T",
+  "Metoclopramide 10mg|10 T",
+  "Metoprolol 100mg|10 T",
+  "Metoprolol 50mg|10 T",
+  "Metronidazole 250mg|10 T",
+  "Miconazole vaginal cream|Tube",
+  "Minirin 60mcg (قرار لجنة)|30 T",
+  "Mometasone Cream|Tube",
+  "Montelukast 10mg|10 T",
+  "Mouth Wash|Bottle",
+  "Multivitamins|10 Cap",
+  "Mycophenolate 180mg|10 T",
+  "Mycophenolate 500mg|10 T",
+  "Naftidrofuryl 200mg|10 T",
+  "Naphazoline  & Chlorpheniramine  ED|Bottle",
+  "Napizole 20mg (حكم قضائي )|14 T",
+  "Nebivolol 2.5mg|10 T",
+  "Nebivolol 5mg|10 T",
+  "Neostigmine 15mg|10 T",
+  "Nicorandil 10mg|10 T",
+  "Nicorandil 20mg|10 T",
+  "Nifedipine|10 T",
+  "Nitroglycerin 2.5mg|10 Cap",
+  "Nitroglycerin 5mg Patches|Patch",
+  "Nitromak 2.5mg (حكم قضائي)|10 T",
+  "Norethisterone|10 T",
+  "N-plate (قرار لجنة)|Syringe",
+  "Ofev (حكم قضائي)|60 T",
+  "Olanzapine 10mg|10 T",
+  "Olmesartan 20mg|10 T",
+  "Olmesartan 20mg & HCT 12.5mg|10 T",
+  "Olmesartan 40mg|10 T",
+  "Omega 3|10 T",
+  "Omeprazole 20mg|7 T",
+  "Omeprazole 40mg|10 T",
+  "Opsumit 10mg|30 T",
+  "Oxcarbazepine 300mg|10 T",
+  "Panthenol cream|Tube",
+  "Pantoprazole 20mg|10 T",
+  "Pantoprazole 40mg|10 T",
+  "Pentasa (لجنة عليا)|10 T",
+  "Pentasa Supp (لجنة عليا)|28 Supp",
+  "Pentoxifylline 400mg|10 T",
+  "Phenytoin 50mg|10 T",
+  "Pimozide 4mg|10 T",
+  "Piperazine, Hexamine & Khellin Eff.|12 Sach",
+  "Piracetam Syp|Bottle",
+  "Pirfenex (حكم قضائي)|30 T",
+  "Pirfenidone 200mg (قرار لجنة )|30 T",
+  "Piroxicam 10mg|10 T",
+  "Piroxicam 20mg|10 T",
+  "Plendil 5mg (موافقة الشئون الطبية)|30 T",
+  "Potassium|Bottle",
+  "Povidone Iodine Shampoo|Bottle",
+  "Pramipexol 0.25mg|10 T",
+  "Pramipexol 1 mg|10 T",
+  "Prednisolone 20mg|10 T",
+  "Prednisolone 5mg|10 T",
+  "Prednisolone ED|Bottle",
+  "Progesteron 100mg|10 Cap",
+  "Progesteron 250mg|Amp",
+  "Propafenone 150mg|10 T",
+  "Propylthiouracil 50mg|10 T",
+  "Pyridostigmine 60mg|10 T",
+  "Quetiapine 100mg|10 T",
+  "Ramipril 10mg|10 T",
+  "Ramipril 2.5 mg|10 T",
+  "Ramipril 5mg|10T",
+  "Rasagiline 1mg|10 T",
+  "Rebamipide|10 T",
+  "Rebif 44mcg (قرار لجنة)|Syringe",
+  "Rilutek (لجنة دواء)|56 T",
+  "Risperidone 1 mg|10 T",
+  "Risperidone 2 mg|10 T",
+  "Risperidone 3 mg|10 T",
+  "Rivaroxaban 10mg|10 T",
+  "Rivaroxaban 15mg|10 T",
+  "Rivaroxaban 20mg|10 T",
+  "Rivaroxban 2.5mg|10 T",
+  "Rosuvastatin 20mg|10 T",
+  "Rutin & Vit.C|10 T",
+  "Salbutamol|10 T",
+  "Salbutamol Inhaler|Bottle",
+  "Salbutamol Syp|Bottle",
+  "Sandostatin LAR|Syringe",
+  "Sertraline 50 mg|10 T",
+  "Sildenafil 20mg|10 T",
+  "Sildenafil 50mg|10 T",
+  "Sitagliptin 100mg|10 T",
+  "Sitagliptin 50 mg & Met. 1000 mg|10 T",
+  "Sod. valproate 200mg|10 T",
+  "Sod. valproate 500mg|10 T",
+  "Spiramycin 3MIU Tab|10 T",
+  "Spironolactone 100 mg|10 T",
+  "Spironolactone 25mg|10 T",
+  "Stivarga 40mg|84T",
+  "Sulphamethoxazole & Trimethoprim|10 T",
+  "Sulphasalazine|10 T",
+  "Tacrolimus 1mg|10 T",
+  "Tamsulosin 0.4mg|14T",
+  "Tenofenamide 25mg|10 T",
+  "Terbinafine 0.01 Cream|Tube",
+  "Terbutaline|10 T",
+  "Testosterone|Amp",
+  "Tetracosactrin|Amp",
+  "Theophylline 300mg|10 T",
+  "Thrombonorm 0.5mg (لجنة عليا)|100 Cap",
+  "Tiratam 1000 mg (شئون طبية)|10 T",
+  "Tiratam 500mg (شئون طبية)|10 T",
+  "Topiramate 100 mg|10 T",
+  "Topiramate 25 mg|10 T",
+  "Torsemide 20mg|10 T",
+  "Tranexamic acid 500mg|10 T",
+  "Travoprost ED|Bottle",
+  "Triamcinilone 40mg|Amp",
+  "Trifluperazine 5mg (Stellasil)|10 T",
+  "Trimebutine 200mg|10 T",
+  "Trimetazidine 20mg|10 T",
+  "Urinex|12 Cap",
+  "Ursodeoxycholic acid 250mg|10 Cap",
+  "Valcyte 450mg|60 T",
+  "Valsartan 160mg & HCT 25mg|10 T",
+  "Valsartan 40 mg|10 T",
+  "Vastarel MR ( حكم قضائي )|30 T",
+  "Vepsid 100mg|Amp",
+  "Verapamil 240mg|10 T",
+  "Verapamil 80mg|10 T",
+  "Vidaza 100mg|Vial",
+  "Vildagliptin 50mg|10 T",
+  "Vildagliptin 50mg & Metformin 1000mg|10 T",
+  "Vildagliptin 50mg & Metformin 850mg|10 T",
+  "Vildagluse plus 50/1000mg (حكم قضائي )|30 T",
+  "Vinblastin 10mg|vial",
+  "Vincamine 30mg|10 T",
+  "Vincristine 1mg|Vial",
+  "Vinorelbine 50mg|Vial",
+  "Vitamin A|10 T",
+  "Vitamin B comp|10 T",
+  "Vitamin E 400|12 Cap",
+  "Vitamin K|10 T",
+  "Voriconazole 50mg|10 T",
+  "Warfarin 1mg|10 T",
+  "Warfarin 3mg|10 T",
+  "Warfarin 5 mg|10 T",
+  "Xarelto 20mg|28 T",
+  "Xgeva|Vial",
+  "Milga (شئون طبية)|10 T",
+  "Tritace Comp (شئون طبية)|10 T",
+  "Zurcal 40 mg (شئون طبية)|10 T",
+  "Alphintern (شئون طبية)|10 T",
+  "Myofen (شئون طبية)|10 T",
+  "Zyrovazet 10/10 mg (شئون طبية)|10 T",
+  "Nevilob 5mg (شئون طبية)|10 T",
+  "Exforge 160/5 mg (شئون طبية)|10 T",
+  "Coloverin A (شئون طبية)|10 T",
+  "Piracetam 400mg|10 T",
+  "Piracetam 800mg|10 T",
+  "Levofloxacin 500mg|10 T",
+  "Invega 150mg (قرار لجنة)|Syringe",
+  "Declofenac Sodium 100mg Supp|10 Supp",
+  "Betaferon (قرار لجنة)|Syringe"
+].sort();
+
+    const regionOptions = {
+        first: ["كفر الدوار طلاب", "البيضا طلاب", "ابو المطامير طلاب", "رشيد طلاب", "ادكو طلاب"],
+        second: ["دمنهور طلاب", "حوش عيسي طلاب", "المحمودية طلاب", "الرحمانية طلاب ", "ابو حمص طلاب"],
+        third: ["ايتاي طلاب", "كوم حمادة طلاب", "بدر طلاب", "شبراخيت طلاب", "الدلنجات طلاب"]
+    };
+
+    let data = [];
+    let selectedProducts = new Set();
+    let isLegacyMode = false;
+    let currentLegacyCell = null;
+
+function autocomplete(inp, arr) {
+    let currentFocus;
+    inp.addEventListener("input", function(e) {
+        let a, b, i, val = this.value;
+        closeAllLists();
+        if (!val) { return false; }
+        currentFocus = -1;
+        a = document.createElement("DIV");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        this.parentNode.appendChild(a);
+    for (i = 0; i < arr.length; i++) {
+        if (arr[i].toLowerCase().includes(val.toLowerCase())) {
+            b = document.createElement("DIV");
+            let [name, unit] = arr[i].split('|');
+            b.innerHTML = `<span class="product-name">${name}</span> <span class="product-unit">${unit}</span>`;
+            b.innerHTML += `<input type='hidden' value='${arr[i]}'>`;
+            if (selectedProducts.has(arr[i])) {
+                b.classList.add("highlighted");
+            }
+            if (isDuplicate(arr[i])) {
+                b.classList.add("already-in-table");
+            }
+            b.addEventListener("click", function(e) {
+                inp.value = this.getElementsByTagName("input")[0].value;
+                closeAllLists();
+            });
+            a.appendChild(b);
+        }
+    }
+    
+    });
+    
+    inp.addEventListener("keydown", function(e) {
+        let x = document.getElementById(this.id + "autocomplete-list");
+        if (x) x = x.getElementsByTagName("div");
+        if (e.keyCode == 40) {
+            currentFocus++;
+            addActive(x);
+        } else if (e.keyCode == 38) {
+            currentFocus--;
+            addActive(x);
+        } else if (e.keyCode == 13) {
+            e.preventDefault();
+            if (currentFocus > -1) {
+                if (x) x[currentFocus].click();
+            }
+        }
+    });
+    
+    function addActive(x) {
+        if (!x) return false;
+        removeActive(x);
+        if (currentFocus >= x.length) currentFocus = 0;
+        if (currentFocus < 0) currentFocus = (x.length - 1);
+        x[currentFocus].classList.add("autocomplete-active");
+    }
+    
+    function removeActive(x) {
+        for (let i = 0; i < x.length; i++) {
+            x[i].classList.remove("autocomplete-active");
+        }
+    }
+    
+    function closeAllLists(elmnt) {
+        let x = document.getElementsByClassName("autocomplete-items");
+        for (let i = 0; i < x.length; i++) {
+            if (elmnt != x[i] && elmnt != inp) {
+                x[i].parentNode.removeChild(x[i]);
+            }
+        }
+    }
+    
+    document.addEventListener("click", function(e) {
+        closeAllLists(e.target);
+    });
+}
+
+    autocomplete(document.getElementById("searchInput"), products);
+
+    document.getElementById("regionSelect").addEventListener("change", function() {
+        const region = this.value;
+        const pharmacySelect = document.getElementById("pharmacySelect");
+        pharmacySelect.innerHTML = '<option value="">الصيدلية</option>';
+        if (regionOptions[region]) {
+            regionOptions[region].forEach(pharmacy => {
+                const option = document.createElement("option");
+                option.value = pharmacy;
+                option.textContent = pharmacy;
+                pharmacySelect.appendChild(option);
+            });
+            pharmacySelect.disabled = false;
+        } else {
+            pharmacySelect.disabled = true;
+        }
+        updateAllRows();
+        saveData();
+        updateLegacyModeVisibility();
+        updateAddNameButtonState();
+    });
+
+    document.getElementById("pharmacySelect").addEventListener("change", function() {
+        updateAllRows();
+        saveData();
+        updateLegacyModeVisibility();
+        updateAddNameButtonState();
+    });
+
+    document.getElementById("monthSelect").addEventListener("change", function() {
+        updateAllRows();
+        saveData();
+        updateLegacyModeVisibility();
+        updateAddNameButtonState();
+    });
+    
+    document.getElementById('dataTable').addEventListener('input', function(e) {
+    if (e.target.tagName === 'TD' && e.target.getAttribute('contenteditable') === 'true') {
+        e.target.textContent = e.target.textContent.replace(/[^0-9]/g, '');
+        
+        const range = document.createRange();
+        const sel = window.getSelection();
+        range.setStart(e.target.childNodes[0], e.target.textContent.length);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+});
+
+function addData(product, unitsSold) {
+    const month = document.getElementById("monthSelect").value;
+    const region = document.getElementById("regionSelect").value;
+    const pharmacy = document.getElementById("pharmacySelect").value;
+
+    if (!isLegacyMode) {
+        product = document.getElementById("searchInput").value;
+        unitsSold = document.getElementById("unitsSold").value;
+    }
+
+    if (!product || !unitsSold || !month || !region || !pharmacy) {
+        if (isLegacyMode) {
+            return;
+        } else {
+            alert("Please fill in all fields");
+            return;
+        }
+    }
+
+    unitsSold = parseInt(unitsSold);
+    if (isNaN(unitsSold) || unitsSold < 0 || !Number.isInteger(unitsSold)) {
+        if (isLegacyMode) {
+            return; 
+        } else {
+            alert("Please enter a valid number.");
+            return;
+        }
+    }
+
+    if (isLegacyMode && !products.includes(product)) {
+        return;
+    }
+
+    if (!isLegacyMode) {
+        const validProduct = products.find(p => p === product);
+        if (!validProduct) {
+            alert("Please select a valid product from the list");
+            return;
+        }
+        product = validProduct;
+    }
+
+    const method = isLegacyMode ? 'old' : (products.includes(product) ? 'old' : 'new');
+
+    const existingEntry = data.find(entry => entry.product === product);
+    if (existingEntry) {
+        existingEntry.unitsSold = unitsSold;
+    } else {
+        data.push({ product, unitsSold, month, region, pharmacy, method });
+    }
+
+    updateTable();
+    if (!isLegacyMode) {
+        resetSelections();
+    }
+    saveData();
+}
+
+
+function updateTable() {
+    const table = document.getElementById("dataTable");
+    table.innerHTML = '';
+    data.sort((a, b) => a.product.localeCompare(b.product)).forEach((entry, index) => {
+        const row = document.createElement("tr");
+        const [name, unit] = entry.product.split('|');
+        row.innerHTML = `
+            <td><span class="product-name">${name}</span> <span class="product-unit">${unit}</span>${entry.needsApproval ? ' <span style="color: red;">(new)</span>' : ''}</td>
+            <td contenteditable="true" onblur="updateUnitsSold(${index}, this)" oninput="this.innerText=this.innerText.replace(/[^0-9]/g,'')">${entry.unitsSold}</td>
+            <td class="no-print">
+                <button class="delete-btn" onclick="deleteRow(${index})" title="Delete">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                    </svg>
+                </button>
+            </td>
+        `;
+        table.appendChild(row);
+    });
+    updateLegacyTable();
+}
+
+    function deleteRow(index) {
+        const entry = data[index];
+        selectedProducts.delete(entry.product);
+        data.splice(index, 1);
+        updateTable();
+        saveData();
+    }
+
+    function updateUnitsSold(index, element) {
+        const newValue = parseInt(element.textContent);
+        if (isNaN(newValue) || newValue < 0) {
+            alert("Please enter a valid number.");
+            element.textContent = data[index].unitsSold;
+        } else {
+            data[index].unitsSold = newValue;
+        }
+        updateLegacyTable();
+        saveData();
+    }
+
+    function updateAllRows() {
+        const region = document.getElementById("regionSelect").value;
+        const pharmacy = document.getElementById("pharmacySelect").value;
+        const month = document.getElementById("monthSelect").value;
+
+        if (region && pharmacy && month) {
+            data.forEach(entry => {
+                entry.region = region;
+                entry.pharmacy = pharmacy;
+                entry.month = month;
+            });
+            updateTable();
+        }
+    }
+
+function isDuplicate(product) {
+    return data.some(entry => entry.product === product);
+}
+
+    function resetSelections() {
+        document.getElementById("searchInput").value = '';
+        document.getElementById("unitsSold").value = '';
+    }
+
+    function toggleLegacyMode() {
+        const region = document.getElementById("regionSelect").value;
+        const pharmacy = document.getElementById("pharmacySelect").value;
+        const month = document.getElementById("monthSelect").value;
+
+        if (!region || !pharmacy || !month) {
+            alert("Please fill in Region, Pharmacy, and Month before entering Legacy Mode.");
+            document.getElementById("legacyModeToggle").checked = false;
+            return;
+        }
+
+        isLegacyMode = !isLegacyMode;
+        updateLegacyModeVisibility();
+    }
+
+    function updateLegacyModeVisibility() {
+        const region = document.getElementById("regionSelect").value;
+        const pharmacy = document.getElementById("pharmacySelect").value;
+        const month = document.getElementById("monthSelect").value;
+        const allFieldsFilled = region && pharmacy && month;
+
+        document.getElementById("results").style.display = isLegacyMode && allFieldsFilled ? "none" : "block";
+        document.getElementById("legacyMode").style.display = isLegacyMode && allFieldsFilled ? "block" : "none";
+        
+        document.getElementById("regionSelect").disabled = isLegacyMode && allFieldsFilled;
+        document.getElementById("pharmacySelect").disabled = isLegacyMode && allFieldsFilled;
+        document.getElementById("monthSelect").disabled = isLegacyMode && allFieldsFilled;
+
+        if (!allFieldsFilled) {
+            isLegacyMode = false;
+            document.getElementById("legacyModeToggle").checked = false;
+        }
+    }
+
+    function updateLegacyTable() {
+        const legacyTable = document.getElementById("legacyTable");
+        legacyTable.innerHTML = '';
+        products.forEach((product, index) => {
+            const row = document.createElement("tr");
+            const [name, unit] = product.split('|');
+            const entry = data.find(e => e.product === product);
+            row.innerHTML = `
+                <td><span class="product-name">${name}</span> <span class="product-unit">${unit}</span></td>
+                <td contenteditable="true" data-product="${product}" data-index="${index}">${entry ? entry.unitsSold : ''}</td>
+            `;
+            legacyTable.appendChild(row);
+        });
+    }
+
+function updateLegacyUnitsSold(product, element) {
+    const newValue = parseInt(element.textContent);
+    if (isNaN(newValue) || newValue < 0) {
+        element.textContent = '';
+        return;
+    }
+
+    addData(product, newValue);
+}
+
+    document.getElementById('legacyTable').addEventListener('focus', function(e) {
+        if (e.target.tagName === 'TD' && e.target.getAttribute('contenteditable') === 'true') {
+            currentLegacyCell = e.target;
+            highlightRow(e.target.closest('tr'));
+        }
+    }, true);
+
+    document.getElementById('legacyTable').addEventListener('blur', function(e) {
+        if (e.target.tagName === 'TD' && e.target.getAttribute('contenteditable') === 'true') {
+            unhighlightRow(e.target.closest('tr'));
+            updateLegacyUnitsSold(e.target.dataset.product, e.target);
+        }
+    }, true);
+
+document.getElementById('legacyTable').addEventListener('input', function(e) {
+    if (e.target.tagName === 'TD' && e.target.getAttribute('contenteditable') === 'true') {
+        e.target.textContent = e.target.textContent.replace(/[^0-9]/g, '');
+        
+                const range = document.createRange();
+        const sel = window.getSelection();
+        range.setStart(e.target.childNodes[0], e.target.textContent.length);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        }
+    });
+
+    document.getElementById('legacyTable').addEventListener('keydown', function(e) {
+        if (!isLegacyMode || !currentLegacyCell) return;
+
+        const currentRow = currentLegacyCell.closest('tr');
+        const currentIndex = Array.from(currentRow.parentNode.children).indexOf(currentRow);
+        const totalRows = currentRow.parentNode.children.length;
+
+        switch (e.key) {
+            case 'ArrowUp':
+                e.preventDefault();
+                if (currentIndex > 0) {
+                    updateLegacyUnitsSold(currentLegacyCell.dataset.product, currentLegacyCell);
+                    navigateToCell(currentIndex - 1);
+                }
+                break;
+            case 'ArrowDown':
+            case 'Enter':
+                e.preventDefault();
+                updateLegacyUnitsSold(currentLegacyCell.dataset.product, currentLegacyCell);
+                if (currentIndex < totalRows - 1) {
+                    navigateToCell(currentIndex + 1);
+                }
+                break;
+        }
+    });
+
+    function navigateToCell(index) {
+        const targetRow = document.getElementById('legacyTable').rows[index];
+        const targetCell = targetRow.querySelector('td[contenteditable="true"]');
+        targetCell.focus();
+        highlightRow(targetRow);
+        currentLegacyCell = targetCell;
+    }
+
+    function highlightRow(row) {
+        unhighlightAllRows();
+        row.classList.add('selected-row');
+    }
+
+    function unhighlightRow(row) {
+        row.classList.remove('selected-row');
+    }
+
+    function unhighlightAllRows() {
+        const rows = document.querySelectorAll('#legacyTable tr');
+        rows.forEach(row => unhighlightRow(row));
+    }
+
+function saveData() {
+    localStorage.setItem('pharmacyData', JSON.stringify(data));
+    localStorage.setItem('selectedRegion', document.getElementById("regionSelect").value);
+    localStorage.setItem('selectedPharmacy', document.getElementById("pharmacySelect").value);
+    localStorage.setItem('selectedMonth', document.getElementById("monthSelect").value);
+    localStorage.setItem('products', JSON.stringify(products));
+}
+
+function loadData() {
+    const savedData = localStorage.getItem('pharmacyData');
+    if (savedData) {
+        data = JSON.parse(savedData);
+        updateTable();
+    }
+
+    const savedRegion = localStorage.getItem('selectedRegion');
+    if (savedRegion) {
+        document.getElementById("regionSelect").value = savedRegion;
+        document.getElementById("regionSelect").dispatchEvent(new Event('change'));
+    }
+
+    const savedPharmacy = localStorage.getItem('selectedPharmacy');
+    if (savedPharmacy) {
+        document.getElementById("pharmacySelect").value = savedPharmacy;
+    }
+
+    const savedMonth = localStorage.getItem('selectedMonth');
+    if (savedMonth) {
+        document.getElementById("monthSelect").value = savedMonth;
+    }
+
+    const savedProducts = localStorage.getItem('products');
+    if (savedProducts) {
+        products = JSON.parse(savedProducts);
+    }
+
+    updateLegacyModeVisibility();
+    updateAddNameButtonState();
+}
+
+function saveAndQuit() {
+    saveData();
+    isLegacyMode = false;
+    document.getElementById("legacyModeToggle").checked = false;
+    updateLegacyModeVisibility();
+    document.getElementById("legacyMode").style.display = "none";
+    document.getElementById("results").style.display = "block";
+}
+
+    function updateAddNameButtonState() {
+        const region = document.getElementById("regionSelect").value;
+        const pharmacy = document.getElementById("pharmacySelect").value;
+        const month = document.getElementById("monthSelect").value;
+        const addNameBtn = document.getElementById("addNameBtn");
+
+        addNameBtn.disabled = !(region && pharmacy && month);
+    }
+
+    function showAddNameModal() {
+        document.getElementById("addNameModal").style.display = "block";
+    }
+
+function closeAddNameModal() {
+    document.getElementById("addNameModal").style.display = "none";
+    document.getElementById("nameCategory").value = "";
+    document.getElementById("newProductName").value = "";
+    document.getElementById("newProductUnit").value = "";
+    document.getElementById("newProductUnitsSold").value = "";
+}
+
+function addNewName() {
+    const category = document.getElementById("nameCategory").value;
+    const name = document.getElementById("newProductName").value;
+    const unit = document.getElementById("newProductUnit").value;
+    const unitsSold = document.getElementById("newProductUnitsSold").value;
+
+    if (!category || !name || !unit || !unitsSold) {
+        alert("Please fill in all fields");
+        return;
+    }
+
+    if (isNaN(unitsSold) || parseInt(unitsSold) < 0 || !Number.isInteger(parseFloat(unitsSold))) {
+        alert("Please enter a valid number for Units Sold");
+        return;
+    }
+
+    let fullName = name;
+    if (category !== "داخل اللستة") {
+        fullName += ` (${category})`;
+    }
+
+    const newProduct = `${fullName}|${unit}`;
+
+    data.push({
+        product: newProduct,
+        unitsSold: parseInt(unitsSold),
+        month: document.getElementById("monthSelect").value,
+        region: document.getElementById("regionSelect").value,
+        pharmacy: document.getElementById("pharmacySelect").value,
+        method: 'new'
+    });
+
+    saveData();
+    updateTable();
+    closeAddNameModal();
+    alert("Added.");
+}
+
+function submitData() {
+    if (confirm("Are you sure you want to submit the data?")) {
+        if (data.length === 0) {
+            alert("There is nothing to submit. Please add some data first.");
+            return;
+        }
+
+        sendToGoogleSheets(data)
+            .then(result => {
+                console.log('Success:', result);
+                alert('Data submitted successfully!');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting the data. Please try again.');
+            });
+    }
+}
+
+function sendToGoogleSheets(data) {
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbx35Z4DEmB4VNqDyB8GbTcjcjaW8bLT7j5GH6xBMWBG_obV0HGOpz3wZfa6jVRmntk/exec';
+    
+    return fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(responseData => {
+        if (responseData.result === "Success") {
+            console.log('Data sent successfully');
+            data = [];
+            updateTable();
+            saveData();
+            return responseData;
+        } else {
+            console.error('Submission failed:', responseData.result);
+            throw new Error('Submission failed: ' + responseData.result);
+        }
+    });
+}
+
+
+window.addEventListener('load', function() {
+    loadData();
+    updateLegacyModeVisibility();
+    updateAdminModeVisibility();
+    updateAddNameButtonState();
+    updateLegacyTable();
+});
+
+    setInterval(saveData, 30000);
+
+    updateLegacyTable();
+
+    </script>
+</body>
+</html>
