@@ -1672,6 +1672,29 @@ function submitData() {
         const region = document.getElementById("regionSelect").value;
         const pharmacy = document.getElementById("pharmacySelect").value;
 
+
+        if (!month || !region || !pharmacy) {
+            alert("Please select a valid month, region, and pharmacy before submitting.");
+            return;
+        }
+
+        if (!["first", "second", "third"].includes(region)) {
+            alert("Please select a valid region.");
+            return;
+        }
+
+        if (!regionOptions[region].includes(pharmacy)) {
+            alert("Please select a valid pharmacy for the chosen region.");
+            return;
+        }
+
+        const validMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        if (!validMonths.includes(month)) {
+            alert("Please select a valid month.");
+            return;
+        }
+
+
         const pharmacyRef = database.ref('pharmacyData');
         const submissionData = data.map(item => ({
             month: month,
