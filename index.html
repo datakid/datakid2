@@ -1661,7 +1661,14 @@ function handleNumericInput(event) {
     }
 }
 
+let isSubmitting = false;
+
 function submitData() {
+    if (isSubmitting) {
+        alert("Submission is already in progress. Please wait.");
+        return;
+    }
+
     if (confirm("Are you sure you want to submit the data?")) {
         if (data.length === 0) {
             alert("There is nothing to submit. Please add some data first.");
@@ -1671,7 +1678,6 @@ function submitData() {
         const month = document.getElementById("monthSelect").value;
         const region = document.getElementById("regionSelect").value;
         const pharmacy = document.getElementById("pharmacySelect").value;
-
 
         if (!month || !region || !pharmacy) {
             alert("Please select a valid month, region, and pharmacy before submitting.");
@@ -1694,17 +1700,32 @@ function submitData() {
             return;
         }
 
+        isSubmitting = true;
 
-        const pharmacyRef = database.ref('pharmacyData');
         const submissionData = data.map(item => ({
             month: month,
             region: region,
             pharmacy: pharmacy,
             name: item.product.split('|')[0],
+            unit: item.product.split('|')[1],
             unitSold: item.unitsSold,
             method: item.method
         }));
 
+        // Export as JSON
+        const jsonData = JSON.stringify(submissionData, null, 2);
+        const blob = new Blob([jsonData], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `pharmacy_data_${month}_${region}_${pharmacy}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        // Submit to Firebase
+        const pharmacyRef = database.ref('pharmacyData');
         pharmacyRef.push({
             timestamp: Date.now(),
             data: submissionData
@@ -1718,6 +1739,9 @@ function submitData() {
         .catch((error) => {
             console.error('Error:', error);
             alert('There was an error submitting the data. Please try again.');
+        })
+        .finally(() => {
+            isSubmitting = false;
         });
     }
 }
