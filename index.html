@@ -76,7 +76,7 @@ select:not(:focus):invalid,
 select:invalid,
 select:required:invalid {
     color: #7f8c8d;
-    background-color: var(--invalid-bg-color);
+    background-color: #f6f6f6;
 }
 
 input:focus, select:focus {
@@ -261,7 +261,7 @@ tr:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(231, 76, 60, 0.2);
+    background-color: #cccccc; 
     transition: .4s;
     border-radius: 34px;
 }
@@ -317,7 +317,7 @@ td[contenteditable="true"]:focus::before {
     display: none;
 }
 
-#saveAndQuitBtn {
+#saveAndExitBtn {
     position: fixed;
     bottom: 20px;
     left: 50%;
@@ -395,9 +395,32 @@ td[contenteditable="true"]:focus::before {
     cursor: not-allowed;
 }
 
+.report-header {
+    background-color: #f8f9fa;
+    border: 2px solid #4a90e2;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: right;
+    direction: rtl;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.report-header p {
+    margin: 0.5rem 0;
+    font-size: 1.2rem;
+    color: #2c3e50;
+}
+
+.report-header span {
+    font-weight: bold;
+    color: #4a90e2;
+}
+
 @media print {
     body {
-        padding: 0;
+        padding: 20px;
         margin: 0;
     }
 
@@ -408,52 +431,38 @@ td[contenteditable="true"]:focus::before {
         width: 100%;
     }
 
-    #results {
-        position: static;
-        top: 0;
-        left: 0;
-        right: 0;
-        margin: 0;
-        padding: 0;
-        width: 100%;
+    .title {
+        display: none; 
     }
 
-    table {
-        width: 100%;
-        margin: 0;
-        page-break-inside: auto;
-    }
-
-    tr {
-        page-break-inside: avoid;
-        page-break-after: auto;
-    }
-
-    body * {
-        visibility: hidden;
-    }
-
-    header, 
-    #results, 
-    #results * {
-        visibility: visible;
-    }
-
-    .no-print {
-        display: none;
+    .report-header {
+        display: block !important; 
+        page-break-after: avoid; 
+        margin-bottom: 30px; 
     }
 
     #results {
         margin-top: 0;
+        display: block !important;
     }
 
     table {
         page-break-inside: auto;
+        margin-top: 20px; 
     }
 
     tr, td, th {
         page-break-inside: avoid;
         page-break-after: auto;
+    }
+
+  
+    .legacy-mode-toggle,
+    #legacyMode,
+    #saveAndExitBtn,
+    .action-icons,
+    .no-print {
+        display: none !important;
     }
 }
 
@@ -573,13 +582,37 @@ td[contenteditable="true"] {
     direction: ltr;
     text-align: left;
 }
+@page {
+    @bottom-right {
+        content: counter(page);
+    }
+}
 
+body {
+    counter-reset: page;
+}
+
+.page-break {
+    page-break-after: always;
+    counter-increment: page;
+}
+@media print {
+    td[contenteditable="true"]::before {
+        display: none;
+    }
+}
     
 </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="title">خارجي طلاب</h1>
+        <h1 class="title">خارجي  طلاب</h1>
+<div class="report-header print-only">
+    <p>مرسل الي ادارة التموين الطبي والصيدليات</p>
+    <p>فرع البحيرة المنطقة <span id="regionDisplay"></span></p>
+    <p>صيدلية <span id="pharmacyDisplay"></span></p>
+    <p>بيان الخارجي عن شهر <span id="monthDisplay"></span></p>
+</div>
         <div class="legacy-mode-toggle">
             <span>Legacy Mode</span>
             <label class="toggle-switch">
@@ -655,10 +688,10 @@ td[contenteditable="true"] {
                 <tbody id="legacyTable">
                 </tbody>
             </table>
-            <button id="saveAndQuitBtn" onclick="saveAndQuit()" title="Save and Quit">Save and Quit</button>
+            <button id="saveAndExitBtn" onclick="saveAndExit()" title="Save and Exit">Save and Exit</button>
         </div>
 <div class="action-icons no-print">
-    <div class="icon-wrapper print-icon" onclick="window.print()" title="Print">
+    <div class="icon-wrapper print-icon" onclick="printReport()" title="Print">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="6 9 6 2 18 2 18 9"></polyline>
             <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
@@ -697,23 +730,24 @@ td[contenteditable="true"] {
             </div>
         </div>
     </div>
+</div>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </body>
 </html>
-
-    <script>
+   <script>
     
     
-  const firebaseConfig = {
-    apiKey: "AIzaSyCSqnxDsN3xLLXiOv7mDZKMsH1rIvWUXDM",
-    authDomain: "plan-c-464c2.firebaseapp.com",
-    projectId: "plan-c-464c2",
-    storageBucket: "plan-c-464c2.appspot.com",
-    messagingSenderId: "326162245610",
-    appId: "1:326162245610:web:9e0caefba12604cdb57493",
-    measurementId: "G-MZ0WS41KWD"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyCziPixswDPCbYf1zuxdR0A_Z4KgRSrc0I",
+  authDomain: "plan-b-d4c36.firebaseapp.com",
+  databaseURL: "https://plan-b-d4c36-default-rtdb.firebaseio.com",
+  projectId: "plan-b-d4c36",
+  storageBucket: "plan-b-d4c36.appspot.com",
+  messagingSenderId: "647093759607",
+  appId: "1:647093759607:web:e5086e95ec5b378ea4e072",
+  measurementId: "G-S9S6T513SD"
+};
 
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
@@ -1230,6 +1264,7 @@ function autocomplete(inp, arr) {
         saveData();
         updateLegacyModeVisibility();
         updateAddNameButtonState();
+        updateHeaderInfo();
     });
 
     document.getElementById("pharmacySelect").addEventListener("change", function() {
@@ -1237,6 +1272,7 @@ function autocomplete(inp, arr) {
         saveData();
         updateLegacyModeVisibility();
         updateAddNameButtonState();
+        updateHeaderInfo();
     });
 
     document.getElementById("monthSelect").addEventListener("change", function() {
@@ -1244,6 +1280,7 @@ function autocomplete(inp, arr) {
         saveData();
         updateLegacyModeVisibility();
         updateAddNameButtonState();
+        updateHeaderInfo();
     });
     
 document.getElementById('dataTable').addEventListener('input', function(e) {
@@ -1406,24 +1443,26 @@ function isDuplicate(product) {
         updateLegacyModeVisibility();
     }
 
-    function updateLegacyModeVisibility() {
-        const region = document.getElementById("regionSelect").value;
-        const pharmacy = document.getElementById("pharmacySelect").value;
-        const month = document.getElementById("monthSelect").value;
-        const allFieldsFilled = region && pharmacy && month;
+function updateLegacyModeVisibility() {
+    const region = document.getElementById("regionSelect").value;
+    const pharmacy = document.getElementById("pharmacySelect").value;
+    const month = document.getElementById("monthSelect").value;
+    const allFieldsFilled = region && pharmacy && month;
 
-        document.getElementById("results").style.display = isLegacyMode && allFieldsFilled ? "none" : "block";
-        document.getElementById("legacyMode").style.display = isLegacyMode && allFieldsFilled ? "block" : "none";
-        
-        document.getElementById("regionSelect").disabled = isLegacyMode && allFieldsFilled;
-        document.getElementById("pharmacySelect").disabled = isLegacyMode && allFieldsFilled;
-        document.getElementById("monthSelect").disabled = isLegacyMode && allFieldsFilled;
+    document.getElementById("results").style.display = isLegacyMode && allFieldsFilled ? "none" : "block";
+    document.getElementById("legacyMode").style.display = isLegacyMode && allFieldsFilled ? "block" : "none";
+    
+    document.getElementById("regionSelect").disabled = isLegacyMode && allFieldsFilled;
+    document.getElementById("pharmacySelect").disabled = isLegacyMode && allFieldsFilled;
+    document.getElementById("monthSelect").disabled = isLegacyMode && allFieldsFilled;
 
-        if (!allFieldsFilled) {
-            isLegacyMode = false;
-            document.getElementById("legacyModeToggle").checked = false;
-        }
+    document.getElementById("saveAndExitBtn").style.display = isLegacyMode && allFieldsFilled ? "block" : "none";
+
+    if (!allFieldsFilled) {
+        isLegacyMode = false;
+        document.getElementById("legacyModeToggle").checked = false;
     }
+}
 
 function updateLegacyTable() {
     const legacyTable = document.getElementById("legacyTable");
@@ -1565,17 +1604,23 @@ function loadData() {
         products = JSON.parse(savedProducts);
     }
 
+    document.getElementById("saveAndQuitBtn").textContent = "Save and Exit";
+    document.getElementById("saveAndQuitBtn").setAttribute("onclick", "saveAndExit()");
+
     updateLegacyModeVisibility();
     updateAddNameButtonState();
+    updateHeaderInfo();
+
 }
 
-function saveAndQuit() {
+function saveAndExit() {
     saveData();
     isLegacyMode = false;
     document.getElementById("legacyModeToggle").checked = false;
     updateLegacyModeVisibility();
     document.getElementById("legacyMode").style.display = "none";
     document.getElementById("results").style.display = "block";
+    
 }
 
     function updateAddNameButtonState() {
@@ -1661,6 +1706,43 @@ function handleNumericInput(event) {
     }
 }
 
+function updateHeaderInfo() {
+    const region = document.getElementById("regionSelect").value;
+    const pharmacy = document.getElementById("pharmacySelect").value;
+    const month = document.getElementById("monthSelect").value;
+
+    const regionMap = {
+        "first": "الاولى",
+        "second": "الثانية",
+        "third": "الثالثة"
+    };
+
+    const monthMap = {
+        "January": "يناير",
+        "February": "فبراير",
+        "March": "مارس",
+        "April": "ابريل",
+        "May": "مايو",
+        "June": "يونيو",
+        "July": "يوليو",
+        "August": "اغسطس",
+        "September": "سبتمبر",
+        "October": "اكتوبر",
+        "November": "نوفمبر",
+        "December": "ديسمبر"
+    };
+
+    document.getElementById("regionDisplay").textContent = regionMap[region] || "";
+    document.getElementById("pharmacyDisplay").textContent = pharmacy || "";
+    document.getElementById("monthDisplay").textContent = monthMap[month] || "";
+}
+
+function printReport() {
+    updateHeaderInfo(); 
+    window.print();
+}
+
+
 let isSubmitting = false;
 
 function submitData() {
@@ -1712,7 +1794,6 @@ function submitData() {
             method: item.method
         }));
 
-        // Export as JSON
         const jsonData = JSON.stringify(submissionData, null, 2);
         const blob = new Blob([jsonData], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
@@ -1724,7 +1805,6 @@ function submitData() {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
 
-        // Submit to Firebase
         const pharmacyRef = database.ref('pharmacyData');
         pharmacyRef.push({
             timestamp: Date.now(),
@@ -1746,17 +1826,6 @@ function submitData() {
     }
 }
 
-
-window.addEventListener('load', function() {
-    loadData();
-    updateLegacyModeVisibility();
-    updateAdminModeVisibility();
-    updateAddNameButtonState();
-    updateLegacyTable();
-    document.getElementById('dataTable').addEventListener('input', handleNumericInput);
-    document.getElementById('legacyTable').addEventListener('input', handleNumericInput);
-
-});
 
     setInterval(saveData, 30000);
 
