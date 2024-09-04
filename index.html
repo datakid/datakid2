@@ -739,14 +739,14 @@ body {
     
     
 const firebaseConfig = {
-  apiKey: "AIzaSyCziPixswDPCbYf1zuxdR0A_Z4KgRSrc0I",
-  authDomain: "plan-b-d4c36.firebaseapp.com",
-  databaseURL: "https://plan-b-d4c36-default-rtdb.firebaseio.com",
-  projectId: "plan-b-d4c36",
-  storageBucket: "plan-b-d4c36.appspot.com",
-  messagingSenderId: "647093759607",
-  appId: "1:647093759607:web:e5086e95ec5b378ea4e072",
-  measurementId: "G-S9S6T513SD"
+  apiKey: "AIzaSyCSqnxDsN3xLLXiOv7mDZKMsH1rIvWUXDM",
+  authDomain: "plan-c-464c2.firebaseapp.com",
+  databaseURL: "https://plan-c-464c2-default-rtdb.firebaseio.com",
+  projectId: "plan-c-464c2",
+  storageBucket: "plan-c-464c2.appspot.com",
+  messagingSenderId: "326162245610",
+  appId: "1:326162245610:web:9e0caefba12604cdb57493",
+  measurementId: "G-MZ0WS41KWD"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -1784,15 +1784,18 @@ function submitData() {
 
         isSubmitting = true;
 
-        const submissionData = data.map(item => ({
-            month: month,
-            region: region,
-            pharmacy: pharmacy,
-            name: item.product.split('|')[0],
-            unit: item.product.split('|')[1],
-            unitSold: item.unitsSold,
-            method: item.method
-        }));
+        const submissionData = data.map(item => {
+            const [name, unit] = item.product.split('|');
+            return {
+                month: month,
+                region: region,
+                pharmacy: pharmacy,
+                name: name,
+                unit: unit,
+                unitSold: item.unitsSold,
+                method: item.method
+            };
+        });
 
         const jsonData = JSON.stringify(submissionData, null, 2);
         const blob = new Blob([jsonData], { type: 'application/json' });
