@@ -1750,38 +1750,31 @@ function submitData() {
         alert("Submission is already in progress. Please wait.");
         return;
     }
-
     if (confirm("Are you sure you want to submit the data?")) {
         if (data.length === 0) {
             alert("There is nothing to submit. Please add some data first.");
             return;
         }
-
         const month = document.getElementById("monthSelect").value;
         const region = document.getElementById("regionSelect").value;
         const pharmacy = document.getElementById("pharmacySelect").value;
-
         if (!month || !region || !pharmacy) {
             alert("Please select a valid month, region, and pharmacy before submitting.");
             return;
         }
-
         if (!["first", "second", "third"].includes(region)) {
             alert("Please select a valid region.");
             return;
         }
-
         if (!regionOptions[region].includes(pharmacy)) {
             alert("Please select a valid pharmacy for the chosen region.");
             return;
         }
-
         const validMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         if (!validMonths.includes(month)) {
             alert("Please select a valid month.");
             return;
         }
-
         isSubmitting = true;
 
         const submissionData = data.map(item => {
@@ -1793,7 +1786,8 @@ function submitData() {
                 name: name,
                 unit: unit,
                 unitSold: item.unitsSold,
-                method: item.method
+                method: item.method,
+                timestamp: new Date().toISOString()
             };
         });
 
@@ -1809,10 +1803,7 @@ function submitData() {
         URL.revokeObjectURL(url);
 
         const pharmacyRef = database.ref('pharmacyData');
-        pharmacyRef.push({
-            timestamp: Date.now(),
-            data: submissionData
-        })
+        pharmacyRef.push(submissionData)
         .then(() => {
             alert('Data submitted successfully!');
             data = [];
