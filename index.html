@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +14,7 @@
     --border-radius: 12px;
     --box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     --invalid-bg-color: #fff5f5;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 body {
@@ -24,6 +26,7 @@ body {
     margin: 0;
     background-color: var(--background-color);
     color: var(--text-color);
+    line-height: 1.6;
 }
 
 .container {
@@ -35,6 +38,11 @@ body {
     max-width: 1000px;
     position: relative;
     overflow: hidden;
+    transition: var(--transition);
+}
+
+.container:hover {
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
 }
 
 .title {
@@ -43,6 +51,17 @@ body {
     color: var(--primary-color);
     margin-bottom: 2rem;
     text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+}
+
+.title::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background-color: var(--primary-color);
+    margin: 10px auto 0;
 }
 
 input, select {
@@ -52,12 +71,16 @@ input, select {
     border: 2px solid #e0e0e0;
     border-radius: var(--border-radius);
     font-size: 1rem;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     background-color: #ffffff;
     box-sizing: border-box; 
+}
+
+input:hover, select:hover {
+    border-color: var(--primary-color);
 }
 
 select {
@@ -100,11 +123,31 @@ input:focus, select:focus {
     cursor: pointer;
     font-weight: bold;
     text-transform: uppercase;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     padding: 1rem 2rem;
     font-size: 1.1rem;
     border-radius: 50px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease-out, height 0.6s ease-out;
+}
+
+.btn:hover::before {
+    width: 300%;
+    height: 300%;
 }
 
 .btn:hover {
@@ -129,6 +172,7 @@ input:focus, select:focus {
     z-index: 99;
     background-color: #ffffff;
     width: calc(100% - 4rem);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .autocomplete-items div {
@@ -136,11 +180,12 @@ input:focus, select:focus {
     cursor: pointer;
     background-color: #fff;
     border-bottom: 1px solid #e0e0e0;
-    transition: background-color 0.3s ease;
+    transition: var(--transition);
 }
 
 .autocomplete-items div:hover, .autocomplete-active {
     background-color: #ecf0f1;
+    transform: translateX(5px);
 }
 
 .already-in-table {
@@ -165,11 +210,12 @@ th {
     background-color: var(--primary-color);
     color: #fff;
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 tr {
     background-color: #f8f9fa;
-    transition: all 0.3s ease;
+    transition: var(--transition);
 }
 
 tr:hover {
@@ -181,7 +227,7 @@ tr:hover {
     font-size: 1.8rem;
     color: #e74c3c;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--transition);
 }
 
 .recycle-bin:hover {
@@ -194,7 +240,7 @@ tr:hover {
     cursor: pointer;
     padding: 5px;
     border-radius: 50%;
-    transition: all 0.3s ease;
+    transition: var(--transition);
 }
 
 .delete-btn:hover {
@@ -291,7 +337,7 @@ td[contenteditable="true"] {
     border: 1px solid #e0e0e0;
     border-radius: 4px;
     padding: 0.6rem;
-    transition: all 0.3s ease;
+    transition: var(--transition);
 }
 
 td[contenteditable="true"]:hover, td[contenteditable="true"]:focus {
@@ -332,7 +378,7 @@ td[contenteditable="true"]:focus::before {
     border-radius: 0.5em;
     cursor: pointer;
     box-shadow: 0 0.25em 0.375em rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    transition: var(--transition);
     width: auto;
     max-width: 90%;
 }
@@ -353,6 +399,11 @@ td[contenteditable="true"]:focus::before {
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(5px);
+}
+
+.modal.show {
+    display: block; 
 }
 
 .modal-content {
@@ -364,6 +415,10 @@ td[contenteditable="true"]:focus::before {
     max-width: 500px;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
+    position: relative; 
+    transform: none; /
+    opacity: 1; 
+    transition: all 0.3s ease-out;
 }
 
 .modal-content h2 {
@@ -417,7 +472,6 @@ td[contenteditable="true"]:focus::before {
     font-weight: bold;
     color: #4a90e2;
 }
-
 @media print {
     body {
         padding: 20px;
@@ -456,7 +510,6 @@ td[contenteditable="true"]:focus::before {
         page-break-after: auto;
     }
 
-  
     .legacy-mode-toggle,
     #legacyMode,
     #saveAndExitBtn,
@@ -506,10 +559,11 @@ td[contenteditable="true"]:focus::before {
 
 .icon-wrapper {
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     padding: 10px;
     border-radius: 50%;
     background-color: #f0f0f0;
+    position: relative;
 }
 
 .icon-wrapper:hover {
@@ -545,14 +599,6 @@ td[contenteditable="true"]:focus::before {
     color: var(--primary-color);
 }
 
-.action-icons {
-    position: relative;
-}
-
-.icon-wrapper {
-    position: relative;
-}
-
 .icon-label {
     position: absolute;
     font-size: 14px;
@@ -582,6 +628,7 @@ td[contenteditable="true"] {
     direction: ltr;
     text-align: left;
 }
+
 @page {
     @bottom-right {
         content: counter(page);
@@ -596,10 +643,151 @@ body {
     page-break-after: always;
     counter-increment: page;
 }
+
 @media print {
     td[contenteditable="true"]::before {
         display: none;
     }
+}
+
+/* New improvements */
+
+:root {
+    --focus-ring: 0 0 0 3px rgba(74, 144, 226, 0.4);
+}
+
+.container {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.title {
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+input, select, .btn {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+input:focus, select:focus {
+    box-shadow: var(--focus-ring);
+}
+
+.btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, .5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 1;
+    }
+    20% {
+        transform: scale(25, 25);
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(40, 40);
+    }
+}
+
+.btn:focus:not(:active)::after {
+    animation: ripple 1s ease-out;
+}
+
+table {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+tr {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+tr:hover {
+    background-color: #f0f4f8;
+}
+
+.delete-btn {
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.delete-btn:hover {
+    opacity: 1;
+}
+
+.modal-content {
+    animation: modalIn 0.3s ease-out;
+}
+
+.icon-wrapper {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.icon-wrapper:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+.accessibility-focus:focus {
+    outline: none;
+    box-shadow: var(--focus-ring);
+}
+
+@media (hover: hover) {
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 7px 14px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.1);
+    }
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"><circle cx="50" cy="50" fill="none" stroke="%234a90e2" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138"><animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform></circle></svg>') center / 50px no-repeat;
 }
     
 </style>
