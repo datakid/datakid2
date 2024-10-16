@@ -1,1852 +1,1524 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>خارجي طلاب</title>
+    <title>بيان الخارجي</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
 :root {
-    --primary-color: #3a6ea5;
-    --secondary-color: #004e98;
-    --accent-color: #ff6b6b;
-    --background-color: #f0f4f8;
-    --text-color: #2c3e50;
+    --primary-color: #0B7285;
+    --primary-light: #3A9EAF;
+    --primary-dark: #065666;
+    --secondary-color: #0CA678;
+    --secondary-light: #96F2D7;
+    --text-color: #2D3748;
+    --background-color: #E6FFFA;
+    --card-color: #FFFFFF;
+    --hover-color: #C3FAE8;
+    --error-color: #E53E3E;
+    --success-color: #38A169;
     --border-radius: 12px;
-    --box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    --invalid-bg-color: #fff5f5;
+    --box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    --focus-ring: 0 0 0 3px rgba(58, 110, 165, 0.4);
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
+    padding: 20px;
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
 }
 
-.container {
-    background-color: #ffffff;
-    padding: 2rem;
+.card {
+    background-color: var(--card-color);
     border-radius: var(--border-radius);
+    padding: 28px;
     box-shadow: var(--box-shadow);
-    width: 95%;
-    max-width: 1000px;
-    position: relative;
-    overflow: hidden;
+    margin-bottom: 24px;
     transition: var(--transition);
-}
-
-.container:hover {
-    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-}
-
-.title {
-    text-align: center;
-    font-size: 2.5rem;
-    color: var(--primary-color);
-    margin-bottom: 2rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    position: relative;
-}
-
-.title::after {
-    content: '';
-    display: block;
-    width: 50px;
-    height: 3px;
-    background-color: var(--accent-color);
-    margin: 10px auto 0;
-}
-
-input, select {
     width: 100%;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border: 2px solid #e0e0e0;
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-    transition: var(--transition);
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-color: #ffffff;
-    box-sizing: border-box; 
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-input:hover, select:hover {
-    border-color: var(--primary-color);
+.card:hover {
+    box-shadow: 0 8px 12px rgba(0,0,0,0.15);
 }
 
-select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%234a90e2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    background-size: 1.5em;
-    padding-right: 3rem;
+.hidden {
+    display: none;
 }
 
-select option:first-child {
-    color: #7f8c8d;
-}
-
-select:not(:focus):invalid,
-select:invalid,
-select:required:invalid {
-    color: #7f8c8d;
-    background-color: #f6f6f6;
-}
-
-input:focus, select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: var(--focus-ring);
-}
-
-.button-container {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-}
-
-.btn {
+button {
     background-color: var(--primary-color);
     color: white;
     border: none;
-    cursor: pointer;
-    font-weight: bold;
+    padding: 12px 24px;
+    margin: 8px 5px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 500;
     text-transform: uppercase;
-    transition: var(--transition);
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
-    border-radius: 50px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    position: relative;
-    overflow: hidden;
-}
-
-.btn::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background-color: rgba(255,255,255,0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.6s ease-out, height 0.6s ease-out;
-}
-
-.btn:hover::before {
-    width: 300%;
-    height: 300%;
-}
-
-.btn:hover {
-    background-color: var(--secondary-color);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 8px rgba(0,0,0,0.15);
-}
-
-#results, #legacyResults {
-    margin-top: 2rem;
-    width: 100%;
-    overflow-x: auto;
-}
-
-.autocomplete-items {
-    border: 2px solid #e0e0e0;
-    border-top: none;
-    border-radius: 0 0 var(--border-radius) var(--border-radius);
-    max-height: 300px;
-    overflow-y: auto;
-    position: absolute;
-    z-index: 99;
-    background-color: #ffffff;
-    width: calc(100% - 4rem);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-.autocomplete-items div {
-    padding: 1rem;
     cursor: pointer;
-    background-color: #fff;
-    border-bottom: 1px solid #e0e0e0;
     transition: var(--transition);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-.autocomplete-items div:hover, .autocomplete-active {
-    background-color: #ecf0f1;
-    transform: translateX(5px);
+button:hover {
+    background-color: var(--primary-dark);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    transform: translateY(-2px);
 }
 
-.already-in-table {
-    background-color: #fff5f5;
-    color: #c0392b;
+select, input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 14px;
+    margin: 10px 0;
+    border: 2px solid var(--primary-light);
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    transition: var(--transition);
+    background-color: #FAFAFA;
+    box-sizing: border-box;
+}
+
+select:focus, input[type="text"]:focus, input[type="number"]:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px var(--secondary-light);
+}
+
+select:required:invalid,
+input[type="number"]:required:invalid {
+    color: #999;
+    border-color: var(--error-color);
+    background-color: #FFF5F5;
+}
+
+select option[value=""][disabled] {
+    display: none;
+}
+
+select option {
+    color: var(--text-color);
+}
+
+#searchBar {
+    font-size: 18px;
+    width: 100%;
+    margin: 24px 0;
+    padding: 16px 22px;
+    border: 3px solid var(--primary-color);
+    border-radius: 30px;
+    transition: var(--transition);
+    background-color: white;
+    box-shadow: var(--box-shadow);
+    box-sizing: border-box;
+}
+
+#searchBar:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 4px var(--secondary-light), 0 4px 8px rgba(0,0,0,0.1);
+    outline: none;
+}
+
+#suggestions, #didYouMean {
+    background-color: var(--card-color);
+    border: 1px solid var(--primary-light);
+    border-radius: var(--border-radius);
+    max-height: 220px;
+    overflow-y: auto;
+    box-shadow: var(--box-shadow);
+    margin-top: 12px;
+}
+
+#suggestions div, #didYouMean div {
+    padding: 14px 22px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#suggestions div:hover, #didYouMean div:hover {
+    background-color: var(--hover-color);
+}
+
+.title-container {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 30px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.title {
+    font-size: 64px;
+    color: var(--primary-color);
+    margin: 0 auto;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    letter-spacing: 2px;
+    text-align: center;
+    max-width: 80%;
+}
+
+.subtitle {
+    font-size: 22px;
+    color: var(--secondary-light);
+    margin-top: 15px;
+    font-weight: 400;
+    text-align: center;
 }
 
 table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 10px;
-    margin-top: 1.5rem;
-    background-color: #fff;
+    border-spacing: 0;
+    margin-top: 24px;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background-color: var(--card-color);
 }
 
 th, td {
-    padding: 1rem;
+    border: none;
+    padding: 18px;
     text-align: left;
+    position: relative;
 }
 
 th {
-    background-color: var(--secondary-color);
-    color: #fff;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 tr {
-    background-color: #f8f9fa;
     transition: var(--transition);
+}
+
+tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.02);
 }
 
 tr:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    background-color: #e6f2ff;
+    background-color: var(--hover-color);
 }
 
-.recycle-bin {
-    font-size: 1.8rem;
-    color: #e74c3c;
-    cursor: pointer;
-    transition: var(--transition);
+td.editable {
+    position: relative;
+    padding-right: 40px;
 }
 
-.recycle-bin:hover {
-    transform: scale(1.2);
+td:nth-child(2) {
+    position: relative;
 }
 
-.delete-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 50%;
-    transition: var(--transition);
-}
-
-.delete-btn:hover {
-    transform: scale(1.2);
-    background-color: rgba(231, 76, 60, 0.1);
-}
-
-.delete-btn svg {
-    width: 24px;
-    height: 24px;
-    stroke: var(--accent-color);
-}
-
-.product-unit {
-    color: var(--primary-color);
-    font-weight: bold;
-}
-
-#legacyMode {
-    display: none;
-    padding: 1rem;
-    border-radius: var(--border-radius);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ffffff;
-    overflow-y: auto;
-    z-index: 1000;
-}
-
-.selected-row {
-    background-color: #ecf0f1;
-}
-
-.legacy-mode-toggle {
+td:nth-child(2)::after {
+    content: '✎';
     position: absolute;
-    top: 20px;
-    right: 20px;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    color: var(--primary-color);
+    opacity: 0.7;
+    transition: var(--transition);
+    background-color: transparent;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    font-size: 0.9rem;
+    justify-content: center;
 }
 
-.toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-    margin-left: 10px;
+td:nth-child(2):hover::after {
+    color: var(--primary-dark);
+    opacity: 1;
+    background-color: var(--secondary-light);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transform: translateY(-50%) scale(1.1);
 }
 
-.toggle-switch input {
+td.editable.editing::after {
     opacity: 0;
-    width: 0;
-    height: 0;
 }
 
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #cccccc; 
-    transition: .4s;
-    border-radius: 34px;
+td.editable input {
+    width: calc(100% - 30px);
+    padding: 8px;
+    margin: 0;
+    border: 1px solid transparent;
+    background-color: transparent;
+    font-size: inherit;
+    transition: var(--transition);
 }
 
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+td.editable input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
     background-color: white;
-    transition: .4s;
-    border-radius: 50%;
+    box-shadow: 0 0 0 3px var(--secondary-light);
 }
 
-input:checked + .slider {
-    background-color: rgba(46, 204, 113, 0.2);
+td input[type="number"]::-webkit-inner-spin-button, 
+td input[type="number"]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
 }
 
-input:checked + .slider:before {
-    transform: translateX(26px);
+td input[type="number"] {
+    -moz-appearance: textfield;
 }
 
-td[contenteditable="true"] {
-    background-color: #f9f9f9;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    padding: 0.6rem;
-    transition: var(--transition);
+.duplicate {
+    color: var(--error-color);
 }
 
-td[contenteditable="true"]:hover, td[contenteditable="true"]:focus {
-    background-color: #f0f0f0;
-    border-color: #bdc3c7;
-    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
-}
-
-td[contenteditable="true"]::before {
-    content: '';
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a90e2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z'%3E%3C/path%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    vertical-align: middle;
-}
-
-td[contenteditable="true"]:focus::before {
-    display: none;
-}
-
-#saveAndExitBtn {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    padding: 1em 2em;
-    font-size: 1em;
+.highlight {
+    background-color: var(--secondary-light);
     font-weight: bold;
-    color: white;
-    background-color: var(--primary-color);
-    border: none;
-    border-radius: 0.5em;
-    cursor: pointer;
-    box-shadow: 0 0.25em 0.375em rgba(0, 0, 0, 0.1);
-    transition: var(--transition);
-    width: auto;
-    max-width: 90%;
 }
 
-#saveAndQuitBtn:hover {
-    background-color: #3a7bc8;
-    transform: translateX(-50%) translateY(-2px);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
-    backdrop-filter: blur(5px);
-}
-
-.modal.show {
-    display: block; 
-}
-
-.modal-content {
-    background-color: #ffffff;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid var(--primary-color);
+#idInfo {
+    background-color: var(--primary-light);
+    padding: 18px;
     border-radius: var(--border-radius);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    width: 80%;
-    max-width: 500px;
-    position: relative; 
-    transform: none; /
-    opacity: 1; 
-    transition: all 0.3s ease-out;
+    margin-bottom: 24px;
+    color: white;
+    box-shadow: var(--box-shadow);
 }
 
-.modal-content h2 {
-    color: var(--secondary-color);
-    margin-bottom: 20px;
+.material-icons {
+    vertical-align: middle;
+    margin-right: 10px;
 }
 
-.modal-content select,
-.modal-content input {
-    width: 100%;
-    margin-bottom: 15px;
+.pharmacy-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+    margin-top: 18px;
 }
 
-.modal-content .button-container {
-    justify-content: flex-end;
-    margin-top: 20px;
+.pharmacy-item {
+    background-color: var(--card-color);
+    color: var(--text-color);
+    padding: 18px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
 }
 
-#addNameBtn {
-    background-color: var(--accent-color);
+.pharmacy-item:hover {
+    box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+    background-color: var(--hover-color);
 }
 
-#addNameBtn:hover {
-    background-color: #ff4757;
+.class-btn.selected {
+    background-color: var(--primary-dark);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-#addNameBtn:disabled {
-    background-color: #95a5a6;
+.class-btn:not(.selected) {
+    opacity: 0.5;
     cursor: not-allowed;
 }
 
-.report-header {
-    background-color: #f8f9fa;
-    border: 2px solid #4a90e2;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    text-align: right;
-    direction: rtl;
-    display: none;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+.action-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
 }
 
-.report-header p {
-    margin: 0.5rem 0;
-    font-size: 1.2rem;
-    color: #2c3e50;
-    background-color: var:--primary-color;
-
+.action-btn:hover {
+    background-color: var(--primary-dark);
 }
 
-.report-header span {
-    font-weight: bold;
-    color: var(--secondary-color);
+.delete-btn {
+    background-color: var(--error-color);
 }
-@media print {
-    body {
-        padding: 20px;
-        margin: 0;
-    }
 
-    .container {
-        box-shadow: none;
-        padding: 0;
-        margin: 0;
-        width: 100%;
-    }
+.delete-btn:hover {
+    background-color: #C53030;
+}
 
-    .title {
-        display: none; 
-    }
+.example-id {
+    cursor: pointer;
+    color: var(--primary-color);
+    text-decoration: underline;
+}
 
-    .report-header {
-        display: block !important; 
-        page-break-after: avoid; 
-        margin-bottom: 30px; 
-    }
+.example-id:hover {
+    color: var(--primary-dark);
+}
 
-    #results {
-        margin-top: 0;
-        display: block !important;
-    }
+.submit-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
 
-    table {
-        page-break-inside: auto;
-        margin-top: 20px; 
-    }
+.submit-hint {
+    background-color: var(--secondary-light);
+    color: var(--primary-dark);
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    max-width: 300px;
+}
 
-    tr, td, th {
-        page-break-inside: avoid;
-        page-break-after: auto;
+@media (max-width: 1200px) {
+    .card {
+        max-width: 900px;
     }
+}
 
-    .legacy-mode-toggle,
-    #legacyMode,
-    #saveAndExitBtn,
-    .action-icons,
-    .no-print {
-        display: none !important;
+@media (max-width: 992px) {
+    .card {
+        max-width: 100%;
     }
 }
 
 @media (max-width: 768px) {
-    .container {
-        width: 95%;
-        padding: 1rem;
+    body {
+        padding: 12px;
+    }
+    .card {
+        padding: 22px;
+    }
+    .pharmacy-list {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     }
     table {
-        font-size: 0.9rem;
+        font-size: 14px;
     }
     th, td {
-        padding: 0.8rem;
+        padding: 14px 10px;
     }
-    input, select {
-        padding: 0.8rem;
-        font-size: 0.9rem;
+    #searchBar {
+        font-size: 16px;
+        padding: 14px 18px;
     }
-    .button-container {
+    select, input[type="text"], input[type="number"] {
+        padding: 12px;
+        font-size: 14px;
+    }
+    .submit-container {
         flex-direction: column;
+        align-items: stretch;
     }
-    .btn {
-        width: 100%;
+    .submit-hint {
+        margin-top: 10px;
+        max-width: none;
     }
     .title {
-        font-size: 2rem;
-        margin-top: 3rem;
+        font-size: 48px;
     }
-    .legacy-mode-toggle {
-        top: 10px;
-    }
-}
-
-.action-icons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.icon-wrapper {
-    cursor: pointer;
-    transition: var(--transition);
-    padding: 10px;
-    border-radius: 50%;
-    background-color: #e6f2ff;
-    position: relative;
-}
-
-.icon-wrapper:hover {
-    transform: scale(1.1);
-    background-color: #cce5ff;
-}
-
-.icon-wrapper::after {
-    content: attr(data-action);
-    position: absolute;
-    bottom: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 12px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    white-space: nowrap;
-}
-
-.icon-wrapper:hover::after {
-    opacity: 1;
-}
-
-.print-icon svg {
-    color: var(--accent-color);
-}
-
-.submit-icon svg {
-    color: var(--primary-color);
-}
-
-.icon-label {
-    position: absolute;
-    font-size: 14px;
-    color: #4a90e2;
-    font-weight: bold;
-    white-space: nowrap;
-}
-
-.print-icon .icon-label {
-    right: calc(100% + 10px);
-    top: 50%;
-    transform: translateY(-50%);
-    color: #2ecc71;
-}
-
-.submit-icon .icon-label {
-    left: calc(100% + 10px);
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.print-icon svg {
-    color: #2ecc71; 
-}
-
-td[contenteditable="true"] {
-    direction: ltr;
-    text-align: left;
-}
-
-@page {
-    @bottom-right {
-        content: counter(page);
+    .subtitle {
+        font-size: 18px;
     }
 }
 
-body {
-    counter-reset: page;
-}
-
-.page-break {
-    page-break-after: always;
-    counter-increment: page;
-}
-
-@media print {
-    td[contenteditable="true"]::before {
-        display: none;
+@media (max-width: 480px) {
+    .pharmacy-list {
+        grid-template-columns: 1fr;
+    }
+    button {
+        width: 100%;
+        margin: 6px 0;
+    }
+    #idInfo {
+        font-size: 14px;
+    }
+    #searchBar {
+        font-size: 14px;
+        padding: 12px 16px;
+    }
+    select, input[type="text"], input[type="number"] {
+        padding: 10px;
+        font-size: 13px;
+    }
+    .title {
+        font-size: 36px;
+    }
+    .subtitle {
+        font-size: 16px;
     }
 }
-
-:root {
-    --focus-ring: 0 0 0 3px rgba(74, 144, 226, 0.4);
-}
-
-.container {
-    animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.title {
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-}
-
-input, select, .btn {
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-input:focus, select:focus {
-    box-shadow: var(--focus-ring);
-}
-
-.btn {
-    position: relative;
-    overflow: hidden;
-}
-
-.btn::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 5px;
-    height: 5px;
-    background: rgba(255, 255, 255, .5);
-    opacity: 0;
-    border-radius: 100%;
-    transform: scale(1, 1) translate(-50%);
-    transform-origin: 50% 50%;
-}
-
-@keyframes ripple {
-    0% {
-        transform: scale(0, 0);
-        opacity: 1;
-    }
-    20% {
-        transform: scale(25, 25);
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: scale(40, 40);
-    }
-}
-
-.btn:focus:not(:active)::after {
-    animation: ripple 1s ease-out;
-}
-
-table {
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(0,0,0,0.05);
-}
-
-tr {
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-tr:hover {
-    background-color: #f0f4f8;
-}
-
-.delete-btn {
-    opacity: 0.7;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.delete-btn:hover {
-    opacity: 1;
-}
-
-.modal-content {
-    animation: modalIn 0.3s ease-out;
-}
-
-.icon-wrapper {
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.icon-wrapper:hover {
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *, ::before, ::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
-}
-
-.accessibility-focus:focus {
-    outline: none;
-    box-shadow: var(--focus-ring);
-}
-
-@media (hover: hover) {
-    .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 7px 14px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.1);
-    }
-}
-
-.btn:active {
-    transform: translateY(1px);
-}
-
-.loading {
-    position: relative;
-    pointer-events: none;
-}
-
-.loading::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.7) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"><circle cx="50" cy="50" fill="none" stroke="%234a90e2" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138"><animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform></circle></svg>') center / 50px no-repeat;
-}
-    
-</style>
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="title">خارجي  طلاب</h1>
-<div class="report-header print-only">
-    <p>مرسل الي ادارة التموين الطبي والصيدليات</p>
-    <p>فرع البحيرة المنطقة <span id="regionDisplay"></span></p>
-    <p>صيدلية <span id="pharmacyDisplay"></span></p>
-    <p>بيان الخارجي عن شهر <span id="monthDisplay"></span></p>
-</div>
-        <div class="legacy-mode-toggle">
-            <span>Legacy Mode</span>
-            <label class="toggle-switch">
-                <input type="checkbox" id="legacyModeToggle" onchange="toggleLegacyMode()" title="Toggle Legacy Mode">
-                <span class="slider"></span>
-            </label>
+    <div id="screen1" class="card">
+        <h1 class="title">بيان الخارجي</h1>
+        <div id="idInfo">
+            <i class="material-icons">info</i>
+            <strong>ID Format:</strong> You can use id for autofill or use the dropdowns :
+            <ul>
+                <li>1st character: 'a' for student, 'b' for workforce</li>
+                <li>2nd character: '1' for first region, '2' for second, '3' for third</li>
+                <li>3rd character: Specific pharmacy number</li>
+            </ul>
+            <div class="pharmacy-list" id="pharmacyList"></div>
         </div>
-        <div class="no-print">
-            <label for="regionSelect">المنطقة</label>
-            <select id="regionSelect" title="Select Region" required>
-                <option value="">المنطقة</option>
-                <option value="first">الاولى</option>
-                <option value="second">الثانية</option>
-                <option value="third">الثالثة</option>
-            </select>
-            
-            <label for="pharmacySelect">الصيدلية</label>
-            <select id="pharmacySelect" disabled title="Select Pharmacy" required>
-                <option value="">الصيدلية</option>
-            </select>
-            
-            <label for="monthSelect">الشهر</label>
-            <select id="monthSelect" title="Select Month" required>
-                <option value="">الشهر</option>
-                <option value="January">يناير</option>
-                <option value="February">فبراير</option>
-                <option value="March">مارس</option>
-                <option value="April">ابريل</option>
-                <option value="May">مايو</option>
-                <option value="June">يونيو</option>
-                <option value="July">يوليو</option>
-                <option value="August">اغسطس</option>
-                <option value="September">سبتمبر</option>
-                <option value="October">اكتوبر</option>
-                <option value="November">نوفمبر</option>
-                <option value="December">ديسمبر</option>
-            </select>
-            
-            <div class="autocomplete">
-                <label for="searchInput">Search for a product</label>
-                <input type="text" id="searchInput" placeholder="Search for a product..." title="Search for a product">
-            </div>
-            
-            <label for="unitsSold">Units sold</label>
-            <input type="number" id="unitsSold" placeholder="Units sold" step="1" min="0" title="Enter units sold">
-            
-            <div class="button-container">
-                <button class="btn" onclick="addData()" title="Add Data">Add Data</button>
-                <button class="btn" id="addNameBtn" onclick="showAddNameModal()" disabled title="Add Name">Add Name</button>
-            </div>
+        <input type="text" id="id" placeholder="ID (e.g., a21)">
+        <div>
+            <button class="class-btn" data-class="student">Student</button>
+            <button class="class-btn" data-class="workforce">Workforce</button>
         </div>
-        <div id="results">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Units Sold</th>
-                        <th class="no-print"></th>
-                    </tr>
-                </thead>
-                <tbody id="dataTable">
-                </tbody>
-            </table>
-        </div>
-        <div id="legacyMode">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Units Sold</th>
-                    </tr>
-                </thead>
-                <tbody id="legacyTable">
-                </tbody>
-            </table>
-            <button id="saveAndExitBtn" onclick="saveAndExit()" title="Save and Exit">Save and Exit</button>
-        </div>
-<div class="action-icons no-print">
-    <div class="icon-wrapper print-icon" onclick="printReport()" title="Print">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 6 2 18 2 18 9"></polyline>
-            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
-            <rect x="6" y="14" width="12" height="8"></rect>
-        </svg>
-        <span class="icon-label print-label">Print</span>
+        <select id="region" required>
+            <option value="" disabled selected>Select Region</option>
+            <option value="first">First</option>
+            <option value="second">Second</option>
+            <option value="third">Third</option>
+        </select>
+        <select id="pharmacy" required>
+            <option value="" disabled selected>Select Pharmacy</option>
+        </select>
+       <input type="number" id="month" placeholder="Month (1-12)" min="1" max="12" required>
+        <button id="nextBtn">Next</button>
     </div>
-    <div class="icon-wrapper submit-icon" onclick="submitData()" title="Submit">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
-        </svg>
-        <span class="icon-label submit-label">Submit</span>
-    </div>
-</div>
 
-    <div id="addNameModal" class="modal">
-        <div class="modal-content">
-            <h2>Add New Name</h2>
-            <label for="nameCategory">سبب الاضافة</label>
-            <select id="nameCategory" title="Select reason for addition" required>
-                <option value="">سبب الاضافة</option>
-                <option value="قرار لجنة">قرار لجنة</option>
-                <option value="حكم قضائي">حكم قضائي</option>
-                <option value="داخل اللستة">داخل اللستة</option>
-                <option value="شئون طبية">شئون طبية</option>
-            </select>
-            <label for="newProductName">Product Name</label>
-            <input type="text" id="newProductName" placeholder="Product Name" title="Enter product name" required>
-            <label for="newProductUnit">Product Unit</label>
-            <input type="text" id="newProductUnit" placeholder="Product Unit (e.g., 10 T)" title="Enter product unit" required>
-            <label for="newProductUnitsSold">Units Sold</label>
-            <input type="number" id="newProductUnitsSold" placeholder="Units Sold" min="0" step="1" title="Enter units sold" required>
-            <div class="button-container">
-                <button class="btn" onclick="addNewName()">Add</button>
-                <button class="btn" onclick="closeAddNameModal()">Cancel</button>
-            </div>
+    <div id="screen2" class="card hidden">
+        <button id="backBtn"><i class="material-icons">arrow_back</i>Go Back</button>
+        <input type="text" id="searchBar" placeholder="Search...">
+        <div id="didYouMean"></div>
+        <div id="suggestions"></div>
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Unit</th>
+                    <th>Units Sold</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table body will be populated dynamically -->
+            </tbody>
+        </table>
+        <div class="submit-container">
+            <button id="submitBtn"><i class="material-icons">send</i>Submit</button>
+<div class="submit-hint">
+    Please note: Review your data carefully before submission.<br>
+    Ensure you submit all your data in one session.<br>
+</div>
         </div>
     </div>
-</div>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-</body>
-</html>
-   <script>
-    
-    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.6.2/fuse.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+<script>
+
 const firebaseConfig = {
-  apiKey: "AIzaSyCSqnxDsN3xLLXiOv7mDZKMsH1rIvWUXDM",
-  authDomain: "plan-c-464c2.firebaseapp.com",
-  databaseURL: "https://plan-c-464c2-default-rtdb.firebaseio.com",
-  projectId: "plan-c-464c2",
-  storageBucket: "plan-c-464c2.appspot.com",
-  messagingSenderId: "326162245610",
-  appId: "1:326162245610:web:9e0caefba12604cdb57493",
-  measurementId: "G-MZ0WS41KWD"
+  apiKey: "AIzaSyBYmguP4MPNvKV3ZeoR-MploiVZKgyAga8",
+  authDomain: "the-other-plan.firebaseapp.com",
+  databaseURL: "https://the-other-plan-default-rtdb.firebaseio.com",
+  projectId: "the-other-plan",
+  storageBucket: "the-other-plan.appspot.com",
+  messagingSenderId: "465003350934",
+  appId: "1:465003350934:web:ca48924ffad36396cf6bb7",
+  measurementId: "G-6LVGSBLK09"
 };
 
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-        
-    const products = [
-  "Abilify 15mg (حكم قضائي)|10 T",
-  "Acetylcysteine 300mg|Amp",
-  "Acetylcysteine Sachets|10 Sach",
-  "Acetylsalicylic Acid 75mg|10 T",
-  "Acyclovir 400mg|10 T",
-  "Aescin gel|Tube",
-  "Allopurinol 100mg|10 T",
-  "Alpha Lipoic Acid 300mg|10 T",
-  "Alpha Lipoic Acid 600mg|10 T",
-  "Amiloride 5mg & HCT 50mg|10 T",
-  "Amoxicillin & Clavulanic acid 457mg|B",
-  "Antacid Syp|B",
-  "Antibiotic & Corticosteroid cream|Tube",
-  "Apixaban 2.5mg|10 T",
-  "Apixaban 5mg|10 T",
-  "Aranesp 100mcg|Syringe",
-  "Aranesp 30mcg (حكم قضائي)|Syringe",
-  "Aripiprex (حكم قضائي)|B",
-  "Artamine 300mg|10 T",
-  "Atomoxetine 40mg|10 T",
-  "Atomoxetine 60mg|10 T",
-  "Atomoxetine Syp|B",
-  "Azathioprine 50mg|10 T",
-  "Azithromycin Syp|B",
-  "Beclomethasone & Salbutamol Inhalation|B",
-  "Beclomethasone spray|B",
-  "Betamethasone & Salicylic Acid Lotion|B",
-  "Betamethasone Cream|Tube",
-  "Bilichol|12 Cap",
-  "Bosentan 62.5mg|10 T",
-  "Brivaracetam 50mg ( لجنه عليا)|10 T",
-  "Bronchicum (حكم محكمة)|B",
-  "Budesonide 160mcg & Formoterol 4.5mcg|B",
-  "Calcium|10 Cap",
-  "Calcium Syp|B",
-  "Carbamazipine CR 400 mg|10 T",
-  "Carbimazole|10 T",
-  "Carbmazepine Syrup|B",
-  "Carvedilol 6.25mg|10 T",
-  "Celecoxib 200mg|10 T",
-  "Cholecalciferol 10000IU|10 T",
-  "Cholecalciferol 2800IU Drops|B",
-  "Cholestyramine Sachets|Sach",
-  "Citicoline Syp|B",
-  "Clarithromycin 500mg|14 Cap",
-  "Clobetasol Cream|Tube",
-  "Clonazepam 0.5mg|10 T",
-  "Clotrimazole Cream|Tube",
-  "CNS Muscle Relaxant|10 T",
-  "Colchicine 0.5mg|10 T",
-  "Concerta 36mg (حكم قضائي)|30 T",
-  "Creon 25000|100 T",
-  "Cyclophosphamide 1g|Vial",
-  "Cyclosporin 100mg|10 T",
-  "Cyclosporin 50mg|10 T",
-  "Cyclosporin Syrup|B",
-  "Cytarabine 1g|Vial",
-  "Deferiprone 500mg|50 T",
-  "Deferoxamine 500mg|Vial",
-  "Diflucan 50mg (لجنة عليا)|1 Cap",
-  "Digoxine 0.25mg|10 T",
-  "Dorzolamide & Timolol E.dp|B",
-  "Doxazosin 1mg|10 T",
-  "Doxazosin 4 mg|10 T",
-  "Dydrogesterone 10mg|20 T",
-  "Efalex Syp (حكم قضائي)|B",
-  "Efamol Syp (حكم قضائي)|B",
-  "Endoxan 50mg|50 T",
-  "Enoxaparin 40mg|Syringe",
-  "Enoxaparin 60mg|Syringe",
-  "Epifasi 5000 IU (Human Chorionc Gonadotropin)|Amp",
-  "Estradiol & Norgestrel|21 T",
-  "Etoposide 100mg|Vial",
-  "Everolimus 0.25mg|10 T",
-  "Everolimus 0.75mg|10 T",
-  "Flixotide 125mcg Inhaler (حكم قضائي)|B",
-  "Fluconazole 150mg|1 Cap",
-  "Fluimucil 300mg (قرار لجنة)|Amp",
-  "Fluoxetine 20mg|10 T",
-  "Fluticasone 125mcg & Salmeterol 25mcg|B",
-  "Fucidic Acid|Tube",
-  "Gabapentin 100mg|10 T",
-  "Gabapentin 400mg|10 T",
-  "Gastrobiotic 550mg (لجنه عليا)|10 T",
-  "Gentamicin 80mg|Amp",
-  "Gentamicin Cream|Tube",
-  "Ginko biloba 40mg|10 T",
-  "Gliclazide MR 60mg|10 T",
-  "Glimepiride 1mg|10 T",
-  "Glimepiride 2mg|10 T",
-  "Haloperidol 5mg|10 T",
-  "Hydroxychloroquine|10 T",
-  "Hydroxyurea 500mg|10 T",
-  "Imipramine 25mg|10 T",
-  "Insulin isophane protamine|Penfill",
-  "Insulin Lispro 100IU|Penfill",
-  "Insulin Neutral Human|Penfill",
-  "Ipratropium & Salbutamol|Amp",
-  "Iron|10 T",
-  "Iron syrp|B",
-  "Iruxole Oint. (استثناء مكتب مدير الفرع)|Tube",
-  "Ivabradine 5mg|10 T",
-  "Ketosteril|10 T",
-  "Ketotifen Syp|B",
-  "Lacosamide 100mg|10 T",
-  "Lacosamide 50mg|10 T",
-  "Lacosamide Syp|B",
-  "Lacovimp 50mg (حكم قضائي)|10 T",
-  "Lactulose Syp|B",
-  "Lamictal 100mg (حكم قضائي)|30 T",
-  "Lamotrigine 100mg|10 T",
-  "Lamotrigine 25mg|10 T",
-  "Lamotrigine 50mg|10 T",
-  "Latanoprost dp|B",
-  "Levemir (حكم قضائي)|Pen",
-  "Levetiracetam 1000mg|10 T",
-  "Levetiracetam 500mg|10 T",
-  "Levetiracetam 750mg (حكم قضائي)|10 T",
-  "Levetiracetam Syp|B",
-  "Levodopa 250mg & Carbidopa 25mg|10 T",
-  "Levothyroxine 100mcg|100 T",
-  "Levothyroxine 50mcg|100 T",
-  "Long Acting Penicillin|Vial",
-  "Magnesium Citrate eff.|12 Sach",
-  "Mebeverine 100mg & Sulpiride 25mg|10 T",
-  "Meclofenoxate 500mg|20 T",
-  "Memantine 10mg|10 T",
-  "Memantine drops|B",
-  "Memexa dp. (حكم قضائي)|B",
-  "Mesalazine 500mg|10 T",
-  "Methotrexate|Vial",
-  "Methotrexate 2.5mg|10 T",
-  "Methylcobalamine|Amp",
-  "Metronidazole 250mg|10 T",
-  "Metronidazole Syp|B",
-  "Montelukast 10 mg|10 T",
-  "Montelukast 4mg Sachets|10 Sach",
-  "Multivitamins Syp|B",
-  "Naftidrofuryl|10 T",
-  "Nasonex (حكم قضائي)|B",
-  "Nebivolol 5mg|10 T",
-  "Neocate Milk (حكم قضائي)|B",
-  "Nexium 20mg (حكم قضائي)|7 T",
-  "Novorapid (حكم قضائي)|Penfill",
-  "N-plate 250mcg|Vial",
-  "Nystatin dps|B",
-  "Omega 3|10 Cap",
-  "Omeprazole 20mg|7 T",
-  "Omeprazole 40mg|10 Cap",
-  "Omnitrope 10mg/1.5ml|Penfill",
-  "Oxcarbazepine 300mg|10 T",
-  "Oxcarbazepine Syp|B",
-  "Oxybutynin 5mg|10 T",
-  "Panthenol cream|Tube",
-  "Pentasa 500mg (لجنة عليا)|10 T",
-  "Pentoxifylline 400mg|10 T",
-  "Phenytoin 50mg|10 T",
-  "Phenytoin Syp|B",
-  "Piracetam 400mg|10 T",
-  "Piracetam Syp|B",
-  "Potassium Syp|B",
-  "Povidone Iodine Shampoo|B",
-  "Prednisolone 20mg|10 T",
-  "Prednisolone 5mg|10 T",
-  "Prograf 1mg|100 T",
-  "Propranolol 40mg|10 T",
-  "Pyridostigmin 60mg|10 T",
-  "Quetiapine 100mg|10 T",
-  "Rebamipide 20mg|10 T",
-  "Rebif 44mcg (قرار لجنة)|Syringe",
-  "Risperdal (حكم قضائي)|B",
-  "Risperidone 1mg|10 T",
-  "Risperidone Syp|B",
-  "Rivaroxaban 15mg|10 T",
-  "Rivaroxban 2.5mg|10 T",
-  "Salbutamol Inhaler|B",
-  "Sandostatin LAR (قرار لجنة)|Syringe",
-  "Sertraline 50mg|10 T",
-  "Sirolimus 1gm|10 T",
-  "Sodium Valproate 200mg|10 T",
-  "Sodium Valproate 500mg|10 T",
-  "Sodium Bicarbonate (لجنة عليا)|Amp",
-  "Solifenacin 10mg|10 T",
-  "Somatropine|Vial",
-  "Somazina dp. (حكم قضائي)|B",
-  "Spiramycin 1.5 MIU|10 T",
-  "Spironolactone 100 mg|10 T",
-  "Spironolactone 25 mg|10 T",
-  "Stimulan Syp (حكم قضائي)|B",
-  "Strattera 60mg (حكم قضائي)|28 T",
-  "Sulphamethoxazole & Trimethoprim|B",
-  "Sulphasalazine|10 T",
-  "Tacrolimus 0.5mg|10 T",
-  "Tenofovir 300mg|30 T",
-  "Thrombonorm 0.5mg (لجنة عليا)|10 Cap",
-  "Tiralepsy Syp (قرار لجنة)|B",
-  "Tiratam 1000mg (حكم قضائي)|30 T",
-  "Tiratam Syp (حكم قضائي)|B",
-  "Tiratam Syp (قرار لجنة)|B",
-  "Tobramycin Amp|Amp",
-  "Topiramate 100mg|10 T",
-  "Topiramate 25mg|10 T",
-  "Tranexamic Acid 500mg|10 T",
-  "Tresiba (حكم قضائي)|Pen",
-  "Trileptal 600mg (حكم قضائي)|50 T",
-  "Trileptal Syp (حكم قضائي)|B",
-  "Trimebutine 200mg|10 T",
-  "Umatone Brain (حكم قضائي)|30 Sach",
-  "Uptravi 400mcg|60 T",
-  "Ursodeoxycholic acid 250mg|10 Cap",
-  "Valganciclovir 450mg (لجنة)|60 T",
-  "Valproic Acid Syrup|B",
-  "Verapamil 240mg|10 T",
-  "Vildagliptin 50mg|10 T",
-  "Vildagliptin 50mg & Metformin 850mg|10 T",
-  "Vitamin A|10 T",
-  "Vitamin B Comp.|10 T",
-  "Vitamin B Syrup|B",
-  "Voriconazole 200mg|10 T",
-  "Voriconazole 200mg Vial|Vial",
-  "Warfarin 3mg|10 T",
-  "Warfarin 5 mg|10 T",
-  "Xarelto 10mg (حكم قضائى)|10 T",
-  "Zinc Syp|B",
-  "Zithromax 250mg (حكم قضائي)|6 Cap",
-  "Zoledronic Acid 4mg|Vial"
-].sort();
-
-    const regionOptions = {
-        first: ["كفر الدوار طلاب", "البيضا طلاب","النوبارية طلاب", "ابو المطامير طلاب", "رشيد طلاب", "ادكو طلاب"],
-        second: ["دمنهور طلاب", "حوش عيسي طلاب", "المحمودية طلاب", "الرحمانية طلاب ", "ابو حمص طلاب","اورام طلاب"],
-        third: ["ايتاي طلاب", "كوم حمادة طلاب", "بدر طلاب", "شبراخيت طلاب", "الدلنجات طلاب"]
-    };
-
-    let data = [];
-    let selectedProducts = new Set();
-    let isLegacyMode = false;
-    let currentLegacyCell = null;
-
-function autocomplete(inp, arr) {
-    let currentFocus;
-    inp.addEventListener("input", function(e) {
-        let a, b, i, val = this.value;
-        closeAllLists();
-        if (!val) { return false; }
-        currentFocus = -1;
-        a = document.createElement("DIV");
-        a.setAttribute("id", this.id + "autocomplete-list");
-        a.setAttribute("class", "autocomplete-items");
-        this.parentNode.appendChild(a);
-    for (i = 0; i < arr.length; i++) {
-        if (arr[i].toLowerCase().includes(val.toLowerCase())) {
-            b = document.createElement("DIV");
-            let [name, unit] = arr[i].split('|');
-            b.innerHTML = `<span class="product-name">${name}</span> <span class="product-unit">${unit}</span>`;
-            b.innerHTML += `<input type='hidden' value='${arr[i]}'>`;
-            if (selectedProducts.has(arr[i])) {
-                b.classList.add("highlighted");
-            }
-            if (isDuplicate(arr[i])) {
-                b.classList.add("already-in-table");
-            }
-            b.addEventListener("click", function(e) {
-                inp.value = this.getElementsByTagName("input")[0].value;
-                closeAllLists();
-            });
-            a.appendChild(b);
-        }
-    }
-    
-    });
-    
-    inp.addEventListener("keydown", function(e) {
-        let x = document.getElementById(this.id + "autocomplete-list");
-        if (x) x = x.getElementsByTagName("div");
-        if (e.keyCode == 40) {
-            currentFocus++;
-            addActive(x);
-        } else if (e.keyCode == 38) {
-            currentFocus--;
-            addActive(x);
-        } else if (e.keyCode == 13) {
-            e.preventDefault();
-            if (currentFocus > -1) {
-                if (x) x[currentFocus].click();
-            }
-        }
-    });
-    
-    function addActive(x) {
-        if (!x) return false;
-        removeActive(x);
-        if (currentFocus >= x.length) currentFocus = 0;
-        if (currentFocus < 0) currentFocus = (x.length - 1);
-        x[currentFocus].classList.add("autocomplete-active");
-    }
-    
-    function removeActive(x) {
-        for (let i = 0; i < x.length; i++) {
-            x[i].classList.remove("autocomplete-active");
-        }
-    }
-    
-    function closeAllLists(elmnt) {
-        let x = document.getElementsByClassName("autocomplete-items");
-        for (let i = 0; i < x.length; i++) {
-            if (elmnt != x[i] && elmnt != inp) {
-                x[i].parentNode.removeChild(x[i]);
-            }
-        }
-    }
-    
-    document.addEventListener("click", function(e) {
-        closeAllLists(e.target);
-    });
-}
-
-    autocomplete(document.getElementById("searchInput"), products);
-
-    document.getElementById("regionSelect").addEventListener("change", function() {
-        const region = this.value;
-        const pharmacySelect = document.getElementById("pharmacySelect");
-        pharmacySelect.innerHTML = '<option value="">الصيدلية</option>';
-        if (regionOptions[region]) {
-            regionOptions[region].forEach(pharmacy => {
-                const option = document.createElement("option");
-                option.value = pharmacy;
-                option.textContent = pharmacy;
-                pharmacySelect.appendChild(option);
-            });
-            pharmacySelect.disabled = false;
-        } else {
-            pharmacySelect.disabled = true;
-        }
-        updateAllRows();
-        saveData();
-        updateLegacyModeVisibility();
-        updateAddNameButtonState();
-        updateHeaderInfo();
-    });
-
-    document.getElementById("pharmacySelect").addEventListener("change", function() {
-        updateAllRows();
-        saveData();
-        updateLegacyModeVisibility();
-        updateAddNameButtonState();
-        updateHeaderInfo();
-    });
-
-    document.getElementById("monthSelect").addEventListener("change", function() {
-        updateAllRows();
-        saveData();
-        updateLegacyModeVisibility();
-        updateAddNameButtonState();
-        updateHeaderInfo();
-    });
-    
-document.getElementById('dataTable').addEventListener('input', function(e) {
-    if (e.target.tagName === 'TD' && e.target.getAttribute('contenteditable') === 'true') {
-        const cursorPosition = window.getSelection().getRangeAt(0).startOffset;
-        e.target.textContent = e.target.textContent.replace(/[^0-9]/g, '');
-        
-        const range = document.createRange();
-        const sel = window.getSelection();
-        
-        if (e.target.childNodes.length > 0) {
-            range.setStart(e.target.childNodes[0], Math.min(cursorPosition, e.target.textContent.length));
-            range.collapse(true);
-            sel.removeAllRanges();
-            sel.addRange(range);
-        }
-    }
-});
-
-function addData(product, unitsSold) {
-    const month = document.getElementById("monthSelect").value;
-    const region = document.getElementById("regionSelect").value;
-    const pharmacy = document.getElementById("pharmacySelect").value;
-
-    if (!isLegacyMode) {
-        product = document.getElementById("searchInput").value;
-        unitsSold = document.getElementById("unitsSold").value;
-    }
-
-    if (!product || !unitsSold || !month || !region || !pharmacy) {
-        if (isLegacyMode) {
-            return;
-        } else {
-            alert("Please fill in all fields");
-            return;
-        }
-    }
-
-    unitsSold = parseInt(unitsSold);
-    if (isNaN(unitsSold) || unitsSold < 0 || !Number.isInteger(unitsSold)) {
-        if (isLegacyMode) {
-            return; 
-        } else {
-            alert("Please enter a valid number.");
-            return;
-        }
-    }
-
-    if (isLegacyMode && !products.includes(product)) {
-        return;
-    }
-
-    if (!isLegacyMode) {
-        const validProduct = products.find(p => p === product);
-        if (!validProduct) {
-            alert("Please select a valid product from the list");
-            return;
-        }
-        product = validProduct;
-    }
-
-    const method = isLegacyMode ? 'old' : (products.includes(product) ? 'old' : 'new');
-
-    const existingEntry = data.find(entry => entry.product === product);
-    if (existingEntry) {
-        existingEntry.unitsSold = unitsSold;
-    } else {
-        data.push({ product, unitsSold, month, region, pharmacy, method });
-    }
-
-    updateTable();
-    if (!isLegacyMode) {
-        resetSelections();
-    }
-    saveData();
-}
-
-
-function updateTable() {
-    const table = document.getElementById("dataTable");
-    table.innerHTML = '';
-    data.sort((a, b) => a.product.localeCompare(b.product)).forEach((entry, index) => {
-        const row = document.createElement("tr");
-        const [name, unit] = entry.product.split('|');
-        row.innerHTML = `
-            <td><span class="product-name">${name}</span> <span class="product-unit">${unit}</span>${entry.needsApproval ? ' <span style="color: red;">(new)</span>' : ''}</td>
-            <td contenteditable="true" onblur="updateUnitsSold(${index}, this)">${entry.unitsSold}</td>
-            <td class="no-print">
-                <button class="delete-btn" onclick="deleteRow(${index})" title="Delete">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                        <line x1="10" y1="11" x2="10" y2="17"></line>
-                        <line x1="14" y1="11" x2="14" y2="17"></line>
-                    </svg>
-                </button>
-            </td>
-        `;
-        table.appendChild(row);
-    });
-    updateLegacyTable();
-}
-
-    function deleteRow(index) {
-        const entry = data[index];
-        selectedProducts.delete(entry.product);
-        data.splice(index, 1);
-        updateTable();
-        saveData();
-    }
-
-    function updateUnitsSold(index, element) {
-        const newValue = parseInt(element.textContent);
-        if (isNaN(newValue) || newValue < 0) {
-            alert("Please enter a valid number.");
-            element.textContent = data[index].unitsSold;
-        } else {
-            data[index].unitsSold = newValue;
-        }
-        updateLegacyTable();
-        saveData();
-    }
-
-    function updateAllRows() {
-        const region = document.getElementById("regionSelect").value;
-        const pharmacy = document.getElementById("pharmacySelect").value;
-        const month = document.getElementById("monthSelect").value;
-
-        if (region && pharmacy && month) {
-            data.forEach(entry => {
-                entry.region = region;
-                entry.pharmacy = pharmacy;
-                entry.month = month;
-            });
-            updateTable();
-        }
-    }
-
-function isDuplicate(product) {
-    return data.some(entry => entry.product === product);
-}
-
-    function resetSelections() {
-        document.getElementById("searchInput").value = '';
-        document.getElementById("unitsSold").value = '';
-    }
-
-    function toggleLegacyMode() {
-        const region = document.getElementById("regionSelect").value;
-        const pharmacy = document.getElementById("pharmacySelect").value;
-        const month = document.getElementById("monthSelect").value;
-
-        if (!region || !pharmacy || !month) {
-            alert("Please fill in Region, Pharmacy, and Month before entering Legacy Mode.");
-            document.getElementById("legacyModeToggle").checked = false;
-            return;
-        }
-
-        isLegacyMode = !isLegacyMode;
-        updateLegacyModeVisibility();
-    }
-
-function updateLegacyModeVisibility() {
-    const region = document.getElementById("regionSelect").value;
-    const pharmacy = document.getElementById("pharmacySelect").value;
-    const month = document.getElementById("monthSelect").value;
-    const allFieldsFilled = region && pharmacy && month;
-
-    document.getElementById("results").style.display = isLegacyMode && allFieldsFilled ? "none" : "block";
-    document.getElementById("legacyMode").style.display = isLegacyMode && allFieldsFilled ? "block" : "none";
-    
-    document.getElementById("regionSelect").disabled = isLegacyMode && allFieldsFilled;
-    document.getElementById("pharmacySelect").disabled = isLegacyMode && allFieldsFilled;
-    document.getElementById("monthSelect").disabled = isLegacyMode && allFieldsFilled;
-
-    document.getElementById("saveAndExitBtn").style.display = isLegacyMode && allFieldsFilled ? "block" : "none";
-
-    if (!allFieldsFilled) {
-        isLegacyMode = false;
-        document.getElementById("legacyModeToggle").checked = false;
-    }
-}
-
-function updateLegacyTable() {
-    const legacyTable = document.getElementById("legacyTable");
-    legacyTable.innerHTML = '';
-    products.forEach((product, index) => {
-        const row = document.createElement("tr");
-        const [name, unit] = product.split('|');
-        const entry = data.find(e => e.product === product);
-        row.innerHTML = `
-            <td><span class="product-name">${name}</span> <span class="product-unit">${unit}</span></td>
-            <td contenteditable="true" data-product="${product}" data-index="${index}">${entry ? entry.unitsSold : ''}</td>
-        `;
-        legacyTable.appendChild(row);
-    });
-}
-
-function updateLegacyUnitsSold(product, element) {
-    const newValue = parseInt(element.textContent);
-    if (isNaN(newValue) || newValue < 0) {
-        element.textContent = '';
-        return;
-    }
-
-    addData(product, newValue);
-}
-
-    document.getElementById('legacyTable').addEventListener('focus', function(e) {
-        if (e.target.tagName === 'TD' && e.target.getAttribute('contenteditable') === 'true') {
-            currentLegacyCell = e.target;
-            highlightRow(e.target.closest('tr'));
-        }
-    }, true);
-
-    document.getElementById('legacyTable').addEventListener('blur', function(e) {
-        if (e.target.tagName === 'TD' && e.target.getAttribute('contenteditable') === 'true') {
-            unhighlightRow(e.target.closest('tr'));
-            updateLegacyUnitsSold(e.target.dataset.product, e.target);
-        }
-    }, true);
-
-document.getElementById('legacyTable').addEventListener('input', function(e) {
-    if (e.target.tagName === 'TD' && e.target.getAttribute('contenteditable') === 'true') {
-        const cursorPosition = window.getSelection().getRangeAt(0).startOffset;
-        e.target.textContent = e.target.textContent.replace(/[^0-9]/g, '');
-        
-        const range = document.createRange();
-        const sel = window.getSelection();
-        
-        if (e.target.childNodes.length > 0) {
-            range.setStart(e.target.childNodes[0], Math.min(cursorPosition, e.target.textContent.length));
-            range.collapse(true);
-            sel.removeAllRanges();
-            sel.addRange(range);
-        }
-    }
-});
-
-    document.getElementById('legacyTable').addEventListener('keydown', function(e) {
-        if (!isLegacyMode || !currentLegacyCell) return;
-
-        const currentRow = currentLegacyCell.closest('tr');
-        const currentIndex = Array.from(currentRow.parentNode.children).indexOf(currentRow);
-        const totalRows = currentRow.parentNode.children.length;
-
-        switch (e.key) {
-            case 'ArrowUp':
-                e.preventDefault();
-                if (currentIndex > 0) {
-                    updateLegacyUnitsSold(currentLegacyCell.dataset.product, currentLegacyCell);
-                    navigateToCell(currentIndex - 1);
-                }
-                break;
-            case 'ArrowDown':
-            case 'Enter':
-                e.preventDefault();
-                updateLegacyUnitsSold(currentLegacyCell.dataset.product, currentLegacyCell);
-                if (currentIndex < totalRows - 1) {
-                    navigateToCell(currentIndex + 1);
-                }
-                break;
-        }
-    });
-
-    function navigateToCell(index) {
-        const targetRow = document.getElementById('legacyTable').rows[index];
-        const targetCell = targetRow.querySelector('td[contenteditable="true"]');
-        targetCell.focus();
-        highlightRow(targetRow);
-        currentLegacyCell = targetCell;
-    }
-
-    function highlightRow(row) {
-        unhighlightAllRows();
-        row.classList.add('selected-row');
-    }
-
-    function unhighlightRow(row) {
-        row.classList.remove('selected-row');
-    }
-
-    function unhighlightAllRows() {
-        const rows = document.querySelectorAll('#legacyTable tr');
-        rows.forEach(row => unhighlightRow(row));
-    }
-
-function saveData() {
-    localStorage.setItem('pharmacyData', JSON.stringify(data));
-    localStorage.setItem('selectedRegion', document.getElementById("regionSelect").value);
-    localStorage.setItem('selectedPharmacy', document.getElementById("pharmacySelect").value);
-    localStorage.setItem('selectedMonth', document.getElementById("monthSelect").value);
-    localStorage.setItem('products', JSON.stringify(products));
-}
-
-function loadData() {
-    const savedData = localStorage.getItem('pharmacyData');
-    if (savedData) {
-        data = JSON.parse(savedData);
-        updateTable();
-    }
-
-    const savedRegion = localStorage.getItem('selectedRegion');
-    if (savedRegion) {
-        document.getElementById("regionSelect").value = savedRegion;
-        document.getElementById("regionSelect").dispatchEvent(new Event('change'));
-    }
-
-    const savedPharmacy = localStorage.getItem('selectedPharmacy');
-    if (savedPharmacy) {
-        document.getElementById("pharmacySelect").value = savedPharmacy;
-    }
-
-    const savedMonth = localStorage.getItem('selectedMonth');
-    if (savedMonth) {
-        document.getElementById("monthSelect").value = savedMonth;
-    }
-
-    const savedProducts = localStorage.getItem('products');
-    if (savedProducts) {
-        products = JSON.parse(savedProducts);
-    }
-
-    document.getElementById("saveAndQuitBtn").textContent = "Save and Exit";
-    document.getElementById("saveAndQuitBtn").setAttribute("onclick", "saveAndExit()");
-
-    updateLegacyModeVisibility();
-    updateAddNameButtonState();
-    updateHeaderInfo();
-
-}
-
-function saveAndExit() {
-    saveData();
-    isLegacyMode = false;
-    document.getElementById("legacyModeToggle").checked = false;
-    updateLegacyModeVisibility();
-    document.getElementById("legacyMode").style.display = "none";
-    document.getElementById("results").style.display = "block";
-    
-}
-
-    function updateAddNameButtonState() {
-        const region = document.getElementById("regionSelect").value;
-        const pharmacy = document.getElementById("pharmacySelect").value;
-        const month = document.getElementById("monthSelect").value;
-        const addNameBtn = document.getElementById("addNameBtn");
-
-        addNameBtn.disabled = !(region && pharmacy && month);
-    }
-
-    function showAddNameModal() {
-        document.getElementById("addNameModal").style.display = "block";
-    }
-
-function closeAddNameModal() {
-    document.getElementById("addNameModal").style.display = "none";
-    document.getElementById("nameCategory").value = "";
-    document.getElementById("newProductName").value = "";
-    document.getElementById("newProductUnit").value = "";
-    document.getElementById("newProductUnitsSold").value = "";
-}
-
-function addNewName() {
-    const category = document.getElementById("nameCategory").value;
-    const name = document.getElementById("newProductName").value;
-    const unit = document.getElementById("newProductUnit").value;
-    const unitsSold = document.getElementById("newProductUnitsSold").value;
-
-    if (!category || !name || !unit || !unitsSold) {
-        alert("Please fill in all fields");
-        return;
-    }
-
-    if (isNaN(unitsSold) || parseInt(unitsSold) < 0 || !Number.isInteger(parseFloat(unitsSold))) {
-        alert("Please enter a valid number for Units Sold");
-        return;
-    }
-
-    let fullName = name;
-    if (category !== "داخل اللستة") {
-        fullName += ` (${category})`;
-    }
-
-    const newProduct = `${fullName}|${unit}`;
-
-    data.push({
-        product: newProduct,
-        unitsSold: parseInt(unitsSold),
-        month: document.getElementById("monthSelect").value,
-        region: document.getElementById("regionSelect").value,
-        pharmacy: document.getElementById("pharmacySelect").value,
-        method: 'new'
-    });
-
-    saveData();
-    updateTable();
-    closeAddNameModal();
-    alert("Added.");
-}
-
-function handleNumericInput(event) {
-    const cell = event.target;
-    if (cell.tagName === 'TD' && cell.getAttribute('contenteditable') === 'true') {
-        const cursorPosition = window.getSelection().getRangeAt(0).startOffset;
-        const originalLength = cell.textContent.length;
-        
-        cell.textContent = cell.textContent.replace(/[^0-9]/g, '');
-        
-        const newLength = cell.textContent.length;
-        
-        const newPosition = Math.max(0, cursorPosition - (originalLength - newLength));
-        
-        const range = document.createRange();
-        const sel = window.getSelection();
-        
-        if (cell.childNodes.length > 0) {
-            range.setStart(cell.childNodes[0], newPosition);
-            range.collapse(true);
-            sel.removeAllRanges();
-            sel.addRange(range);
-        }
-    }
-}
-
-function updateHeaderInfo() {
-    const region = document.getElementById("regionSelect").value;
-    const pharmacy = document.getElementById("pharmacySelect").value;
-    const month = document.getElementById("monthSelect").value;
-
-    const regionMap = {
-        "first": "الاولى",
-        "second": "الثانية",
-        "third": "الثالثة"
-    };
-
-    const monthMap = {
-        "January": "يناير",
-        "February": "فبراير",
-        "March": "مارس",
-        "April": "ابريل",
-        "May": "مايو",
-        "June": "يونيو",
-        "July": "يوليو",
-        "August": "اغسطس",
-        "September": "سبتمبر",
-        "October": "اكتوبر",
-        "November": "نوفمبر",
-        "December": "ديسمبر"
-    };
-
-    document.getElementById("regionDisplay").textContent = regionMap[region] || "";
-    document.getElementById("pharmacyDisplay").textContent = pharmacy || "";
-    document.getElementById("monthDisplay").textContent = monthMap[month] || "";
-}
-
-function printReport() {
-    updateHeaderInfo(); 
-    window.print();
-}
-
-
+const db = firebase.database();
+
+// Cache DOM elements
+const screen1 = document.getElementById('screen1');
+const screen2 = document.getElementById('screen2');
+const idInput = document.getElementById('id');
+const classButtons = document.querySelectorAll('.class-btn');
+const regionSelect = document.getElementById('region');
+const pharmacySelect = document.getElementById('pharmacy');
+const monthInput = document.getElementById('month');
+const nextBtn = document.getElementById('nextBtn');
+const backBtn = document.getElementById('backBtn');
+const searchBar = document.getElementById('searchBar');
+const suggestions = document.getElementById('suggestions');
+const didYouMean = document.getElementById('didYouMean');
+const dataTable = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+const submitBtn = document.getElementById('submitBtn');
+const pharmacyList = document.getElementById('pharmacyList');
+const confirmModal = document.getElementById('confirmModal');
+const cancelSubmit = document.getElementById('cancelSubmit');
+const confirmSubmit = document.getElementById('confirmSubmit');
+
+// State
+let selectedClass = '';
+let selectedItems = [];
 let isSubmitting = false;
 
-function submitData() {
+const items = [
+    { name: "5-Fluorouracil 250mg", unit: "Amp", price: 12 },
+    { name: "Acetazolamide 250mg", unit: "10 T", price: 12 },
+    { name: "Acetylcysteine Sachets", unit: "10 Sach", price: 12 },
+    { name: "Acetylsalicylic Acid 75mg", unit: "10 T", price: 12 },
+    { name: "Acetylsalicylic Acid 81mg", unit: "10 T", price: 12 },
+    { name: "Acyclovir 0.05 cream", unit: "Tube", price: 12 },
+    { name: "Acyclovir 400mg", unit: "10 T", price: 12 },
+    { name: "Aescin gel", unit: "Tube", price: 12 },
+    { name: "Allopurinol 100mg", unit: "10 T", price: 12 },
+    { name: "Allopurinol 300mg", unit: "10 T", price: 12 },
+    { name: "Alpha Chymotrypsin", unit: "Amp", price: 12 },
+    { name: "Alpha Lipoic Acid 300mg", unit: "10 T", price: 12 },
+    { name: "Alpha Lipoic Acid 600mg", unit: "10 T", price: 12 },
+    { name: "Amantadine HCL 100mg", unit: "10 T", price: 12 },
+    { name: "Amaryl 2mg (حكم قضائي)", unit: "30 T", price: 12 },
+    { name: "Ambroxol", unit: "10 T", price: 12 },
+    { name: "Ambroxol Syp", unit: "B", price: 12 },
+    { name: "Amiloride 5mg & HCT 50mg", unit: "10T", price: 12 },
+    { name: "Amiodarone 200mg", unit: "10 T", price: 12 },
+    { name: "Amitriptyline 10mg", unit: "10 T", price: 12 },
+    { name: "Amitriptyline 25mg", unit: "10 T", price: 12 },
+    { name: "Amlodipine 10mg", unit: "10T", price: 12 },
+    { name: "Amlodipine 5mg", unit: "10 T", price: 12 },
+    { name: "Amlodipine 5mg & Olmesartan 20mg", unit: "10 T", price: 12 },
+    { name: "Amlodipine, Olmesartan & HCT 10/40/25mg", unit: "10 T", price: 12 },
+    { name: "Amlodipine, Olmesartan & HCT 5/20/12.5mg", unit: "10 T", price: 12 },
+    { name: "Amoxicillin & Clavulanic acid 1 gm", unit: "10 T", price: 12 },
+    { name: "Amoxicillin 500mg", unit: "10 Cap", price: 12 },
+    { name: "Anagrelide 0.5mg", unit: "10 T", price: 12 },
+    { name: "Andovimpamide 100mg (استثناء من مدير الفرع)", unit: "10 T", price: 12 },
+    { name: "Antacid", unit: "10 T", price: 12 },
+    { name: "Antacid Syp", unit: "B", price: 12 },
+    { name: "Anti-migraine", unit: "10 T", price: 12 },
+    { name: "Antibiotic & Corticosteroid cream", unit: "Tube", price: 12 },
+    { name: "Antifungal cream", unit: "Tube", price: 12 },
+    { name: "Antirheumatic gel", unit: "Tube", price: 12 },
+    { name: "Antispasmodic", unit: "10T", price: 12 },
+    { name: "Apetryl 0.5mg (تم الصرف بالاسم التجاري وفقا لتأشيرة الشئون الطبية)", unit: "10 T", price: 12 },
+    { name: "Apixaban 2.5mg", unit: "10 T", price: 12 },
+    { name: "Apixaban 5mg", unit: "10 T", price: 12 },
+    { name: "Aranesp 100mcg", unit: "Syringe", price: 12 },
+    { name: "Aripiprazole 30mg", unit: "10 T", price: 12 },
+    { name: "Artificial Tears", unit: "B", price: 12 },
+    { name: "Atorvastatin & Ezetimibe 10/10 mg", unit: "10 T", price: 12 },
+    { name: "Atorvastatin & Ezetimibe 20/10 mg", unit: "10 T", price: 12 },
+    { name: "Atorvastatin & Ezetimibe 40/10 mg", unit: "10 T", price: 12 },
+    { name: "Atorvastatin 10mg", unit: "10 T", price: 12 },
+    { name: "Atorvastatin 20mg", unit: "10 T", price: 12 },
+    { name: "Atorvastatin 40mg", unit: "10 T", price: 12 },
+    { name: "Atropine Sulphate ED", unit: "B", price: 12 },
+    { name: "Atropine Sulphate, Colchicine & Piperazine Sachets", unit: "12 Sach", price: 12 },
+    { name: "Avonex 30mcg (قرار لجنة)", unit: "Syringe", price: 12 },
+    { name: "Azathioprine 50 mg", unit: "10 T", price: 12 },
+    { name: "Beclomethasone & Salbutamol Inhalation", unit: "B", price: 12 },
+    { name: "Beclomethasone Inhalation", unit: "B", price: 12 },
+    { name: "Bendamustin 100mg", unit: "vial", price: 12 },
+    { name: "Benztropine 2mg", unit: "10 T", price: 12 },
+    { name: "Benzyl benzoate cream", unit: "Tube", price: 12 },
+    { name: "Betaferon (قرار لجنة)", unit: "Syringe", price: 12 },
+    { name: "Betahistine 8mg", unit: "10 T", price: 12 },
+    { name: "Betamethasone & Calcipotriol Cr.", unit: "Tube", price: 12 },
+    { name: "Betamethasone & Salicylic acid Lotion", unit: "B", price: 12 },
+    { name: "Betamethasone & Salicylic acid Oint.", unit: "Tube", price: 12 },
+    { name: "Betamethasone Cr.", unit: "Tube", price: 12 },
+    { name: "Betaxolol", unit: "B", price: 12 },
+    { name: "Bilichol", unit: "12 Cap", price: 12 },
+    { name: "Bional (قرار لجنة)", unit: "10 T", price: 12 },
+    { name: "Biperidene 2mg", unit: "10 T", price: 12 },
+    { name: "Bisoprolol 2.5mg", unit: "10 T", price: 12 },
+    { name: "Bisoprolol 5mg", unit: "10 T", price: 12 },
+    { name: "Bisoprolol 5mg & HCT 12.5mg", unit: "10 T", price: 12 },
+    { name: "Bleomycin 15 I.U", unit: "Vial", price: 12 },
+    { name: "Bosentan 62.5mg", unit: "10 T", price: 12 },
+    { name: "Brimonidine ED", unit: "B", price: 12 },
+    { name: "Budesonide 160mcg & Formoterol 4.5mcg", unit: "B", price: 12 },
+    { name: "Bumetanide", unit: "10 T", price: 12 },
+    { name: "Cabergoline 0.5mg", unit: "2 T", price: 12 },
+    { name: "Caelyx", unit: "Vial", price: 12 },
+    { name: "Calamine & Antihistamine Lotion", unit: "B", price: 12 },
+    { name: "Calcium 500mg", unit: "10 T", price: 12 },
+    { name: "Candesartan 16 mg", unit: "10 T", price: 12 },
+    { name: "Candesartan 16mg & HCT 12.5mg", unit: "10 T", price: 12 },
+    { name: "Candesartan 8mg", unit: "10 T", price: 12 },
+    { name: "Capecitabine 500mg", unit: "T", price: 12 },
+    { name: "Capoten 25mg (حكم قضائي)", unit: "10 T", price: 12 },
+    { name: "Captopril 50mg & HCT 25mg", unit: "10 T", price: 12 },
+    { name: "Carbamazepin 200mg", unit: "10 T", price: 12 },
+    { name: "Carbamazepin 400mg CR", unit: "10 T", price: 12 },
+    { name: "Carbamide cream", unit: "Tube", price: 12 },
+    { name: "Carbimazole 5mg", unit: "10 T", price: 12 },
+    { name: "Carboplatin 150mg", unit: "Vial", price: 12 },
+    { name: "Carboplatin 450mg", unit: "Vial", price: 12 },
+    { name: "Carfilzomib 60mg", unit: "Vial", price: 12 },
+    { name: "Carvedilol 12.5mg", unit: "10T", price: 12 },
+    { name: "Carvedilol 25mg", unit: "10 T", price: 12 },
+    { name: "Carvedilol 6.25mg", unit: "10 T", price: 12 },
+    { name: "Celecoxib 200mg", unit: "10 T", price: 12 },
+    { name: "Central Muscle Relaxant & Analgesic", unit: "10 T", price: 12 },
+    { name: "Cephalexine 500", unit: "10 Cap", price: 12 },
+    { name: "Cetirizine", unit: "10 T", price: 12 },
+    { name: "Cetuximab 100mg", unit: "Vial", price: 12 },
+    { name: "Chlorpromazine 100mg", unit: "10 T", price: 12 },
+    { name: "Cholecalciferol 10000IU", unit: "10 T", price: 12 },
+    { name: "Cholestyramine Sachets", unit: "12 Sach", price: 12 },
+    { name: "Chymotrypsin & Trypsin", unit: "10 T", price: 12 },
+    { name: "Cidophage 850mg (حكم قضائي)", unit: "10 T", price: 12 },
+    { name: "Cilostazole 100mg", unit: "10 T", price: 12 },
+    { name: "Cilostazole 50mg", unit: "10 T", price: 12 },
+    { name: "Cinacalcet 30mg", unit: "10 T", price: 12 },
+    { name: "Cinchocaine & Hydrocortisone Supp", unit: "6 Supp", price: 12 },
+    { name: "Cinchocaine & Hydrocortisone cream", unit: "Tube", price: 12 },
+    { name: "Cinnarizine 25mg", unit: "10 T", price: 12 },
+    { name: "Cipralex 10mg (تم الصرف بالاسم التجاري وفقا لتأشيرة الشئون الطبية)", unit: "14 T", price: 12 },
+    { name: "Ciprapro (استثناء مدير الفرع)", unit: "10 T", price: 12 },
+    { name: "Ciprofloxacin 500mg", unit: "10 T", price: 12 },
+    { name: "Citalopram 20mg", unit: "7 T", price: 12 },
+    { name: "Citicoline 500mg", unit: "Amp", price: 12 },
+    { name: "Citicoline Syp", unit: "B", price: 12 },
+    { name: "Clobetasol Cream", unit: "Tube", price: 12 },
+    { name: "Clomipramine 25mg", unit: "10 T", price: 12 },
+    { name: "Clomipramine 75mg", unit: "10 T", price: 12 },
+    { name: "Clopidogrel 75mg", unit: "10 T", price: 12 },
+    { name: "Clotrimazole Cream", unit: "Tube", price: 12 },
+    { name: "Clotrimazole Soln.", unit: "B", price: 12 },
+    { name: "Clozapine 100mg", unit: "10 T", price: 12 },
+    { name: "Colchicine", unit: "10 T", price: 12 },
+    { name: "Cough Sedative", unit: "B", price: 12 },
+    { name: "Cyclosporin 50mg", unit: "10 T", price: 12 },
+    { name: "Cytarabine 1gm", unit: "Vial", price: 12 },
+    { name: "Dapagliflozin 10mg", unit: "10 T", price: 12 },
+    { name: "Dapagliflozin 10mg & Met. 1000mg", unit: "10 T", price: 12 },
+    { name: "Dapagliflozin 5mg & Met. 1000mg", unit: "10 T", price: 12 },
+    { name: "Darbepoetin Alpha (لجنه عليا)", unit: "Syringe", price: 12 },
+    { name: "Deferoxamine 500mg", unit: "Amp", price: 12 },
+    { name: "Dexamethasone , Neomycine & Polimyxin ED", unit: "B", price: 12 },
+    { name: "Dexamethasone , Neomycine & Polimyxin EO", unit: "Tube", price: 12 },
+    { name: "Diacerein 50mg", unit: "10 T", price: 12 },
+    { name: "Diamicron MR (حكم قضائي)", unit: "30 T", price: 12 },
+    { name: "Diclofenac 100mg supp", unit: "5 Supp", price: 12 },
+    { name: "Diclofenac 75mg amp", unit: "Amp", price: 12 },
+    { name: "Diclofenac gel", unit: "Tube", price: 12 },
+    { name: "Diclofenac sodium 50mg", unit: "10 T", price: 12 },
+    { name: "Digestive", unit: "10 T", price: 12 },
+    { name: "Digestive Syp", unit: "B", price: 12 },
+    { name: "Digoxine 0.25mg", unit: "10 T", price: 12 },
+    { name: "Diltiazem 60mg", unit: "10 T", price: 12 },
+    { name: "Diltiazem 90mg", unit: "10T", price: 12 },
+    { name: "Diosmin 450mg & Hesperidin 50mg", unit: "10 T", price: 12 },
+    { name: "Domperidone 10mg", unit: "10 T", price: 12 },
+    { name: "Dorzolamide & Timolol ED", unit: "B", price: 12 },
+    { name: "Dostenix (حكم قضائي)", unit: "2 T", price: 12 },
+    { name: "Dothiepin 25mg", unit: "10 T", price: 12 },
+    { name: "Dothiepin 75mg", unit: "10 T", price: 12 },
+    { name: "Doxazosin 1mg", unit: "10 T", price: 12 },
+    { name: "Doxazosin 4mg", unit: "10 T", price: 12 },
+    { name: "Doxorubicin 20mg", unit: "Vial", price: 12 },
+    { name: "Doxycycline 100mg", unit: "10 Cap", price: 12 },
+    { name: "Duloxetine 30mg", unit: "10 T", price: 12 },
+    { name: "Dydrogesterone 10mg", unit: "10 T", price: 12 },
+    { name: "Empagliflozin 12.5mg & Met. 1000mg", unit: "10 T", price: 12 },
+    { name: "Empagliflozin 25mg", unit: "10 T", price: 12 },
+    { name: "Empagliflozin 25mg & Met. 1000mg", unit: "10 T", price: 12 },
+    { name: "Empagliflozin 5mg & Met. 1000mg", unit: "10 T", price: 12 },
+    { name: "Enalapril 20mg & HCT 12.5mg", unit: "10 T", price: 12 },
+    { name: "Endoxan 1g", unit: "Vial", price: 12 },
+    { name: "Endoxan 50mg", unit: "50T", price: 12 },
+    { name: "Enoxaparin 20mg", unit: "Syringe", price: 12 },
+    { name: "Enoxaparin 40mg", unit: "Syringe", price: 12 },
+    { name: "Enoxaparin 60mg", unit: "Syringe", price: 12 },
+    { name: "Enoxaparin 80mg", unit: "Syringe", price: 12 },
+    { name: "Entecavir 0.5mg", unit: "10 T", price: 12 },
+    { name: "Entecavir 1mg", unit: "10 T", price: 12 },
+    { name: "Erythropoietin alpha 4000IU", unit: "Vial", price: 12 },
+    { name: "Escitalopram 10mg", unit: "14T", price: 12 },
+    { name: "Esomeprazole 40 mg", unit: "10 Cap", price: 12 },
+    { name: "Estradiol Valerate & Norgestrel", unit: "21 T", price: 12 },
+    { name: "Ethamsylate 250 mg", unit: "10 T", price: 12 },
+    { name: "Etoposide 100mg", unit: "Amp", price: 12 },
+    { name: "Etoricoxib 120mg", unit: "10 T", price: 12 },
+    { name: "Etoricoxib 90mg", unit: "10 T", price: 12 },
+    { name: "Famotidine 20 mg", unit: "10 T", price: 12 },
+    { name: "Famotidine 40mg", unit: "10 T", price: 12 },
+    { name: "Febuxostat 40mg", unit: "10 T", price: 12 },
+    { name: "Febuxostat 80mg", unit: "10 T", price: 12 },
+    { name: "Fenofibrate 300mg", unit: "10 T", price: 12 },
+    { name: "Ferro Sanol Duodenal (موافقة الشئون الطبية)", unit: "30 T", price: 12 },
+    { name: "Fexofenadine 120mg", unit: "10 T", price: 12 },
+    { name: "Fexofenadine 180mg", unit: "10 T", price: 12 },
+    { name: "Flavoxate 200mg", unit: "10 T", price: 12 },
+    { name: "Fluconazole 150mg", unit: "1 T", price: 12 },
+    { name: "Fluoxetine 20mg", unit: "10 T", price: 12 },
+    { name: "Fluticasone 125mcg & Salmeterol 25mcg", unit: "B", price: 12 },
+    { name: "Folic acid", unit: "10 T", price: 12 },
+    { name: "Formoterol", unit: "30 T", price: 12 },
+    { name: "Fucidic Acid Cream", unit: "Tube", price: 12 },
+    { name: "Furosemide 20mg & Spironolactone 50mg", unit: "10 T", price: 12 },
+    { name: "Furosemide 40mg", unit: "10 T", price: 12 },
+    { name: "Gabapentin 100mg", unit: "10 T", price: 12 },
+    { name: "Gabapentin 400mg", unit: "10 T", price: 12 },
+    { name: "Galvus 50mg (حكم قضائي )", unit: "28 T", price: 12 },
+    { name: "Gastrobiotic 550mg (لجنه عليا)", unit: "10 T", price: 12 },
+    { name: "Gentamicin 80mg", unit: "Amp", price: 12 },
+    { name: "Gentamicin Cream", unit: "Tube", price: 12 },
+    { name: "Gilenya 0.5mg", unit: "28 Cap", price: 12 },
+    { name: "Ginkgo biloba", unit: "10 T", price: 12 },
+    { name: "Glibenclamide 5mg", unit: "10 T", price: 12 },
+    { name: "Glibenclamide 5mg & Met. 1000mg", unit: "10 T", price: 12 },
+    { name: "Glibenclamide 5mg & Met. 500mg", unit: "10 T", price: 12 },
+    { name: "Gliclazide 60mg", unit: "10 T", price: 12 },
+    { name: "Glimepiride 2mg", unit: "10 T", price: 12 },
+    { name: "Glimepiride 2mg & Met. 1000mg", unit: "10 T", price: 12 },
+    { name: "Glimepiride 3mg", unit: "10 T", price: 12 },
+    { name: "Glimepiride 4mg", unit: "10 T", price: 12 },
+    { name: "Glucosamine", unit: "10 T", price: 12 },
+    { name: "Gramicidin, Neomycin, Nystatin & Triamcinolone Cream", unit: "Tube", price: 12 },
+    { name: "Haloperidol 5 mg", unit: "10 T", price: 12 },
+    { name: "Haloperidol 5mg", unit: "Amp", price: 12 },
+    { name: "Hexamine, Khellin & Piperazin Sachets", unit: "12 Sach", price: 12 },
+    { name: "Human chorionic gonadotropin", unit: "Amp", price: 12 },
+    { name: "Hydroxychloroquine", unit: "10 T", price: 12 },
+    { name: "Hydroxyurea", unit: "10 T", price: 12 },
+    { name: "Ibuprofen 200mg", unit: "10 T", price: 12 },
+    { name: "Imipramine 25mg", unit: "10 T", price: 12 },
+    { name: "Indepamid 2.5 mg", unit: "10 T", price: 12 },
+    { name: "Indomethacin 100mg Supp.", unit: "10 Supp", price: 12 },
+    { name: "Insulin Isophane Protamine", unit: "Penfill", price: 12 },
+    { name: "Insulin Isophane Protamine", unit: "Vial", price: 12 },
+    { name: "Insulin Mix 70/30 (Insulin Isophane Protamine & Insulin Neutral Human)", unit: "Penfill", price: 12 },
+    { name: "Insulin Mix 70/30 (Insulin Isophane Protamine & Insulin Neutral Human)", unit: "Vial", price: 12 },
+    { name: "Insulin Neutral Human", unit: "Penfill", price: 12 },
+    { name: "Insulin Neutral Human", unit: "Vial", price: 12 },
+    { name: "Invega 100mg (قرار لجنة)", unit: "Syringe", price: 12 },
+    { name: "Invega 150mg (قرار لجنة)", unit: "Syringe", price: 12 },
+    { name: "Ipratropium & Salbutamol", unit: "Amp", price: 12 },
+    { name: "Irinotecan 100mg", unit: "Vial", price: 12 },
+    { name: "Iron", unit: "10 T", price: 12 },
+    { name: "Iruxol", unit: "Tube", price: 12 },
+    { name: "Isosorbide Mononitrate 20mg", unit: "10 T", price: 12 },
+    { name: "Ivabradine 5mg", unit: "10 T", price: 12 },
+    { name: "Ivabradine 7.5mg", unit: "10 T", price: 12 },
+    { name: "Ketoprofen 50mg", unit: "10 T", price: 12 },
+    { name: "Ketosteril", unit: "100 T", price: 12 },
+    { name: "Ketotifen", unit: "10 T", price: 12 },
+    { name: "L-Carnitine Amp", unit: "Amp", price: 12 },
+    { name: "L-Carnitine Cap", unit: "10 Cap", price: 12 },
+    { name: "Lacosamide 100 mg", unit: "10 T", price: 12 },
+    { name: "Lactulose Syp", unit: "B", price: 12 },
+    { name: "Lamivudine", unit: "10 T", price: 12 },
+    { name: "Lamotrigine 100mg", unit: "10 T", price: 12 },
+    { name: "Lamotrigine 50mg", unit: "10 T", price: 12 },
+    { name: "Latanoprost ED", unit: "B", price: 12 },
+    { name: "Laxative", unit: "10 T", price: 12 },
+    { name: "Leflunomide 20mg", unit: "10 T", price: 12 },
+    { name: "Lercanidipine 10mg", unit: "10 T", price: 12 },
+    { name: "Leucovorin Calcium 50mg", unit: "Amp", price: 12 },
+    { name: "Levetiracetam 1000mg", unit: "10 T", price: 12 },
+    { name: "Levetiracetam 500mg", unit: "10 T", price: 12 },
+    { name: "Levodopa & Carbidopa 250/25mg", unit: "10 T", price: 12 },
+    { name: "Levodopa, Carbidopa & Entacapone 150/37.5/200mg", unit: "10 T", price: 12 },
+    { name: "Levofloxacin 500mg", unit: "10 T", price: 12 },
+    { name: "Levothyroxine 100mcg", unit: "100 T", price: 12 },
+    { name: "Levothyroxine 25mcg", unit: "50 T", price: 12 },
+    { name: "Levothyroxine 50mcg", unit: "100 T", price: 12 },
+    { name: "Lidocaine cream", unit: "Tube", price: 12 },
+    { name: "Linezolid 600 mg", unit: "10 T", price: 12 },
+    { name: "Lisinopril 10mg", unit: "10 T", price: 12 },
+    { name: "Lithium Carbonate 400mg", unit: "10 T", price: 12 },
+    { name: "Lolawest (قرار لجنة)", unit: "6 Sach", price: 12 },
+    { name: "Long Acting Penicillin", unit: "Vial", price: 12 },
+    { name: "Losartan 50mg", unit: "10 T", price: 12 },
+    { name: "Losartan 50mg & HCT 12.5mg", unit: "10 T", price: 12 },
+    { name: "Magnesium Citrate Eff.", unit: "12 Sach", price: 12 },
+    { name: "Mayzent 0.25 mg (لجنة)", unit: "12 T", price: 12 },
+    { name: "Mebeverine 100mg & Sulpiride 25mg", unit: "10 T", price: 12 },
+    { name: "Meclofenoxate 500mg", unit: "10 T", price: 12 },
+    { name: "Memantine 10 mg", unit: "10 T", price: 12 },
+    { name: "Mesalazine 500mg", unit: "10 T", price: 12 },
+    { name: "Mesalazine Supp", unit: "28 Supp", price: 12 },
+    { name: "Metformin 500mg", unit: "10 T", price: 12 },
+    { name: "Metformin 850mg", unit: "10 T", price: 12 },
+    { name: "Methotrexate", unit: "Vial", price: 12 },
+    { name: "Methotrexate 2.5mg", unit: "10 T", price: 12 },
+    { name: "Methyl Folate (لجنة دواء)", unit: "10 T", price: 12 },
+    { name: "Methyldopa 250mg", unit: "10 T", price: 12 },
+    { name: "Metoclopramide 10mg", unit: "10 T", price: 12 },
+    { name: "Metoprolol 100mg", unit: "10 T", price: 12 },
+    { name: "Metoprolol 50mg", unit: "10 T", price: 12 },
+    { name: "Metronidazole 250mg", unit: "10 T", price: 12 },
+    { name: "Miconazole vaginal cream", unit: "Tube", price: 12 },
+    { name: "Minirin 60mcg (قرار لجنة)", unit: "30T", price: 12 },
+    { name: "Mometasone Cream", unit: "Tube", price: 12 },
+    { name: "Montelukast 10mg", unit: "10 T", price: 12 },
+    { name: "Mouth Wash", unit: "B", price: 12 },
+    { name: "Multivitamins", unit: "10 Cap", price: 12 },
+    { name: "Mycophenolate 180mg", unit: "10 T", price: 12 },
+    { name: "Mycophenolate 500mg", unit: "10 T", price: 12 },
+    { name: "N-plate", unit: "Syringe", price: 12 },
+    { name: "Naftidrofuryl 200mg", unit: "10 T", price: 12 },
+    { name: "Naphazoline & Chlorpheniramine ED", unit: "B", price: 12 },
+    { name: "Napizole 20mg (حكم قضائي )", unit: "14 T", price: 12 },
+    { name: "Navelbin 20mg", unit: "T", price: 12 },
+    { name: "Nebivolol 2.5mg", unit: "10 T", price: 12 },
+    { name: "Nebivolol 5mg", unit: "10 T", price: 12 },
+    { name: "Nebivolol 5mg & HCT 12.5mg", unit: "10 T", price: 12 },
+    { name: "Nebivolol 5mg & HCT 25mg", unit: "10 T", price: 12 },
+    { name: "Neostigmine 15mg", unit: "10 T", price: 12 },
+    { name: "Nicorandil 10mg", unit: "10 T", price: 12 },
+    { name: "Nicorandil 20mg", unit: "10 T", price: 12 },
+    { name: "Nifedipine", unit: "10 T", price: 12 },
+    { name: "Nitroglycerin 2.5mg", unit: "10 Cap", price: 12 },
+    { name: "Nitroglycerin 5mg Patches", unit: "Patch", price: 12 },
+    { name: "Nitromak 2.5mg (حكم قضائي)", unit: "10 T", price: 12 },
+    { name: "Norethisterone", unit: "10 T", price: 12 },
+    { name: "Ofev (حكم قضائي)", unit: "60 T", price: 12 },
+    { name: "Olanzapine 10mg", unit: "10 T", price: 12 },
+    { name: "Olmesartan 20mg", unit: "10 T", price: 12 },
+    { name: "Olmesartan 20mg & HCT 12.5mg", unit: "10 T", price: 12 },
+    { name: "Olmesartan 40mg", unit: "10 T", price: 12 },
+    { name: "Omega 3", unit: "10 T", price: 12 },
+    { name: "Omeprazole 20mg", unit: "7 T", price: 12 },
+    { name: "Omeprazole 40mg", unit: "10 T", price: 12 },
+    { name: "Opsumit 10mg", unit: "30 T", price: 12 },
+    { name: "Oxcarbazepine 300mg", unit: "10 T", price: 12 },
+    { name: "Oxybutynin 5mg", unit: "10 T", price: 12 },
+    { name: "Panthenol cream", unit: "Tube", price: 12 },
+    { name: "Pantoprazole 20mg", unit: "10 T", price: 12 },
+    { name: "Pantoprazole 40mg", unit: "10 T", price: 12 },
+    { name: "Paracetamol 500mg", unit: "10 T", price: 12 },
+    { name: "Pentasa (لجنة عليا)", unit: "10 T", price: 12 },
+    { name: "Pentasa Supp (لجنة عليا)", unit: "28 Supp", price: 12 },
+    { name: "Pentoxifylline 400mg", unit: "10 T", price: 12 },
+    { name: "Phenytoin 100mg", unit: "10 T", price: 12 },
+    { name: "Phenytoin 50mg", unit: "10 T", price: 12 },
+    { name: "Pimozide 4mg", unit: "10 T", price: 12 },
+    { name: "Piracetam 400mg", unit: "10 T", price: 12 },
+    { name: "Piracetam 800mg", unit: "10 T", price: 12 },
+    { name: "Piracetam Syp", unit: "B", price: 12 },
+    { name: "Pirfenex (حكم قضائي)", unit: "30 T", price: 12 },
+    { name: "Pirfenidone 200mg (قرار لجنة )", unit: "30 T", price: 12 },
+    { name: "Piroxicam 10mg", unit: "10 T", price: 12 },
+    { name: "Piroxicam 20mg", unit: "10 T", price: 12 },
+    { name: "Plendil 5mg (موافقة الشئون الطبية)", unit: "30 T", price: 12 },
+    { name: "Ponvory (Ponesimod 20 mg) (قرار لجنة)", unit: "28 T", price: 12 },
+    { name: "Potassium", unit: "B", price: 12 },
+    { name: "Povidone Iodine Shampoo", unit: "B", price: 12 },
+    { name: "Pramipexol 0.25mg", unit: "10 T", price: 12 },
+    { name: "Pramipexol 1 mg", unit: "10 T", price: 12 },
+    { name: "Prednisolone 20mg", unit: "10 T", price: 12 },
+    { name: "Prednisolone 5mg", unit: "10 T", price: 12 },
+    { name: "Prednisolone ED", unit: "B", price: 12 },
+    { name: "Progesteron 100mg", unit: "10 Cap", price: 12 },
+    { name: "Progesteron 250mg", unit: "Amp", price: 12 },
+    { name: "Propafenone 150mg", unit: "10 T", price: 12 },
+    { name: "Propolis, Chamomile, Zinc Oxide & Honey Cream", unit: "Tube", price: 12 },
+    { name: "Propranolol 10mg", unit: "10 T", price: 12 },
+    { name: "Propranolol 40mg", unit: "10 T", price: 12 },
+    { name: "Propylthiouracil 50mg", unit: "10 T", price: 12 },
+    { name: "Pyridostigmine 60mg", unit: "10 T", price: 12 },
+    { name: "Quetiapine 100mg", unit: "10 T", price: 12 },
+    { name: "Quinidine sulphate 250mg", unit: "10T", price: 12 },
+    { name: "Ramipril 10mg", unit: "10 T", price: 12 },
+    { name: "Ramipril 2.5 mg", unit: "10 T", price: 12 },
+    { name: "Ramipril 5mg", unit: "10T", price: 12 },
+    { name: "Ramipril 5mg & Felodipine 5mg", unit: "10 T", price: 12 },
+    { name: "Rasagiline 1mg", unit: "10 T", price: 12 },
+    { name: "Rebamipide", unit: "10 T", price: 12 },
+    { name: "Rebif 44mcg (قرار لجنة)", unit: "Syringe", price: 12 },
+    { name: "Rilutek (قرار لجنة)", unit: "56 T", price: 12 },
+    { name: "Riluzole 50mg", unit: "56 T", price: 12 },
+    { name: "Risperidone 1 mg", unit: "10 T", price: 12 },
+    { name: "Risperidone 2 mg", unit: "10 T", price: 12 },
+    { name: "Risperidone 3 mg", unit: "10 T", price: 12 },
+    { name: "Rivaroxaban 10mg", unit: "10 T", price: 12 },
+    { name: "Rivaroxaban 15mg", unit: "10 T", price: 12 },
+    { name: "Rivaroxaban 20mg", unit: "10 T", price: 12 },
+    { name: "Rivaroxban 2.5mg", unit: "10 T", price: 12 },
+    { name: "Rosuvastatin 20mg", unit: "10 T", price: 12 },
+    { name: "Rutin & Vit.C", unit: "10 T", price: 12 },
+    { name: "Salbutamol", unit: "10 T", price: 12 },
+    { name: "Salbutamol Inhaler", unit: "B", price: 12 },
+    { name: "Salbutamol Syp", unit: "B", price: 12 },
+    { name: "Sandostatin LAR", unit: "Syringe", price: 12 },
+    { name: "Sertraline 50 mg", unit: "10 T", price: 12 },
+    { name: "Sildenafil 20mg", unit: "10 T", price: 12 },
+    { name: "Sildenafil 50mg", unit: "10 T", price: 12 },
+    { name: "Sirolimus 1gm", unit: "10 T", price: 12 },
+    { name: "Sitagliptin 100mg", unit: "10 T", price: 12 },
+    { name: "Sitagliptin 50 mg & Met. 1000 mg", unit: "10 T", price: 12 },
+    { name: "Sodium Valproate 200mg", unit: "10 T", price: 12 },
+    { name: "Sodium Valproate 500mg", unit: "10 T", price: 12 },
+    { name: "Solifenacin 10mg", unit: "10 T", price: 12 },
+    { name: "Spiramycin 3MIU Tab", unit: "10 T", price: 12 },
+    { name: "Spironolactone 100 mg", unit: "10 T", price: 12 },
+    { name: "Spironolactone 25mg", unit: "10 T", price: 12 },
+    { name: "Stivarga 40mg", unit: "84T", price: 12 },
+    { name: "Sulphamethoxazole & Trimethoprim", unit: "10 T", price: 12 },
+    { name: "Tacrolimus 1mg", unit: "10 T", price: 12 },
+    { name: "Tadalafil 5 mg", unit: "10 T", price: 12 },
+    { name: "Tamoxifen 10mg", unit: "10 T", price: 12 },
+    { name: "Tamsulosin 0.4mg", unit: "14T", price: 12 },
+    { name: "Tenofenamide 25mg", unit: "10 T", price: 12 },
+    { name: "Tenofovir 300mg", unit: "30 T", price: 12 },
+    { name: "Terbinafine 0.01 Cream", unit: "Tube", price: 12 },
+    { name: "Terbutaline", unit: "10 T", price: 12 },
+    { name: "Testosterone", unit: "Amp", price: 12 },
+    { name: "Tetracosactrin", unit: "Amp", price: 12 },
+    { name: "Theophylline 300mg", unit: "10 T", price: 12 },
+    { name: "Thrombonorm 0.5mg (لجنة عليا)", unit: "100 Cap", price: 12 },
+    { name: "Tiratam 1000 mg (تم الصرف بالاسم التجاري وفقا لتأشيرة الشئون الطبية)", unit: "10 T", price: 12 },
+    { name: "Tiratam 500mg (استثناء من مدير الفرع)", unit: "10 T", price: 12 },
+    { name: "Topiramate 100 mg", unit: "10 T", price: 12 },
+    { name: "Topiramate 25 mg", unit: "10 T", price: 12 },
+    { name: "Torsemide 20mg", unit: "10 T", price: 12 },
+    { name: "Tranexamic acid 500mg", unit: "10 T", price: 12 },
+    { name: "Travoprost ED", unit: "B", price: 12 },
+    { name: "Triamcinilone 40mg", unit: "Amp", price: 12 },
+    { name: "Trifluperazine 5mg (Stellasil)", unit: "10 T", price: 12 },
+    { name: "Trimebutine 200mg", unit: "10 T", price: 12 },
+    { name: "Trimetazidine 20mg", unit: "10 T", price: 12 },
+    { name: "Urinex", unit: "12 Cap", price: 12 },
+    { name: "Ursodeoxycholic acid 250mg", unit: "10 Cap", price: 12 },
+    { name: "Valcyte 450mg", unit: "60 T", price: 12 },
+    { name: "Valsartan 160mg", unit: "10T", price: 12 },
+    { name: "Valsartan 160mg & Amlodipine 10mg", unit: "10 T", price: 12 },
+    { name: "Valsartan 160mg & Amlodipine 5mg", unit: "10 T", price: 12 },
+    { name: "Valsartan 160mg & HCT 25mg", unit: "10 T", price: 12 },
+    { name: "Valsartan 40 mg", unit: "10 T", price: 12 },
+    { name: "Vastarel MR ( حكم قضائي )", unit: "30 T", price: 12 },
+    { name: "Verapamil 240mg", unit: "10 T", price: 12 },
+    { name: "Verapamil 80mg", unit: "10 T", price: 12 },
+    { name: "Vidaza 100mg", unit: "Vial", price: 12 },
+    { name: "Vildagliptin 50mg", unit: "10 T", price: 12 },
+    { name: "Vildagliptin 50mg & Metformin 1000mg", unit: "10 T", price: 12 },
+    { name: "Vildagliptin 50mg & Metformin 850mg", unit: "10 T", price: 12 },
+    { name: "Vildagluse plus 50/1000mg (حكم قضائي )", unit: "30 T", price: 12 },
+    { name: "Vinblastin 10mg", unit: "vial", price: 12 },
+    { name: "Vincamine 30mg", unit: "10 T", price: 12 },
+    { name: "Vincristine 1mg", unit: "Vial", price: 12 },
+    { name: "Vinorelbine 50mg", unit: "Vial", price: 12 },
+    { name: "Vitamin A", unit: "10 T", price: 12 },
+    { name: "Vitamin B amp", unit: "Amp", price: 12 },
+    { name: "Vitamin B comp", unit: "10 T", price: 12 },
+    { name: "Vitamin E 400", unit: "12 Cap", price: 12 },
+    { name: "Vitamin K", unit: "10 T", price: 12 },
+    { name: "Voriconazole 50mg", unit: "10 T", price: 12 },
+    { name: "Warfarin 1mg", unit: "10 T", price: 12 },
+    { name: "Warfarin 3mg", unit: "10 T", price: 12 },
+    { name: "Warfarin 5 mg", unit: "10 T", price: 12 },
+    { name: "Xarelto 15 mg (قرار لجنة)", unit: "42 T", price: 12 },
+    { name: "Xarelto 20mg", unit: "28 T", price: 12 },
+    { name: "Xgeva", unit: "Vial", price: 12 },
+    { name: "Zoledronic 4mg", unit: "Vial", price: 12 }
+];
+
+const pharmacyOptions = {
+    student: {
+        first: [
+            { name: "ابو المطامير طلاب", id: "a11" },
+            { name: "ادكو طلاب", id: "a12" },
+            { name: "البيضا طلاب", id: "a13" },
+            { name: "النوبارية طلاب", id: "a14" },
+            { name: "رشيد طلاب", id: "a15" },
+            { name: "كفر الدوار طلاب", id: "a16" }
+        ],
+        second: [
+            { name: "ابو حمص طلاب", id: "a21" },
+            { name: "اورام طلاب", id: "a22" },
+            { name: "الرحمانية طلاب", id: "a23" },
+            { name: "المحمودية طلاب", id: "a24" },
+            { name: "حوش عيسي طلاب", id: "a25" },
+            { name: "دمنهور طلاب", id: "a26" }
+        ],
+        third: [
+            { name: "ايتاي طلاب", id: "a31" },
+            { name: "بدر طلاب", id: "a32" },
+            { name: "الدلنجات طلاب", id: "a33" },
+            { name: "كوم حمادة طلاب", id: "a34" },
+            { name: "شبراخيت طلاب", id: "a35" }
+        ]
+    },
+    workforce: {
+        first: [
+           { name: "ابو المطامير", id: "b11" },
+            { name: "ادكو", id: "b12" },
+            { name: "البيضا", id: "b13" },
+            { name: "النوبارية", id: "b14" },
+            { name: "رشيد", id: "b15" },
+            { name: "كفر الدوار سكر", id: "b16" },
+            { name: "كفر الدوار الشاملة 1", id: "b17" },
+            { name: "كفر الدوار الشاملة 2", id: "b18" },
+            { name: "كفر الدوار مسائي", id: "b19" }
+        ],
+        second: [
+            { name: "ابو حمص", id: "b21" },
+            { name: "الرحمانية", id: "b22" },
+            { name: "المحمودية", id: "b23" },
+            { name: "حوش عيسي", id: "b24" },
+            { name: "دمنهور الشاملة 1", id: "b25" },
+            { name: "دمنهور الشاملة 2", id: "b26" },
+            { name: "دمنهور سكر", id: "b27" },
+            { name: "دمنهور مسائي", id: "b28" },
+            { name: "دمنهور اورام", id: "b29" },
+            { name: "الشرطة", id: "b210" }
+        ],
+        third: [
+            { name: "ايتاي الشاملة 1", id: "b31" },
+            { name: "ايتاي الشاملة 2", id: "b32" },
+            { name: "ايتاي مسائي", id: "b33" },
+            { name: "بدر", id: "b34" },
+            { name: "الدلنجات", id: "b35" },
+            { name: "كوم حمادة", id: "b36" },
+            { name: "كوم حمادة مسائي", id: "b37" },
+            { name: "شبراخيت", id: "b38" },
+            { name: "قليشان", id: "b39" },
+            { name: "وادي النطرون", id: "b310" }
+        ]
+    }
+};
+
+const fuseOptions = {
+    keys: ['name'],
+    includeScore: true,
+    threshold: 0.4,
+    minMatchCharLength: 2
+};
+const fuse = new Fuse(items, fuseOptions);
+
+// Event Listeners
+idInput.addEventListener('input', autoFillFromId);
+classButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (!isSubmitting) {
+            classButtons.forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedClass = btn.dataset.class;
+            updatePharmacies();
+            renderPharmacyList();
+        }
+    });
+});
+
+regionSelect.addEventListener('change', () => {
+    if (!isSubmitting) {
+        updatePharmacies();
+        renderPharmacyList();
+    }
+});
+nextBtn.addEventListener('click', () => {
+    screen1.classList.add('hidden');
+    screen2.classList.remove('hidden');
+});
+backBtn.addEventListener('click', () => {
+    screen2.classList.add('hidden');
+    screen1.classList.remove('hidden');
+});
+
+// Implement a more advanced debounce function
+const debounce = (func, wait, immediate) => {
+    let timeout;
+    return function() {
+        const context = this, args = arguments;
+        const later = () => {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        const callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+};
+
+// Use the advanced debounce for search
+const debouncedHandleSearch = debounce(handleSearch, 100);
+searchBar.addEventListener('input', (e) => {
+    if (!isSubmitting) {
+        debouncedHandleSearch(e);
+    }
+});
+
+submitBtn.addEventListener('click', validateAndSubmit);
+
+// Functions
+function autoFillFromId() {
+    if (isSubmitting) return;
+    
+    const id = idInput.value;
+    if (id.length >= 3) {
+        const classType = id[0] === 'a' ? 'student' : 'workforce';
+        const regionMap = {
+            '1': 'first',
+            '2': 'second',
+            '3': 'third'
+        };
+        let region = regionMap[id[1]];
+        
+        if (!region && id.length === 4) {
+            if (id.startsWith('b21')) region = 'second';
+            else if (id.startsWith('b31')) region = 'third';
+        }
+        
+        if (!region) return; // Invalid ID format
+        
+        selectedClass = classType;
+        classButtons.forEach(btn => {
+            btn.classList.toggle('selected', btn.dataset.class === classType);
+        });
+        
+        regionSelect.value = region;
+        updatePharmacies();
+        renderPharmacyList();
+        
+        const pharmacy = pharmacyOptions[classType][region].find(p => p.id === id);
+        if (pharmacy) {
+            pharmacySelect.value = pharmacy.name;
+        }
+    }
+}
+
+function updatePharmacies() {
+    const region = regionSelect.value;
+    const options = ['<option value="" disabled selected>Select Pharmacy</option>'];
+    if (region && selectedClass) {
+        pharmacyOptions[selectedClass][region].forEach(pharmacy => {
+            options.push(`<option value="${pharmacy.name}">${pharmacy.name}</option>`);
+        });
+    }
+    pharmacySelect.innerHTML = options.join('');
+}
+
+function renderPharmacyList() {
+    const fragment = document.createDocumentFragment();
+    if (selectedClass && regionSelect.value) {
+        pharmacyOptions[selectedClass][regionSelect.value].forEach(pharmacy => {
+            const div = document.createElement('div');
+            div.className = 'pharmacy-item';
+            div.textContent = `${pharmacy.name} (${pharmacy.id})`;
+            div.addEventListener('click', () => {
+                if (!isSubmitting) {
+                    idInput.value = pharmacy.id;
+                    autoFillFromId();
+                }
+            });
+            fragment.appendChild(div);
+        });
+    }
+    pharmacyList.innerHTML = '';
+    pharmacyList.appendChild(fragment);
+}
+
+function handleSearch() {
+    if (isSubmitting) return;
+
+    const query = searchBar.value.trim();
+    const suggestionsFragment = document.createDocumentFragment();
+    const didYouMeanFragment = document.createDocumentFragment();
+
+    suggestions.innerHTML = '';
+    didYouMean.innerHTML = '';
+
+    if (query.length === 0) return;
+
+    const searchResults = fuse.search(query);
+    
+    if (searchResults.length > 0) {
+        const selectedItemsSet = new Set(selectedItems.map(item => item.name));
+        searchResults.slice(0, 5).forEach(({ item, score }) => {
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <strong>${highlightMatches(item.name, query)}</strong>
+                <br>
+                <small>${item.unit} - $${item.price}</small>
+            `;
+            div.addEventListener('click', () => {
+                if (!isSubmitting) {
+                    addItem(item);
+                }
+            });
+            if (selectedItemsSet.has(item.name)) {
+                div.classList.add('duplicate');
+            }
+            suggestionsFragment.appendChild(div);
+        });
+        suggestions.appendChild(suggestionsFragment);
+
+        if (searchResults[0].score > 0.1) {
+            const didYouMeanSuggestions = generateDidYouMeanSuggestions(searchResults);
+            if (didYouMeanSuggestions.length > 0) {
+                const didYouMeanHeader = document.createElement('div');
+                didYouMeanHeader.textContent = 'Did you mean:';
+                didYouMeanHeader.style.fontWeight = 'bold';
+                didYouMeanFragment.appendChild(didYouMeanHeader);
+                didYouMeanSuggestions.forEach(suggestion => {
+                    const div = document.createElement('div');
+                    div.textContent = suggestion;
+                    div.addEventListener('click', () => {
+                        if (!isSubmitting) {
+                            searchBar.value = suggestion;
+                            handleSearch();
+                        }
+                    });
+                    didYouMeanFragment.appendChild(div);
+                });
+                didYouMean.appendChild(didYouMeanFragment);
+            }
+        }
+    } else {
+        suggestions.innerHTML = '<div>No results found</div>';
+    }
+}
+
+function highlightMatches(text, query) {
+    const words = query.toLowerCase().split(/\s+/).filter(word => word.length > 0);
+    const regex = new RegExp(`(${words.map(word => word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')).join('|')})`, 'gi');
+    return text.replace(regex, '<span class="highlight">$1</span>');
+}
+
+function generateDidYouMeanSuggestions(searchResults) {
+    const maxSuggestions = 5;
+    const suggestions = new Set();
+    const query = searchBar.value.toLowerCase();
+    const metaphone = getMetaphone(query);
+
+    for (const result of searchResults) {
+        if (suggestions.size >= maxSuggestions) break;
+        if (result.item.name.toLowerCase() !== query) {
+            suggestions.add(result.item.name);
+        }
+    }
+
+    if (suggestions.size < maxSuggestions) {
+        for (const item of items) {
+            if (suggestions.size >= maxSuggestions) break;
+            if (!suggestions.has(item.name) && getMetaphone(item.name) === metaphone) {
+                suggestions.add(item.name);
+            }
+        }
+    }
+
+    return Array.from(suggestions);
+}
+
+function getMetaphone(word) {
+    return word.toLowerCase()
+        .replace(/[aeiou]/g, '')
+        .replace(/ph/g, 'f')
+        .replace(/[bfpv]/g, '1')
+        .replace(/[cgjkqsxz]/g, '2')
+        .replace(/[dt]/g, '3')
+        .replace(/[l]/g, '4')
+        .replace(/[mn]/g, '5')
+        .replace(/[r]/g, '6')
+        .substr(0, 4);
+}
+
+function addItem(item) {
+    if (isSubmitting) return;
+
+    const existingItemIndex = selectedItems.findIndex(i => i.name === item.name);
+    if (existingItemIndex === -1) {
+        selectedItems.push({ ...item, unitsSold: 1 });
+        renderTable();
+        saveState();
+    }
+    searchBar.value = '';
+    suggestions.innerHTML = '';
+    didYouMean.innerHTML = '';
+}
+
+function renderTable() {
+    dataTable.innerHTML = '';
+    selectedItems.forEach((item, index) => {
+        const row = dataTable.insertRow();
+        row.insertCell(0).textContent = item.name;
+        row.insertCell(1).textContent = item.unit;
+        const unitsSoldCell = row.insertCell(2);
+        unitsSoldCell.className = 'editable';
+        const unitsSoldInput = document.createElement('input');
+        unitsSoldInput.type = 'number';
+        unitsSoldInput.value = item.unitsSold;
+        unitsSoldInput.min = 1;
+        unitsSoldInput.addEventListener('change', (e) => {
+            if (!isSubmitting) {
+                item.unitsSold = parseInt(e.target.value);
+                saveState();
+            } else {
+                e.preventDefault();
+            }
+        });
+        unitsSoldCell.appendChild(unitsSoldInput);
+        const actionsCell = row.insertCell(3);
+        const deleteBtn = document.createElement('button');
+        deleteBtn.innerHTML = '<i class="material-icons">delete</i>';
+        deleteBtn.addEventListener('click', () => {
+            if (!isSubmitting) {
+                selectedItems.splice(index, 1);
+                renderTable();
+                saveState();
+            }
+        });
+        actionsCell.appendChild(deleteBtn);
+    });
+}
+
+function saveState() {
+    localStorage.setItem('pharmacyAppState', JSON.stringify({
+        id: idInput.value,
+        class: selectedClass,
+        region: regionSelect.value,
+        pharmacy: pharmacySelect.value,
+        month: monthInput.value,
+        items: selectedItems
+    }));
+}
+
+function loadState() {
+    const state = JSON.parse(localStorage.getItem('pharmacyAppState'));
+    if (state) {
+        idInput.value = state.id;
+        selectedClass = state.class;
+        classButtons.forEach(btn => {
+            if (btn.dataset.class === state.class) {
+                btn.classList.add('selected');
+            }
+        });
+        regionSelect.value = state.region;
+        updatePharmacies();
+        renderPharmacyList();
+        pharmacySelect.value = state.pharmacy;
+        monthInput.value = state.month;
+        selectedItems = state.items;
+        renderTable();
+    }
+}
+
+function validateAndSubmit() {
     if (isSubmitting) {
-        alert("Submission is already in progress. Please wait.");
+        console.log('Submission already in progress');
         return;
     }
-    if (confirm("Are you sure you want to submit the data?")) {
-        if (data.length === 0) {
-            alert("There is nothing to submit. Please add some data first.");
-            return;
-        }
-        const month = document.getElementById("monthSelect").value;
-        const region = document.getElementById("regionSelect").value;
-        const pharmacy = document.getElementById("pharmacySelect").value;
-        if (!month || !region || !pharmacy) {
-            alert("Please select a valid month, region, and pharmacy before submitting.");
-            return;
-        }
-        if (!["first", "second", "third"].includes(region)) {
-            alert("Please select a valid region.");
-            return;
-        }
-        if (!regionOptions[region].includes(pharmacy)) {
-            alert("Please select a valid pharmacy for the chosen region.");
-            return;
-        }
-        const validMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        if (!validMonths.includes(month)) {
-            alert("Please select a valid month.");
-            return;
-        }
-        isSubmitting = true;
 
-        const submissionData = data.map(item => {
-            const [name, unit] = item.product.split('|');
-            return {
-                month: month,
-                region: region,
-                pharmacy: pharmacy,
-                name: name,
-                unit: unit,
-                unitSold: item.unitsSold,
-                method: item.method,
-                timestamp: new Date().toISOString()
-            };
-        });
+    const hasUnitsSold = selectedItems.some(item => item.unitsSold > 0);
+    const isClassSelected = selectedClass !== '';
+    const isRegionSelected = regionSelect.value !== '';
+    const isPharmacySelected = pharmacySelect.value !== '';
+    const isMonthValid = monthInput.value !== '' && monthInput.value >= 1 && monthInput.value <= 12;
 
-        const jsonData = JSON.stringify(submissionData, null, 2);
-        const blob = new Blob([jsonData], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `pharmacy_data_${month}_${region}_${pharmacy}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+    if (hasUnitsSold && isClassSelected && isRegionSelected && isPharmacySelected && isMonthValid) {
+        submitToFirebase();
+    } else {
+        let errorMessage = 'Please correct the following errors:\n';
+        if (!hasUnitsSold) errorMessage += '- At least one item must have units sold\n';
+        if (!isClassSelected) errorMessage += '- Please select a class\n';
+        if (!isRegionSelected) errorMessage += '- Please select a region\n';
+        if (!isPharmacySelected) errorMessage += '- Please select a pharmacy\n';
+        if (!isMonthValid) errorMessage += '- Please enter a valid month (1-12)\n';
+        alert(errorMessage);
+    }
+}
 
-        const pharmacyRef = database.ref('pharmacyData');
-        pharmacyRef.push(submissionData)
+function submitToFirebase() {
+    if (isSubmitting) {
+        console.log('Submission already in progress');
+        return;
+    }
+    
+    isSubmitting = true;
+    disableInputs();
+
+    const flatData = {
+        id: idInput.value,
+        class: selectedClass,
+        region: regionSelect.value,
+        pharmacy: pharmacySelect.value,
+        month: parseInt(monthInput.value),
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+    };
+
+    selectedItems.forEach((item, index) => {
+        flatData[`item_${index + 1}_name`] = item.name;
+        flatData[`item_${index + 1}_unit`] = item.unit;
+        flatData[`item_${index + 1}_unitsSold`] = item.unitsSold;
+        flatData[`item_${index + 1}_price`] = item.price;
+    });
+    
+    console.log('Submitting data:', flatData);
+
+    const key = `${flatData.pharmacy}_${flatData.month}`;
+    
+    db.ref('pharmacyInventory').child(key).set(flatData)
         .then(() => {
             alert('Data submitted successfully!');
-            data = [];
-            updateTable();
-            saveData();
+            clearForm();
         })
         .catch((error) => {
-            console.error('Error:', error);
-            alert('There was an error submitting the data. Please try again.');
+            console.error("Error writing document: ", error);
+            let errorMessage = 'An error occurred while submitting the data. ';
+            if (!navigator.onLine) {
+                errorMessage += 'It appears you are offline. Please check your internet connection and try again.';
+            } else if (error.code === 'PERMISSION_DENIED') {
+                errorMessage += 'A submission for this pharmacy and month already exists.';
+            } else {
+                errorMessage += 'Please try again later. If the problem persists, contact support.';
+            }
+            alert(errorMessage);
+            console.log('Error details:', error);
         })
         .finally(() => {
             isSubmitting = false;
+            enableInputs();
         });
-    }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    loadData();
-});
+function disableInputs() {
+    const inputs = document.querySelectorAll('input, select, button');
+    inputs.forEach(input => {
+        if (input !== nextBtn && input !== backBtn) {
+            input.disabled = true;
+        }
+    });
+    submitBtn.textContent = 'Submitting...';
+}
 
-    setInterval(saveData, 30000);
+function enableInputs() {
+    const inputs = document.querySelectorAll('input, select, button');
+    inputs.forEach(input => {
+        input.disabled = false;
+    });
+    submitBtn.textContent = 'Submit';
+}
 
-    updateLegacyTable();
+function clearForm() {
+    idInput.value = '';
+    selectedClass = '';
+    classButtons.forEach(btn => btn.classList.remove('selected'));
+    regionSelect.value = '';
+    updatePharmacies();
+    pharmacySelect.value = '';
+    monthInput.value = '';
+    selectedItems = [];
+    renderTable();
+    saveState();
+    screen2.classList.add('hidden');
+    screen1.classList.remove('hidden');
+}
 
-    </script>
+// Initialize
+loadState();
+renderPharmacyList();
+
+</script>
 </body>
 </html>
