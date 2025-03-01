@@ -18,11 +18,23 @@
     --background-color: #E6FFFA;
     --card-color: #FFFFFF;
     --hover-color: #C3FAE8;
+    --enhanced-hover-color: #96F2D7; /* New enhanced hover color */
     --error-color: #E53E3E;
     --success-color: #38A169;
     --border-radius: 12px;
     --box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    
+    /* Enhanced shadow variables */
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 10px 15px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 25px rgba(11,114,133,0.07), 0 20px 25px rgba(11,114,133,0.05);
+    --shadow-xl: 0 20px 40px rgba(11,114,133,0.1), 0 10px 20px rgba(11,114,133,0.04);
+    
+    /* Enhanced transitions */
+    --transition-smooth: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    --transition-elegant: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 body {
@@ -32,23 +44,48 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
+    background-image: linear-gradient(135deg, rgba(11,114,133,0.03) 0%, rgba(12,166,120,0.03) 100%);
+    background-attachment: fixed;
 }
 
 .card {
     background-color: var(--card-color);
     border-radius: var(--border-radius);
     padding: 28px;
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--shadow-md);
     margin-bottom: 24px;
-    transition: var(--transition);
+    transition: var(--transition-elegant);
     width: 100%;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
+    border: 1px solid rgba(150,242,215,0.1);
+    backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    opacity: 0;
+    transition: var(--transition-smooth);
+    transform: translateY(-4px);
 }
 
 .card:hover {
-    box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+}
+
+.card:hover::before {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .hidden {
@@ -66,14 +103,40 @@ button {
     font-weight: 500;
     text-transform: uppercase;
     cursor: pointer;
-    transition: var(--transition);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: var(--transition-bounce);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: var(--transition-smooth);
+    z-index: -1;
 }
 
 button:hover {
     background-color: var(--primary-dark);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    box-shadow: var(--shadow-md);
     transform: translateY(-2px);
+}
+
+button:hover::before {
+    left: 100%;
+    transition: 0.8s;
+}
+
+button:active {
+    transform: translateY(1px);
+    box-shadow: var(--shadow-sm);
+    transition: 0.1s;
 }
 
 select, input[type="text"], input[type="number"] {
@@ -83,15 +146,17 @@ select, input[type="text"], input[type="number"] {
     border: 2px solid var(--primary-light);
     border-radius: var(--border-radius);
     font-size: 16px;
-    transition: var(--transition);
+    transition: var(--transition-smooth);
     background-color: #FAFAFA;
     box-sizing: border-box;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03) inset;
 }
 
 select:focus, input[type="text"]:focus, input[type="number"]:focus {
     outline: none;
     border-color: var(--secondary-color);
-    box-shadow: 0 0 0 3px var(--secondary-light);
+    box-shadow: 0 0 0 3px var(--secondary-light), 0 4px 6px rgba(0,0,0,0.05);
+    transform: translateY(-1px);
 }
 
 select:required:invalid,
@@ -99,6 +164,14 @@ input[type="number"]:required:invalid {
     color: #999;
     border-color: var(--error-color);
     background-color: #FFF5F5;
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+    40%, 60% { transform: translate3d(3px, 0, 0); }
 }
 
 select option[value=""][disabled] {
@@ -116,16 +189,17 @@ select option {
     padding: 16px 22px;
     border: 3px solid var(--primary-color);
     border-radius: 30px;
-    transition: var(--transition);
+    transition: var(--transition-elegant);
     background-color: white;
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--shadow-md);
     box-sizing: border-box;
 }
 
 #searchBar:focus {
     border-color: var(--secondary-color);
-    box-shadow: 0 0 0 4px var(--secondary-light), 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-xl), 0 0 0 4px var(--secondary-light);
     outline: none;
+    transform: scale(1.01);
 }
 
 #suggestions, #didYouMean {
@@ -134,18 +208,43 @@ select option {
     border-radius: var(--border-radius);
     max-height: 220px;
     overflow-y: auto;
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--shadow-lg);
     margin-top: 12px;
+    transform-origin: top center;
+    animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideDown {
+    from { 
+        opacity: 0; 
+        transform: translateY(-10px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
 }
 
 #suggestions div, #didYouMean div {
     padding: 14px 22px;
     cursor: pointer;
     transition: background-color 0.3s;
+    position: relative;
+    overflow: hidden;
 }
 
 #suggestions div:hover, #didYouMean div:hover {
-    background-color: var(--hover-color);
+    background-color: var(--enhanced-hover-color);
+}
+
+#suggestions div::after, #didYouMean div::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-light), transparent);
 }
 
 .title-container {
@@ -154,27 +253,63 @@ select option {
     padding: 30px;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     border-radius: var(--border-radius);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+.title-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        rgba(255,255,255,0) 0%, 
+        rgba(255,255,255,0.05) 25%, 
+        rgba(255,255,255,0.1) 50%, 
+        rgba(255,255,255,0.05) 75%, 
+        rgba(255,255,255,0) 100%);
+    background-size: 200% 200%;
+    animation: shimmer 3s infinite linear;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }
 
 .title {
     font-size: 64px;
-    color: var(--primary-color);
+    color: #FFFFFF; /* Kept white but adding text enhancements below */
     margin: 0 auto;
     font-weight: 700;
     text-transform: uppercase;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    text-shadow: 0 4px 6px rgba(0,0,0,0.3), 0 0 10px rgba(0,0,0,0.2); /* Enhanced text shadow */
     letter-spacing: 2px;
     text-align: center;
     max-width: 80%;
+    position: relative;
+    animation: fadeIn 0.8s ease-out;
+    -webkit-text-stroke: 1px rgba(0,0,0,0.1); /* Added text stroke for better visibility */
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.3)); /* Added glow effect */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .subtitle {
     font-size: 22px;
-    color: var(--secondary-light);
+    color: #FFFFFF; /* Changed from var(--secondary-light) for better visibility */
     margin-top: 15px;
     font-weight: 400;
     text-align: center;
+    animation: fadeIn 0.8s ease-out 0.2s backwards;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* Added text shadow for better visibility */
 }
 
 table {
@@ -182,10 +317,11 @@ table {
     border-collapse: separate;
     border-spacing: 0;
     margin-top: 24px;
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--shadow-lg);
     border-radius: var(--border-radius);
     overflow: hidden;
     background-color: var(--card-color);
+    border: 1px solid rgba(150,242,215,0.2);
 }
 
 th, td {
@@ -201,10 +337,11 @@ th {
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    transition: var(--transition-smooth);
 }
 
 tr {
-    transition: var(--transition);
+    transition: var(--transition-smooth);
 }
 
 tr:nth-child(even) {
@@ -212,7 +349,8 @@ tr:nth-child(even) {
 }
 
 tr:hover {
-    background-color: var(--hover-color);
+    background-color: var(--enhanced-hover-color); /* Using the enhanced hover color */
+    transform: translateX(4px);
 }
 
 td.editable {
@@ -233,7 +371,7 @@ td:nth-child(2)::after {
     font-size: 24px;
     color: var(--primary-color);
     opacity: 0.7;
-    transition: var(--transition);
+    transition: var(--transition-bounce);
     background-color: transparent;
     width: 32px;
     height: 32px;
@@ -247,8 +385,8 @@ td:nth-child(2):hover::after {
     color: var(--primary-dark);
     opacity: 1;
     background-color: var(--secondary-light);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transform: translateY(-50%) scale(1.1);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-50%) scale(1.2);
 }
 
 td.editable.editing::after {
@@ -262,7 +400,7 @@ td.editable input {
     border: 1px solid transparent;
     background-color: transparent;
     font-size: inherit;
-    transition: var(--transition);
+    transition: var(--transition-elegant);
 }
 
 td.editable input:focus {
@@ -284,11 +422,24 @@ td input[type="number"] {
 
 .duplicate {
     color: var(--error-color);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
 }
 
 .highlight {
     background-color: var(--secondary-light);
     font-weight: bold;
+    animation: highlightFade 1.5s ease-out;
+}
+
+@keyframes highlightFade {
+    0% { background-color: var(--secondary-color); }
+    100% { background-color: var(--secondary-light); }
 }
 
 #idInfo {
@@ -297,12 +448,33 @@ td input[type="number"] {
     border-radius: var(--border-radius);
     margin-bottom: 24px;
     color: white;
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+#idInfo::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+    transform: rotate(0);
+    animation: rotateBg 10s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes rotateBg {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
 }
 
 .material-icons {
     vertical-align: middle;
     margin-right: 10px;
+    transform: translateY(-1px);
 }
 
 .pharmacy-list {
@@ -317,19 +489,47 @@ td input[type="number"] {
     color: var(--text-color);
     padding: 18px;
     border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    transition: var(--transition);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-bounce);
+    border: 1px solid rgba(150,242,215,0.1);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.pharmacy-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-color) 100%);
+    opacity: 0;
+    z-index: -1;
+    transition: var(--transition-elegant);
 }
 
 .pharmacy-item:hover {
-    box-shadow: 0 6px 10px rgba(0,0,0,0.15);
-    transform: translateY(-2px);
-    background-color: var(--hover-color);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px) scale(1.02);
+    color: white;
+}
+
+.pharmacy-item:hover::before {
+    opacity: 1;
 }
 
 .class-btn.selected {
     background-color: var(--primary-dark);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-shadow: var(--shadow-sm);
+    animation: selectPulse 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes selectPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
 
 .class-btn:not(.selected) {
@@ -344,11 +544,36 @@ td input[type="number"] {
     padding: 8px 12px;
     border-radius: 4px;
     cursor: pointer;
-    transition: var(--transition);
+    transition: var(--transition-bounce);
+    position: relative;
+    overflow: hidden;
+}
+
+.action-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255,255,255,0.7);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%, -50%);
+    transform-origin: 50% 50%;
 }
 
 .action-btn:hover {
     background-color: var(--primary-dark);
+}
+
+.action-btn:active::after {
+    animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+    0% { transform: scale(0, 0); opacity: 0.5; }
+    100% { transform: scale(30, 30); opacity: 0; }
 }
 
 .delete-btn {
@@ -363,10 +588,30 @@ td input[type="number"] {
     cursor: pointer;
     color: var(--primary-color);
     text-decoration: underline;
+    transition: var(--transition-elegant);
+    position: relative;
+}
+
+.example-id::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--primary-dark);
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
 }
 
 .example-id:hover {
     color: var(--primary-dark);
+}
+
+.example-id:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
 }
 
 .submit-container {
@@ -377,12 +622,22 @@ td input[type="number"] {
 }
 
 .submit-hint {
-    background-color: var(--secondary-light);
+    background-color: white;
     color: var(--primary-dark);
-    padding: 10px 15px;
+    padding: 0.8rem 1.2rem;
     border-radius: var(--border-radius);
-    font-size: 14px;
-    max-width: 300px;
+    font-size: 0.9rem;
+    max-width: 320px;
+    box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--primary-color);
+    transition: var(--transition-elegant);
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-hint:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateX(3px);
 }
 
 @media (max-width: 1200px) {
