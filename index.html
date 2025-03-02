@@ -9,29 +9,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
 :root {
-    --primary-color: #0B7285;
-    --primary-light: #3A9EAF;
-    --primary-dark: #065666;
-    --secondary-color: #0CA678;
-    --secondary-light: #96F2D7;
+    --primary-color: #0B7285; 
+    --primary-light: #2C9CB0; 
+    --primary-dark: #065666; 
+    --secondary-color: #0B9E9E; 
+    --secondary-light: #8EEAEA; 
     --text-color: #2D3748;
-    --background-color: #E6FFFA;
+    --background-color: #E6FFFA; 
     --card-color: #FFFFFF;
-    --hover-color: #C3FAE8;
-    --enhanced-hover-color: #96F2D7; /* New enhanced hover color */
+    --hover-color: #C3F4F4; 
+    --enhanced-hover-color: #8EEAEA; 
     --error-color: #E53E3E;
-    --success-color: #38A169;
+    --success-color: #0B9E9E; 
     --border-radius: 12px;
     --box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     
-    /* Enhanced shadow variables */
     --shadow-sm: 0 2px 4px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.08);
     --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 10px 15px rgba(0,0,0,0.1);
     --shadow-lg: 0 10px 25px rgba(11,114,133,0.07), 0 20px 25px rgba(11,114,133,0.05);
     --shadow-xl: 0 20px 40px rgba(11,114,133,0.1), 0 10px 20px rgba(11,114,133,0.04);
     
-    /* Enhanced transitions */
     --transition-smooth: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     --transition-elegant: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -44,7 +42,7 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
-    background-image: linear-gradient(135deg, rgba(11,114,133,0.03) 0%, rgba(12,166,120,0.03) 100%);
+    background-image: linear-gradient(135deg, rgba(11,114,133,0.03) 0%, rgba(11,158,158,0.03) 100%); /* Adjusted to teal */
     background-attachment: fixed;
 }
 
@@ -59,7 +57,7 @@ body {
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
-    border: 1px solid rgba(150,242,215,0.1);
+    border: 1px solid rgba(142,234,234,0.1); 
     backdrop-filter: blur(8px);
     position: relative;
     overflow: hidden;
@@ -251,7 +249,7 @@ select option {
     text-align: center;
     margin-bottom: 30px;
     padding: 30px;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); /* Now teal to teal */
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-lg);
     position: relative;
@@ -283,18 +281,18 @@ select option {
 
 .title {
     font-size: 64px;
-    color: #FFFFFF; /* Kept white but adding text enhancements below */
+    color: #FFFFFF;
     margin: 0 auto;
     font-weight: 700;
     text-transform: uppercase;
-    text-shadow: 0 4px 6px rgba(0,0,0,0.3), 0 0 10px rgba(0,0,0,0.2); /* Enhanced text shadow */
+    text-shadow: 0 4px 6px rgba(0,0,0,0.3), 0 0 10px rgba(0,0,0,0.2);
     letter-spacing: 2px;
     text-align: center;
     max-width: 80%;
     position: relative;
     animation: fadeIn 0.8s ease-out;
-    -webkit-text-stroke: 1px rgba(0,0,0,0.1); /* Added text stroke for better visibility */
-    filter: drop-shadow(0 0 8px rgba(255,255,255,0.3)); /* Added glow effect */
+    -webkit-text-stroke: 1px rgba(0,0,0,0.1);
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));
 }
 
 @keyframes fadeIn {
@@ -304,12 +302,12 @@ select option {
 
 .subtitle {
     font-size: 22px;
-    color: #FFFFFF; /* Changed from var(--secondary-light) for better visibility */
+    color: #FFFFFF;
     margin-top: 15px;
     font-weight: 400;
     text-align: center;
     animation: fadeIn 0.8s ease-out 0.2s backwards;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* Added text shadow for better visibility */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 table {
@@ -321,7 +319,7 @@ table {
     border-radius: var(--border-radius);
     overflow: hidden;
     background-color: var(--card-color);
-    border: 1px solid rgba(150,242,215,0.2);
+    border: 1px solid rgba(142,234,234,0.2); 
 }
 
 th, td {
@@ -349,7 +347,7 @@ tr:nth-child(even) {
 }
 
 tr:hover {
-    background-color: var(--enhanced-hover-color); /* Using the enhanced hover color */
+    background-color: var(--enhanced-hover-color);
     transform: translateX(4px);
 }
 
@@ -491,7 +489,7 @@ td input[type="number"] {
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-md);
     transition: var(--transition-bounce);
-    border: 1px solid rgba(150,242,215,0.1);
+    border: 1px solid rgba(142,234,234,0.1); 
     position: relative;
     overflow: hidden;
     z-index: 1;
@@ -504,7 +502,7 @@ td input[type="number"] {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-color) 100%);
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-color) 100%); /* Now teal gradient */
     opacity: 0;
     z-index: -1;
     transition: var(--transition-elegant);
