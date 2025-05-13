@@ -37,7 +37,7 @@
 }
 
 body {
-    font-family: 'Roboto', 'Cairo', sans-serif; /* Roboto first for English UI */
+    font-family: 'Roboto', 'Cairo', sans-serif; 
     margin: 0;
     padding: 20px;
     background-color: var(--background-color);
@@ -112,7 +112,7 @@ button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Roboto', sans-serif; /* Ensure buttons use Roboto */
+    font-family: 'Roboto', sans-serif; 
 }
 button .material-icons {
     margin-right: 8px;
@@ -636,7 +636,7 @@ td input[type="number"] { -moz-appearance: textfield; }
                 <li>2nd character: '1' for first region, '2' for second, '3' for third</li>
                 <li>3rd character: Specific pharmacy number</li>
             </ul>
-             <input type="text" id="id" placeholder="ID (e.g., a21)">
+             <input type="text" id="id" placeholder="ID (e.g., a21)" autocomplete="off">
             <div class="pharmacy-list" id="pharmacyList">
             </div>
         </div>
@@ -1243,86 +1243,73 @@ function autoFillFromId() {
     isUpdatingFromId = true;
 
     const id = idInput.value.trim().toLowerCase();
-    let foundMatch = false;
+    let derivedClass = '';
+    let derivedRegion = '';
+    let derivedPharmacyName = ''; 
 
-    if (id.length >= 2) {
+    if (id.length >= 1) {
         const classChar = id[0];
-        const regionChar = id[1];
-        
-        const classType = classChar === 'a' ? 'student' : (classChar === 'b' ? 'workforce' : null);
-        const regionMap = { '1': 'first', '2': 'second', '3': 'third' };
-        const region = regionMap[regionChar];
+        if (classChar === 'a') derivedClass = 'student';
+        else if (classChar === 'b') derivedClass = 'workforce';
+    }
 
-        if (classType && region) {
-            if (selectedClass !== classType) {
-                selectedClass = classType;
-                classButtons.forEach(btn => btn.classList.toggle('selected', btn.dataset.class === classType));
-            }
-            if (regionSelect.value !== region) {
-                regionSelect.value = region;
-            }
-            
-            updatePharmacies(); 
-            
-            const pharmacyData = pharmacyOptions[classType]?.[region]?.find(p => p.id === id);
-            if (pharmacyData) {
-                pharmacySelect.value = pharmacyData.name;
-                foundMatch = true;
-            } else if (id.length < 3) { 
-                 pharmacySelect.value = ""; 
-            }
-        }
+    if (id.length >= 2 && derivedClass) {
+        const regionChar = id[1];
+        const regionMap = { '1': 'first', '2': 'second', '3': 'third' };
+        derivedRegion = regionMap[regionChar] || '';
     }
     
-    if (!foundMatch && id.length < 3) { 
-        const currentClassChar = selectedClass === 'student' ? 'a' : (selectedClass === 'workforce' ? 'b' : '');
-        const currentRegionChar = regionSelect.value === 'first' ? '1' : (regionSelect.value === 'second' ? '2' : (regionSelect.value === 'third' ? '3' : ''));
-        
-        if (id.length === 0) {
-            selectedClass = '';
-            classButtons.forEach(btn => btn.classList.remove('selected'));
-            regionSelect.value = '';
-            pharmacySelect.value = '';
-            updatePharmacies();
-        } else if (id.length === 1 && id[0] !== currentClassChar) {
-             regionSelect.value = '';
-             pharmacySelect.value = '';
-             updatePharmacies();
-        } else if (id.length === 2 && (id[0] !== currentClassChar || id[1] !== currentRegionChar)) {
-             pharmacySelect.value = '';
-             updatePharmacies();
+    if (id.length >= 3 && derivedClass && derivedRegion) {
+        const pharmaciesInRegion = pharmacyOptions[derivedClass]?.[derivedRegion] || [];
+        const matchedPharmacy = pharmaciesInRegion.find(p => p.id === id);
+        if (matchedPharmacy) {
+            derivedPharmacyName = matchedPharmacy.name;
         }
     }
-    renderPharmacyList(); 
+
+    if (selectedClass !== derivedClass) {
+        selectedClass = derivedClass;
+        classButtons.forEach(btn => btn.classList.toggle('selected', btn.dataset.class === selectedClass));
+    }
+
+    if (regionSelect.value !== derivedRegion) {
+        regionSelect.value = derivedRegion;
+    }
+    
+   
+    updatePharmacies(); 
+
+    if (pharmacySelect.value !== derivedPharmacyName) {
+        pharmacySelect.value = derivedPharmacyName;
+    }
+    
+    renderPharmacyList();
     isUpdatingFromId = false;
 }
 
 
 function updateIdFromDropdowns() {
-    if (isSubmitting || isUpdatingFromId) return;
-    isUpdatingFromDropdowns = true;
+    if (isSubmitting || isUpdatingFromId) return; 
+    isUpdatingFromDropdowns = true; 
 
-    const region = regionSelect.value;
-    const pharmacyName = pharmacySelect.value;
+    let newId = "";
+    if (selectedClass) {
+        newId = (selectedClass === 'student' ? 'a' : 'b');
+        const region = regionSelect.value;
+        if (region) {
+            newId += (region === 'first' ? '1' : (region === 'second' ? '2' : '3'));
+            const pharmacyName = pharmacySelect.value;
+            if (pharmacyName) {
+                const pharmacyData = pharmacyOptions[selectedClass]?.[region]?.find(p => p.name === pharmacyName);
+                if (pharmacyData) {
+                    newId = pharmacyData.id; 
+                }
+            }
+        }
+    }
 
-    if (selectedClass && region && pharmacyName) {
-        const pharmacyData = pharmacyOptions[selectedClass]?.[region]?.find(p => p.name === pharmacyName);
-        if (pharmacyData && idInput.value !== pharmacyData.id) {
-            idInput.value = pharmacyData.id;
-        }
-    } else if (selectedClass && region) {
-        const classChar = selectedClass === 'student' ? 'a' : 'b';
-        const regionChar = region === 'first' ? '1' : (region === 'second' ? '2' : '3');
-        if (idInput.value !== `${classChar}${regionChar}`) {
-           idInput.value = `${classChar}${regionChar}`;
-        }
-    } else if (selectedClass) {
-        const classChar = selectedClass === 'student' ? 'a' : 'b';
-         if (idInput.value !== classChar) {
-           idInput.value = classChar;
-        }
-    } else {
-        if(idInput.value !== "") idInput.value = "";
+    if (idInput.value !== newId) {
+        idInput.value = newId;
     }
     isUpdatingFromDropdowns = false;
 }
@@ -1330,20 +1317,23 @@ function updateIdFromDropdowns() {
 
 function updatePharmacies() {
     const region = regionSelect.value;
-    const currentPharmacyValue = pharmacySelect.value;
+    const currentPharmacyValue = pharmacySelect.value; // Preserve current selection if possible
     let options = ['<option value="" disabled selected>Select Pharmacy</option>'];
     let pharmacyStillExists = false;
 
-    if (region && selectedClass && pharmacyOptions[selectedClass] && pharmacyOptions[selectedClass][region]) {
+    if (selectedClass && region && pharmacyOptions[selectedClass] && pharmacyOptions[selectedClass][region]) {
         pharmacyOptions[selectedClass][region].forEach(pharmacy => {
-            options.push(`<option value="${pharmacy.name}" ${pharmacy.name === currentPharmacyValue ? 'selected' : ''}>${pharmacy.name}</option>`);
-            if(pharmacy.name === currentPharmacyValue) pharmacyStillExists = true;
+            const isSelected = pharmacy.name === currentPharmacyValue;
+            options.push(`<option value="${pharmacy.name}" ${isSelected ? 'selected' : ''}>${pharmacy.name}</option>`);
+            if (isSelected) pharmacyStillExists = true;
         });
     }
     pharmacySelect.innerHTML = options.join('');
-    if (!pharmacyStillExists) pharmacySelect.value = ""; 
-
-    updateIdFromDropdowns();
+    if (!pharmacyStillExists) { 
+        pharmacySelect.value = ""; 
+    }
+    
+    updateIdFromDropdowns(); 
 }
 
 function renderPharmacyList() {
@@ -1393,7 +1383,9 @@ function handleSearch() {
             const topSuggestionDiv = document.createElement('div');
             topSuggestionDiv.textContent = searchResults[0].item.name;
             topSuggestionDiv.addEventListener('click', () => {
-                if (!isSubmitting) { searchBar.value = searchResults[0].item.name; handleSearch(); }
+                if (!isSubmitting) { 
+                    addItem(searchResults[0].item); // Directly add item
+                }
             });
             didYouMean.appendChild(topSuggestionDiv);
         }
@@ -1485,22 +1477,45 @@ function saveState() {
 function loadState() {
     const state = JSON.parse(localStorage.getItem('pharmacyAppState'));
     if (state) {
-        idInput.value = state.id || '';
+        const tempIsUpdatingFromId = isUpdatingFromId;
+        const tempIsUpdatingFromDropdowns = isUpdatingFromDropdowns;
+        isUpdatingFromId = true; 
+        isUpdatingFromDropdowns = true; 
+
+        idInput.value = state.id || ''; 
+        
         selectedClass = state.class || '';
         classButtons.forEach(btn => btn.classList.toggle('selected', btn.dataset.class === selectedClass));
+        
         regionSelect.value = state.region || '';
-        updatePharmacies(); 
-        pharmacySelect.value = state.pharmacy || '';
+        
+        const currentPharmacyValInState = state.pharmacy || '';
+        let options = ['<option value="" disabled selected>Select Pharmacy</option>'];
+        if (selectedClass && regionSelect.value && pharmacyOptions[selectedClass] && pharmacyOptions[selectedClass][regionSelect.value]) {
+            pharmacyOptions[selectedClass][regionSelect.value].forEach(pharmacy => {
+                options.push(`<option value="${pharmacy.name}" ${pharmacy.name === currentPharmacyValInState ? 'selected' : ''}>${pharmacy.name}</option>`);
+            });
+        }
+        pharmacySelect.innerHTML = options.join('');
+        pharmacySelect.value = currentPharmacyValInState; 
+        
         monthInput.value = state.month || '';
         selectedItems = state.items || [];
-        
-        if (idInput.value) autoFillFromId(); 
-        else updateIdFromDropdowns(); 
+
+        isUpdatingFromId = tempIsUpdatingFromId;
+        isUpdatingFromDropdowns = tempIsUpdatingFromDropdowns;
+
+        if (state.id && state.id.trim() !== '') {
+             autoFillFromId(); 
+        } else {
+            updateIdFromDropdowns(); 
+        }
 
         renderTable();
-        renderPharmacyList();
+        renderPharmacyList(); 
     }
 }
+
 
 function validateAndSubmit() {
     if (isSubmitting) return;
@@ -1597,11 +1612,12 @@ function clearForm() {
     selectedClass = '';
     classButtons.forEach(btn => btn.classList.remove('selected'));
     regionSelect.value = '';
-    pharmacySelect.innerHTML = '<option value="" disabled selected>Select Pharmacy</option>';
+    pharmacySelect.innerHTML = '<option value="" disabled selected>Select Pharmacy</option>'; 
+    pharmacySelect.value = ''; 
     monthInput.value = '';
     selectedItems = [];
     renderTable();
-    renderPharmacyList();
+    renderPharmacyList(); 
     saveState(); 
     screen2.classList.add('hidden');
     screen1.classList.remove('hidden');
@@ -1611,41 +1627,43 @@ idInput.addEventListener('input', debounce(autoFillFromId, 300));
 
 classButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-        if (isSubmitting) return;
-        isUpdatingFromDropdowns = true;
+        if (isSubmitting || isUpdatingFromId) return; 
+        isUpdatingFromDropdowns = true; 
+
         const newClass = btn.dataset.class;
-        if (selectedClass !== newClass) {
+        if (selectedClass === newClass) { 
+            selectedClass = "";
+            btn.classList.remove('selected');
+        } else {
             selectedClass = newClass;
             classButtons.forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
-            regionSelect.value = ""; 
-            pharmacySelect.value = ""; 
-        } else { 
-            selectedClass = "";
-            btn.classList.remove('selected');
-            regionSelect.value = ""; 
-            pharmacySelect.value = "";
         }
-        updatePharmacies();
-        renderPharmacyList();
-        updateIdFromDropdowns();
+        
+        regionSelect.value = ""; 
+        updatePharmacies(); 
+        renderPharmacyList(); 
+
         isUpdatingFromDropdowns = false;
     });
 });
 
 regionSelect.addEventListener('change', () => {
-    if (isSubmitting) return;
+    if (isSubmitting || isUpdatingFromId) return;
     isUpdatingFromDropdowns = true;
-    updatePharmacies();
+
+    updatePharmacies(); 
     renderPharmacyList();
-    updateIdFromDropdowns();
+
     isUpdatingFromDropdowns = false;
 });
 
 pharmacySelect.addEventListener('change', () => {
-    if (isSubmitting) return;
+    if (isSubmitting || isUpdatingFromId) return;
     isUpdatingFromDropdowns = true;
-    updateIdFromDropdowns();
+    
+    updateIdFromDropdowns(); 
+
     isUpdatingFromDropdowns = false;
 });
 
