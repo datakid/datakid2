@@ -8,30 +8,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
 :root {
-    --primary-color: #0A6C7E; 
-    --primary-light: #2BA0B5; 
-    --primary-dark: #065A6A; 
-    --secondary-color: #0D9488; 
-    --secondary-light: #81E6D9; 
-    --text-color: #1A202C; 
+    --primary-color: #1491A3;
+    --primary-light: #2CB1C4;
+    --primary-dark: #0D748A;
+    --secondary-color: #4FD1C5;
+    --secondary-light: #B2F5EA;
+    --text-color: #1A202C;
     --text-light: #4A5568;
-    --background-color: #F0F9FA; 
+    --background-color: #F7FAFC;
     --card-color: #FFFFFF;
-    --hover-color: #D1FAFA; 
-    --enhanced-hover-color: #A8F0F0; 
+    --enhanced-hover-color: #E6FFFA;
     --error-color: #E53E3E;
-    --success-color: #38A169; 
-    --border-color-subtle: rgba(13, 148, 136, 0.15);
+    --success-color: #38A169;
+    --border-color-subtle: rgba(20, 145, 163, 0.15);
     --border-radius: 12px;
     --border-radius-lg: 16px;
     --border-radius-sm: 8px;
-    
+
     --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
     --shadow-sm: 0 2px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.07);
     --shadow-md: 0 4px 8px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
-    --shadow-lg: 0 10px 20px rgba(11,114,133,0.07), 0 3px 8px rgba(11,114,133,0.05);
-    --shadow-xl: 0 20px 30px rgba(11,114,133,0.09), 0 5px 15px rgba(11,114,133,0.06);
-    
+    --shadow-lg: 0 10px 20px rgba(20, 145, 163, 0.07), 0 3px 8px rgba(20, 145, 163, 0.05);
+    --shadow-xl: 0 20px 30px rgba(20, 145, 163, 0.09), 0 5px 15px rgba(20, 145, 163, 0.06);
+
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     --transition-elegant: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -45,16 +44,15 @@ body {
     color: var(--text-color);
     line-height: 1.7;
     background-image: 
-        radial-gradient(circle at 10% 20%, rgba(13, 148, 136, 0.04), transparent 50%),
-        radial-gradient(circle at 90% 80%, rgba(10, 108, 126, 0.04), transparent 50%),
-        linear-gradient(135deg, rgba(240,249,250,1) 0%, rgba(209,250,250,0.3) 100%);
+        radial-gradient(circle at 10% 20%, rgba(79, 209, 197, 0.05), transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(20, 145, 163, 0.05), transparent 50%);
     background-attachment: fixed;
 }
 
 .card {
-    background-color: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(14px) saturate(150%);
-    -webkit-backdrop-filter: blur(14px) saturate(150%);
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
     border-radius: var(--border-radius-lg);
     padding: 32px;
     box-shadow: var(--shadow-lg);
@@ -64,7 +62,7 @@ body {
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
-    border: 1px solid rgba(142,234,234,0.25); 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
     position: relative;
     overflow: hidden;
 }
@@ -221,7 +219,7 @@ select option {
     background-color: white;
     box-shadow: var(--shadow-md);
     box-sizing: border-box;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%230B7285' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%231491A3' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 20px center;
     padding-right: 50px; 
@@ -257,7 +255,7 @@ select option {
     padding: 16px 24px;
     cursor: pointer;
     transition: background-color 0.2s, color 0.2s, transform 0.2s;
-    border-bottom: 1px solid rgba(142,234,234,0.3);
+    border-bottom: 1px solid var(--border-color-subtle);
     font-family: 'Roboto', 'Cairo', sans-serif;
 }
 #suggestions div:last-child, #didYouMean div:last-child {
@@ -333,7 +331,7 @@ table {
     border-radius: var(--border-radius);
     overflow: hidden;
     background-color: var(--card-color);
-    border: 1px solid rgba(142,234,234,0.3); 
+    border: 1px solid var(--border-color-subtle); 
 }
 
 @keyframes slideIn {
@@ -349,14 +347,14 @@ table {
 
 @keyframes highlightFade {
     0% { background-color: var(--enhanced-hover-color); }
-    100% { background-color: transparent; }
+    100% { background-color: var(--row-original-bg, transparent); }
 }
 
 tbody tr.new-row {
     animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-tbody tr.new-row td {
+tbody tr.new-row > * {
     animation: highlightFade 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
@@ -376,6 +374,10 @@ tbody tr.new-row td {
     }
 }
 
+tbody tr.row-deleting > * {
+    transition: none !important;
+}
+
 tbody tr.row-deleting {
     transform-origin: top;
     animation: shrinkOut 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
@@ -384,13 +386,13 @@ tbody tr.row-deleting {
 th, td {
     padding: 18px 20px;
     text-align: left;
-    border-bottom: 1px solid rgba(142,234,234,0.2);
+    border-bottom: 1px solid var(--border-color-subtle);
     font-family: 'Roboto', 'Cairo', sans-serif; 
 }
 tr:last-child td { border-bottom: none; }
 
 th {
-    background: linear-gradient(135deg, var(--primary-light), var(--secondary-color));
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
     color: white;
     font-weight: 700;
     text-transform: uppercase;
@@ -400,12 +402,13 @@ th {
 }
 
 tr:not(.new-row, .row-deleting) { transition: var(--transition-smooth); }
-tr:nth-child(even) { background-color: #F8FEFE; }
+
+tr:nth-child(even):not(.new-row) { background-color: #F8FEFE; }
 
 tr:hover:not(.row-deleting) {
     background-color: var(--enhanced-hover-color);
     transform: scale(1.01); 
-    box-shadow: 0 0 15px rgba(11,158,158,0.2);
+    box-shadow: 0 0 15px rgba(20, 145, 163, 0.2);
     z-index: 2;
     position: relative;
 }
@@ -529,7 +532,7 @@ td input[type="number"] { -moz-appearance: textfield; }
 }
 .class-btn {
     flex: 1;
-    background: #E0F7FA; 
+    background: var(--enhanced-hover-color); 
     color: var(--primary-color);
     border: 2px solid var(--primary-light);
     padding: 12px 20px;
@@ -543,7 +546,7 @@ td input[type="number"] { -moz-appearance: textfield; }
     animation: selectPulse 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .class-btn:not(.selected):hover {
-    background: #B2EBF2;
+    background: var(--secondary-light);
     border-color: var(--primary-color);
 }
 
@@ -593,7 +596,7 @@ td input[type="number"] { -moz-appearance: textfield; }
     display: flex;
     flex-wrap: wrap;
     gap: 12px 24px;
-    background-color: #F8FEFE;
+    background-color: var(--background-color);
     padding: 16px 20px;
     border-radius: var(--border-radius);
     border-left: 5px solid var(--primary-color);
@@ -627,7 +630,7 @@ td input[type="number"] { -moz-appearance: textfield; }
 }
 
 .submit-hint {
-    background-color: #E6FFFA; 
+    background-color: var(--enhanced-hover-color); 
     color: var(--primary-dark);
     padding: 1rem 1.5rem;
     border-radius: var(--border-radius);
@@ -705,17 +708,10 @@ td input[type="number"] { -moz-appearance: textfield; }
 }
 
 #modalConfirmBtn {
-    background: linear-gradient(135deg, var(--success-color) 0%, #68D391 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
 }
 #modalConfirmBtn:hover {
-     background: linear-gradient(135deg, #2F855A 0%, var(--success-color) 100%);
-}
-
-#modalCancelBtn {
-    background: linear-gradient(135deg, var(--error-color) 0%, #FC8181 100%);
-}
-#modalCancelBtn:hover {
-     background: linear-gradient(135deg, #C53030 0%, var(--error-color) 100%);
+     background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
 }
 
 #undoToast {
