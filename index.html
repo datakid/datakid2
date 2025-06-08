@@ -21,15 +21,16 @@
     --enhanced-hover-color: #A8F0F0; 
     --error-color: #E53E3E;
     --success-color: #38A169; 
+    --border-color-subtle: rgba(13, 148, 136, 0.15);
     --border-radius: 12px;
     --border-radius-lg: 16px;
     --border-radius-sm: 8px;
     
     --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-sm: 0 2px 4px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.08);
-    --shadow-md: 0 4px 8px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.05);
-    --shadow-lg: 0 10px 20px rgba(11,114,133,0.08), 0 3px 8px rgba(11,114,133,0.06);
-    --shadow-xl: 0 20px 30px rgba(11,114,133,0.1), 0 5px 15px rgba(11,114,133,0.07);
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.07);
+    --shadow-md: 0 4px 8px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
+    --shadow-lg: 0 10px 20px rgba(11,114,133,0.07), 0 3px 8px rgba(11,114,133,0.05);
+    --shadow-xl: 0 20px 30px rgba(11,114,133,0.09), 0 5px 15px rgba(11,114,133,0.06);
     
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -44,16 +45,16 @@ body {
     color: var(--text-color);
     line-height: 1.7;
     background-image: 
-        radial-gradient(circle at 10% 20%, rgba(13, 148, 136, 0.05), transparent 50%),
-        radial-gradient(circle at 90% 80%, rgba(10, 108, 126, 0.05), transparent 50%),
-        linear-gradient(135deg, rgba(240,249,250,1) 0%, rgba(209,250,250,0.5) 100%);
+        radial-gradient(circle at 10% 20%, rgba(13, 148, 136, 0.04), transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(10, 108, 126, 0.04), transparent 50%),
+        linear-gradient(135deg, rgba(240,249,250,1) 0%, rgba(209,250,250,0.3) 100%);
     background-attachment: fixed;
 }
 
 .card {
-    background-color: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(12px) saturate(150%);
-    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    background-color: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(14px) saturate(150%);
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
     border-radius: var(--border-radius-lg);
     padding: 32px;
     box-shadow: var(--shadow-lg);
@@ -63,7 +64,7 @@ body {
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
-    border: 1px solid rgba(142,234,234,0.2); 
+    border: 1px solid rgba(142,234,234,0.25); 
     position: relative;
     overflow: hidden;
 }
@@ -118,9 +119,11 @@ button .material-icons {
     margin-right: 8px;
     font-size: 20px;
 }
+button#backBtn {
+    margin: 0;
+}
 button#backBtn .material-icons { margin-right: 8px; margin-left: -4px;} 
 button#submitBtn .material-icons { margin-right: 10px; }
-
 
 button::after { 
     content: '';
@@ -139,7 +142,7 @@ button::after {
 button:hover {
     background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
     box-shadow: var(--shadow-lg);
-    transform: translateY(-3px) scale(1.02);
+    transform: translateY(-3px) scale(1.03);
 }
 
 button:active::after {
@@ -160,10 +163,10 @@ select, input[type="text"], input[type="number"] {
     width: 100%;
     padding: 16px 20px;
     margin: 12px 0;
-    border: 2px solid var(--primary-light);
+    border: 2px solid var(--border-color-subtle);
     border-radius: var(--border-radius);
     font-size: 16px;
-    font-family: 'Roboto', 'Cairo', sans-serif; /* Roboto for input, Cairo for potential Arabic content */
+    font-family: 'Roboto', 'Cairo', sans-serif;
     transition: var(--transition-smooth);
     background-color: #FDFEFF;
     box-sizing: border-box;
@@ -189,7 +192,6 @@ input:placeholder-shown {
     color: #A0AEC0;
 }
 
-
 @keyframes shake {
     10%, 90% { transform: translate3d(-1px, 0, 0); }
     20%, 80% { transform: translate3d(2px, 0, 0); }
@@ -211,7 +213,7 @@ select option {
 #searchBar {
     font-size: 18px;
     width: 100%;
-    margin: 28px 0 12px 0;
+    margin-bottom: 12px;
     padding: 18px 24px;
     border: 3px solid var(--primary-color);
     border-radius: 50px;
@@ -256,7 +258,7 @@ select option {
     cursor: pointer;
     transition: background-color 0.2s, color 0.2s, transform 0.2s;
     border-bottom: 1px solid rgba(142,234,234,0.3);
-    font-family: 'Roboto', 'Cairo', sans-serif; /* For item names */
+    font-family: 'Roboto', 'Cairo', sans-serif;
 }
 #suggestions div:last-child, #didYouMean div:last-child {
     border-bottom: none;
@@ -269,7 +271,6 @@ select option {
 }
 #didYouMean div { font-style: italic; color: var(--text-light); }
 #didYouMean div:first-child { font-style: normal; font-weight: 500; color: var(--text-color); background-color: transparent !important; cursor: default; transform: none !important;}
-
 
 .title-container {
     text-align: center;
@@ -287,11 +288,10 @@ select option {
     position: absolute;
     top: -50%; left: -50%;
     width: 200%; height: 200%;
-    background-image: conic-gradient(transparent, rgba(255,255,255,0.15), transparent 30%);
+    background-image: conic-gradient(transparent, rgba(255,255,255,0.1), transparent 30%);
     animation: rotateGradient 15s linear infinite;
 }
 @keyframes rotateGradient { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
 
 .title {
     font-family: 'Roboto', sans-serif; 
@@ -299,7 +299,7 @@ select option {
     color: #FFFFFF;
     margin: 0 auto;
     font-weight: 900; 
-    text-shadow: 0 5px 15px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.5);
+    text-shadow: 0 5px 15px rgba(0,0,0,0.25), 0 1px 3px rgba(0,0,0,0.4);
     letter-spacing: 1px; 
     position: relative;
     animation: titlePopIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -336,6 +336,51 @@ table {
     border: 1px solid rgba(142,234,234,0.3); 
 }
 
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes highlightFade {
+    0% { background-color: var(--enhanced-hover-color); }
+    100% { background-color: transparent; }
+}
+
+tbody tr.new-row {
+    animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+tbody tr.new-row td {
+    animation: highlightFade 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes shrinkOut {
+    from {
+        opacity: 1;
+        transform: scaleY(1);
+        height: var(--row-height, 58px);
+    }
+    to {
+        opacity: 0;
+        transform: scaleY(0);
+        height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        border: 0;
+    }
+}
+
+tbody tr.row-deleting {
+    transform-origin: top;
+    animation: shrinkOut 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
+}
+
 th, td {
     padding: 18px 20px;
     text-align: left;
@@ -354,16 +399,17 @@ th {
     font-family: 'Roboto', sans-serif; 
 }
 
-tr { transition: var(--transition-smooth); }
+tr:not(.new-row, .row-deleting) { transition: var(--transition-smooth); }
 tr:nth-child(even) { background-color: #F8FEFE; }
 
-tr:hover {
+tr:hover:not(.row-deleting) {
     background-color: var(--enhanced-hover-color);
     transform: scale(1.01); 
     box-shadow: 0 0 15px rgba(11,158,158,0.2);
     z-index: 2;
     position: relative;
 }
+
 td.editable input {
     width: 90%; 
     padding: 10px 12px;
@@ -383,15 +429,6 @@ td.editable input:focus {
     box-shadow: 0 0 0 3px var(--secondary-light), var(--shadow-sm);
     transform: scale(1.05);
 }
-.new-item-highlight td input[type="number"] {
-    animation: highlight-input 1.5s ease-out;
-}
-@keyframes highlight-input {
-    0% { background-color: var(--secondary-light); transform: scale(1.1); }
-    70% { background-color: var(--secondary-light); transform: scale(1.1); }
-    100% { background-color: transparent; transform: scale(1); }
-}
-
 
 td input[type="number"]::-webkit-inner-spin-button, 
 td input[type="number"]::-webkit-outer-spin-button { 
@@ -423,41 +460,38 @@ td input[type="number"] { -moz-appearance: textfield; }
 }
 
 #idInfo {
-    background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
     padding: 24px;
     border-radius: var(--border-radius);
     margin-bottom: 28px;
-    color: white;
-    box-shadow: var(--shadow-md);
+    color: var(--text-color);
+    box-shadow: var(--shadow-sm);
     position: relative;
     overflow: hidden;
     font-family: 'Roboto', sans-serif; 
+    border: 1px solid var(--border-color-subtle);
 }
-#idInfo strong { font-weight: 700; }
+#idInfo strong { font-weight: 700; color: var(--primary-dark); }
 #idInfo ul {
     list-style-type: none;
     padding-left: 0;
     margin-top: 10px;
+    margin-bottom: 20px;
 }
 #idInfo li {
     padding: 6px 0 6px 25px;
     position: relative;
     font-size: 15px;
+    color: var(--text-light);
 }
 #idInfo li::before {
-    content: '✓'; 
+    content: '→'; 
     position: absolute;
     left: 0;
-    color: white;
+    color: var(--primary-color);
     font-weight: bold;
 }
-
-.material-icons {
-    vertical-align: middle;
-    transform: translateY(-1px);
-}
-#idInfo .material-icons { margin-right: 10px; } 
-
+#idInfo .material-icons { margin-right: 10px; color: var(--primary-color); } 
 
 .pharmacy-list {
     display: grid;
@@ -467,13 +501,13 @@ td input[type="number"] { -moz-appearance: textfield; }
 }
 
 .pharmacy-item {
-    background-color: #E6FFFA; 
+    background-color: #F0F9FA;
     color: var(--primary-dark); 
     padding: 16px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-sm);
     transition: var(--transition-bounce);
-    border: 1px solid var(--primary-light); 
+    border: 1px solid var(--border-color-subtle); 
     cursor: pointer;
     text-align: center;
     font-weight: 700; 
@@ -513,29 +547,27 @@ td input[type="number"] { -moz-appearance: textfield; }
     border-color: var(--primary-color);
 }
 
-
 @keyframes selectPulse {
     0% { transform: scale(1) translateY(0); }
     50% { transform: scale(1.05) translateY(-2px); }
     100% { transform: scale(1.02) translateY(-2px); }
 }
 
-
 .action-btn {
     background-color: transparent;
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
+    border: 2px solid currentColor;
     padding: 8px 12px;
     border-radius: var(--border-radius-sm);
     cursor: pointer;
     transition: var(--transition-bounce);
     box-shadow: none;
-    margin: 0; 
+    margin: 0;
+    color: var(--primary-color);
 }
 .action-btn .material-icons { margin: 0; font-size: 22px;} 
 
 .action-btn:hover {
-    background-color: var(--primary-color);
+    background-color: currentColor;
     color: white;
     transform: translateY(-2px) scale(1.05);
     box-shadow: var(--shadow-sm);
@@ -545,12 +577,45 @@ td input[type="number"] { -moz-appearance: textfield; }
 }
 
 .delete-btn {
-    border-color: var(--error-color);
     color: var(--error-color);
 }
-.delete-btn:hover {
-    background-color: var(--error-color);
-    color: white;
+
+.screen2-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+#summary-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    background-color: #F8FEFE;
+    padding: 16px 20px;
+    border-radius: var(--border-radius);
+    border-left: 5px solid var(--primary-color);
+    box-shadow: var(--shadow-sm);
+    flex-grow: 1;
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    color: var(--text-light);
+    font-family: 'Roboto', sans-serif;
+}
+.summary-item .material-icons {
+    color: var(--primary-color);
+    font-size: 22px;
+}
+.summary-item strong {
+    color: var(--text-color);
+    font-weight: 700;
 }
 
 .submit-container {
@@ -580,6 +645,117 @@ td input[type="number"] { -moz-appearance: textfield; }
     transform: translateX(4px);
 }
 
+#customModalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 25, 41, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+#customModalOverlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#customModal {
+    background: var(--card-color);
+    padding: 24px 32px;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-xl);
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#customModalOverlay.visible #customModal {
+    transform: scale(1);
+}
+
+#modalTitle {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+#modalMessage {
+    font-size: 16px;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+#modalActions button {
+    margin: 0 8px;
+    padding: 10px 24px;
+    font-size: 14px;
+}
+
+#modalConfirmBtn {
+    background: linear-gradient(135deg, var(--success-color) 0%, #68D391 100%);
+}
+#modalConfirmBtn:hover {
+     background: linear-gradient(135deg, #2F855A 0%, var(--success-color) 100%);
+}
+
+#modalCancelBtn {
+    background: linear-gradient(135deg, var(--error-color) 0%, #FC8181 100%);
+}
+#modalCancelBtn:hover {
+     background: linear-gradient(135deg, #C53030 0%, var(--error-color) 100%);
+}
+
+#undoToast {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--text-color);
+    color: white;
+    padding: 14px 22px;
+    border-radius: 50px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 1001;
+    transition: bottom 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#undoToast.show {
+    bottom: 25px;
+}
+
+#undoToast button {
+    background: transparent;
+    border: none;
+    color: var(--secondary-light);
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#undoToast button:hover {
+    text-decoration: underline;
+    color: white;
+}
+
 
 @media (max-width: 1200px) {
     .card { max-width: 950px; padding: 28px; }
@@ -592,6 +768,7 @@ td input[type="number"] { -moz-appearance: textfield; }
     .pharmacy-list { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
     .title { font-size: 42px; }
     .subtitle { font-size: 17px; }
+    .screen2-header { flex-direction: column; align-items: stretch; }
 }
 
 @media (max-width: 768px) {
@@ -606,6 +783,8 @@ td input[type="number"] { -moz-appearance: textfield; }
     .title { font-size: 36px; }
     .subtitle { font-size: 16px; }
     .class-btn-container { flex-direction: column; }
+    #summary-display { gap: 8px 16px; padding: 12px 16px;}
+    .summary-item { font-size: 14px; }
 }
 
 @media (max-width: 480px) {
@@ -613,6 +792,7 @@ td input[type="number"] { -moz-appearance: textfield; }
     .card { padding: 15px; }
     .pharmacy-list { grid-template-columns: 1fr; }
     button { width: 100%; margin: 8px 0; font-size: 13px; padding: 12px 20px; }
+    button#backBtn, .action-btn { width: auto; }
     #idInfo { font-size: 14px; padding: 18px; }
     #searchBar { font-size: 15px; padding: 14px 18px; padding-right: 40px; }
     select, input[type="text"], input[type="number"] { padding: 12px 16px; font-size: 14px; }
@@ -620,6 +800,8 @@ td input[type="number"] { -moz-appearance: textfield; }
     .subtitle { font-size: 15px; }
     th, td { padding: 12px 8px; font-size: 13px; }
     td.editable input { width: 100%; }
+    .screen2-header { margin-bottom: 16px; }
+    #undoToast { width: calc(100% - 20px); text-align: center; justify-content: center; }
 }
     </style>
 </head>
@@ -630,13 +812,13 @@ td input[type="number"] { -moz-appearance: textfield; }
 
     <div id="screen1" class="card">
         <div id="idInfo">
-            <p><i class="material-icons">info_outline</i><strong>ID Format:</strong> You can use id for autofill or use the dropdowns :</p>
+            <p><i class="material-icons">info_outline</i><strong>Quick Select & ID Guide:</strong> Use the ID input for autofill, or use the dropdowns below.</p>
             <ul>
-                <li>1st character: 'a' for student, 'b' for workforce</li>
-                <li>2nd character: '1' for first region, '2' for second, '3' for third</li>
-                <li>3rd character: Specific pharmacy number</li>
+                <li>1st character: 'a' for student, 'b' for workforce.</li>
+                <li>2nd character: '1' for first region, '2' for second, '3' for third.</li>
+                <li>3rd character: Specific pharmacy number.</li>
             </ul>
-             <input type="text" id="id" placeholder="ID (e.g., a21)" autocomplete="off">
+             <input type="text" id="id" placeholder="Enter ID (e.g., a21) or use buttons" autocomplete="off">
             <div class="pharmacy-list" id="pharmacyList">
             </div>
         </div>
@@ -659,8 +841,33 @@ td input[type="number"] { -moz-appearance: textfield; }
     </div>
 
     <div id="screen2" class="card hidden">
-        <button id="backBtn"><i class="material-icons">arrow_back</i>Go Back</button>
-        <input type="text" id="searchBar" placeholder="Search...">
+        <div class="screen2-header">
+            <button id="backBtn"><i class="material-icons">arrow_back</i>Edit Selections</button>
+            <div id="summary-display">
+                <div class="summary-item">
+                    <i class="material-icons" title="Class">work_outline</i>
+                    <strong id="summary-class"></strong>
+                </div>
+                <div class="summary-item">
+                    <i class="material-icons" title="Region">public</i>
+                    <strong id="summary-region"></strong>
+                </div>
+                <div class="summary-item">
+                    <i class="material-icons" title="Pharmacy">local_pharmacy</i>
+                    <strong id="summary-pharmacy"></strong>
+                </div>
+                <div class="summary-item">
+                    <i class="material-icons" title="Month">calendar_today</i>
+                    <strong id="summary-month"></strong>
+                </div>
+                <div class="summary-item">
+                    <i class="material-icons" title="ID">fingerprint</i>
+                    <strong id="summary-id"></strong>
+                </div>
+            </div>
+        </div>
+
+        <input type="text" id="searchBar" placeholder="Search for an item to add...">
         <div id="didYouMean"></div>
         <div id="suggestions"></div>
         <table id="dataTable">
@@ -678,10 +885,25 @@ td input[type="number"] { -moz-appearance: textfield; }
         <div class="submit-container">
             <button id="submitBtn"><i class="material-icons">send</i>Submit</button>
             <div class="submit-hint">
-                Please note: Review your data carefully before submission.<br>
-                Ensure you submit all your data in one session.<br>
+                <strong>Final Step:</strong> Review your entries carefully. Once submitted, the data for this pharmacy and month cannot be altered in this session.
             </div>
         </div>
+    </div>
+    
+    <div id="customModalOverlay">
+        <div id="customModal">
+            <h2 id="modalTitle"></h2>
+            <p id="modalMessage"></p>
+            <div id="modalActions">
+                <button id="modalCancelBtn">Cancel</button>
+                <button id="modalConfirmBtn">OK</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="undoToast">
+        <span id="undoMessage"></span>
+        <button id="undoBtn">Undo</button>
     </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.6.2/fuse.min.js"></script>
@@ -723,6 +945,7 @@ let selectedItems = [];
 let isSubmitting = false;
 let isUpdatingFromId = false;
 let isUpdatingFromDropdowns = false;
+let lastDeleted = null;
 
 const items = [
     { name: "5-Fluorouracil 250mg", unit: "Amp", price: 12 },
@@ -1226,6 +1449,82 @@ const pharmacyOptions = {
 const fuseOptions = { keys: ['name'], includeScore: true, threshold: 0.4, minMatchCharLength: 2 };
 const fuse = new Fuse(items, fuseOptions);
 
+const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+const CustomModal = {
+    overlay: document.getElementById('customModalOverlay'),
+    modal: document.getElementById('customModal'),
+    title: document.getElementById('modalTitle'),
+    message: document.getElementById('modalMessage'),
+    confirmBtn: document.getElementById('modalConfirmBtn'),
+    cancelBtn: document.getElementById('modalCancelBtn'),
+    _onConfirm: null,
+
+    init() {
+        this.confirmBtn.addEventListener('click', () => this.handleConfirm());
+        this.cancelBtn.addEventListener('click', () => this.hide());
+        this.overlay.addEventListener('click', (e) => {
+            if (e.target === this.overlay) this.hide();
+        });
+    },
+
+    show(config) {
+        this.title.textContent = config.title;
+        this.message.innerHTML = config.message;
+        this._onConfirm = config.onConfirm || (() => this.hide());
+        this.confirmBtn.style.display = config.showConfirm === false ? 'none' : 'inline-block';
+        this.cancelBtn.style.display = config.showCancel === false ? 'none' : 'inline-block';
+        this.overlay.classList.add('visible');
+    },
+
+    hide() {
+        this.overlay.classList.remove('visible');
+    },
+
+    handleConfirm() {
+        if (this._onConfirm) this._onConfirm();
+        this.hide();
+    },
+
+    alert(title, message) {
+        this.show({ title, message, showCancel: false });
+    }
+};
+CustomModal.init();
+
+const Toast = {
+    element: document.getElementById('undoToast'),
+    messageEl: document.getElementById('undoMessage'),
+    undoBtn: document.getElementById('undoBtn'),
+    timeout: null,
+    _onUndo: null,
+
+    init() {
+        this.undoBtn.addEventListener('click', () => this.handleUndo());
+    },
+
+    show(message, onUndo) {
+        clearTimeout(this.timeout);
+        this.messageEl.textContent = message;
+        this._onUndo = onUndo;
+        this.element.classList.add('show');
+        this.timeout = setTimeout(() => this.hide(), 5000);
+    },
+
+    hide() {
+        clearTimeout(this.timeout);
+        this.element.classList.remove('show');
+        this._onUndo = null;
+    },
+
+    handleUndo() {
+        if (this._onUndo) this._onUndo();
+        this.hide();
+    }
+};
+Toast.init();
+
+
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -1276,7 +1575,6 @@ function autoFillFromId() {
         regionSelect.value = derivedRegion;
     }
     
-   
     updatePharmacies(); 
 
     if (pharmacySelect.value !== derivedPharmacyName) {
@@ -1317,7 +1615,7 @@ function updateIdFromDropdowns() {
 
 function updatePharmacies() {
     const region = regionSelect.value;
-    const currentPharmacyValue = pharmacySelect.value; // Preserve current selection if possible
+    const currentPharmacyValue = pharmacySelect.value;
     let options = ['<option value="" disabled selected>Select Pharmacy</option>'];
     let pharmacyStillExists = false;
 
@@ -1384,7 +1682,7 @@ function handleSearch() {
             topSuggestionDiv.textContent = searchResults[0].item.name;
             topSuggestionDiv.addEventListener('click', () => {
                 if (!isSubmitting) { 
-                    addItem(searchResults[0].item); // Directly add item
+                    addItem(searchResults[0].item);
                 }
             });
             didYouMean.appendChild(topSuggestionDiv);
@@ -1402,33 +1700,56 @@ function highlightMatches(text, query) {
 function addItem(item) {
     if (isSubmitting) return;
     if (selectedItems.some(i => i.name === item.name)) {
-        alert(`"${item.name}" is already in the list. You can adjust its quantity in the table.`);
+        CustomModal.alert("Duplicate Item", `<strong>${item.name}</strong> is already in the list. You can adjust its quantity in the table.`);
         searchBar.value = '';
         suggestions.innerHTML = '';
         didYouMean.innerHTML = '';
         return;
     }
     selectedItems.push({ ...item, unitsSold: 1 });
-    renderTable();
-    const newRow = dataTable.rows[dataTable.rows.length - 1];
-    if (newRow) {
-        newRow.classList.add('new-item-highlight');
-        const quantityInput = newRow.querySelector('input[type="number"]');
-        if (quantityInput) quantityInput.focus();
-        setTimeout(() => newRow.classList.remove('new-item-highlight'), 1500);
-    }
+    renderTable({ isNew: true });
     saveState();
     searchBar.value = '';
     suggestions.innerHTML = '';
     didYouMean.innerHTML = '';
 }
 
-function renderTable() {
+function removeItem(index) {
+    if (isSubmitting) return;
+
+    const row = dataTable.rows[index];
+    if (!row) return;
+
+    lastDeleted = { item: { ...selectedItems[index] }, index };
+    
+    const rowHeight = row.offsetHeight;
+    row.style.setProperty('--row-height', `${rowHeight}px`);
+    row.classList.add('row-deleting');
+
+    row.addEventListener('animationend', () => {
+        selectedItems.splice(index, 1);
+        renderTable(); 
+        saveState();
+    }, { once: true });
+
+    Toast.show('Item removed.', () => {
+        if (lastDeleted) {
+            selectedItems.splice(lastDeleted.index, 0, lastDeleted.item);
+            renderTable({ isNew: true, newIndex: lastDeleted.index });
+            saveState();
+            lastDeleted = null;
+        }
+    });
+}
+
+function renderTable({ isNew = false, newIndex = -1 } = {}) {
     dataTable.innerHTML = '';
     selectedItems.forEach((item, index) => {
         const row = dataTable.insertRow();
+        
         row.insertCell(0).textContent = item.name;
         row.insertCell(1).textContent = item.unit;
+        
         const unitsSoldCell = row.insertCell(2);
         unitsSoldCell.className = 'editable';
         const unitsSoldInput = document.createElement('input');
@@ -1451,21 +1772,28 @@ function renderTable() {
              else e.target.classList.remove('error-input');
         });
         unitsSoldCell.appendChild(unitsSoldInput);
+
         const actionsCell = row.insertCell(3);
         const deleteBtnEl = document.createElement('button');
         deleteBtnEl.innerHTML = '<i class="material-icons">delete_outline</i>';
         deleteBtnEl.classList.add('action-btn', 'delete-btn');
         deleteBtnEl.title = "Delete item";
-        deleteBtnEl.addEventListener('click', () => {
-            if (!isSubmitting) {
-                selectedItems.splice(index, 1);
-                renderTable();
-                saveState();
-            }
-        });
+        deleteBtnEl.addEventListener('click', () => removeItem(index));
         actionsCell.appendChild(deleteBtnEl);
+        
+        if (isNew && index === (newIndex !== -1 ? newIndex : selectedItems.length - 1)) {
+            row.classList.add('new-row');
+            const quantityInput = row.querySelector('input[type="number"]');
+            if (quantityInput) {
+                setTimeout(() => quantityInput.focus(), 100);
+            }
+            row.addEventListener('animationend', () => {
+                row.classList.remove('new-row');
+            }, { once: true });
+        }
     });
 }
+
 
 function saveState() {
     localStorage.setItem('pharmacyAppState', JSON.stringify({
@@ -1538,7 +1866,7 @@ function validateAndSubmit() {
     if (!allQuantitiesValid) errors.push("All items must have a quantity greater than 0.");
 
     if (errors.length > 0) {
-        alert("Please correct the following errors:\n- " + errors.join("\n- "));
+        CustomModal.alert("Validation Error", "Please correct the following errors:<br>- " + errors.join("<br>- "));
         return;
     }
     submitToFirebase();
@@ -1564,7 +1892,7 @@ function submitToFirebase() {
     
     db.ref('pharmacyInventory').child(key).set(flatData)
         .then(() => {
-            alert('Data submitted successfully!');
+            CustomModal.alert('Success!', 'Your data has been submitted successfully.');
             clearForm();
             localStorage.removeItem('pharmacyAppState'); 
         })
@@ -1574,7 +1902,7 @@ function submitToFirebase() {
             if (!navigator.onLine) errorMessage += 'You appear to be offline. Check connection.';
             else if (error.code === 'PERMISSION_DENIED') errorMessage += 'Submission for this pharmacy, month, and class may already exist or you lack permission.';
             else errorMessage += 'Please try again. Contact support if issues persist.';
-            alert(errorMessage);
+            CustomModal.alert('Submission Failed', errorMessage);
         })
         .finally(() => {
             isSubmitting = false;
@@ -1683,9 +2011,17 @@ nextBtn.addEventListener('click', () => {
     if (!isMonthValid) errors.push("Month must be a valid number between 1 and 12.");
     
     if (errors.length > 0) {
-         alert("Please complete all fields on this page before proceeding:\n- " + errors.join("\n- "));
+         CustomModal.alert("Incomplete Information", "Please complete all fields on this page before proceeding:<br>- " + errors.join("<br>- "));
          return;
     }
+
+    document.getElementById('summary-class').textContent = selectedClass.charAt(0).toUpperCase() + selectedClass.slice(1);
+    document.getElementById('summary-region').textContent = regionSelect.options[regionSelect.selectedIndex].text;
+    document.getElementById('summary-pharmacy').textContent = pharmacySelect.value;
+    const monthIndex = parseInt(monthInput.value) - 1;
+    document.getElementById('summary-month').textContent = monthNames[monthIndex] || monthInput.value;
+    document.getElementById('summary-id').textContent = idInput.value.toUpperCase();
+
     screen1.classList.add('hidden');
     screen2.classList.remove('hidden');
     searchBar.focus();
