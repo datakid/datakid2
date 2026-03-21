@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -246,7 +245,6 @@ body::before {
     left: 18px;
 }
 
-
 input, select {
     width: 100%;
     padding: 18px 24px;
@@ -378,6 +376,14 @@ select {
     transform: translateY(-2px);
 }
 
+.pharmacy-chip.selected {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 119, 182, 0.25);
+}
+
 .back-btn {
     background: transparent;
     color: var(--text-light);
@@ -472,6 +478,13 @@ select {
 }
 #suggestions div:hover { background: #f8fafc; padding-left: 32px; color: var(--primary-dark); }
 
+.highlight {
+    color: var(--primary-dark);
+    background: var(--accent);
+    border-radius: 4px;
+    padding: 0 2px;
+}
+
 .table-container {
     background: white;
     border-radius: var(--radius-md);
@@ -489,10 +502,33 @@ tr:last-child td { border-bottom: none; }
 tr { transition: background 0.2s; }
 tr:hover { background: #fbfdff; }
 
+.qty-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.qty-wrapper i {
+    position: absolute;
+    right: 12px;
+    font-size: 16px;
+    color: var(--primary);
+    pointer-events: none;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+.qty-input:focus + i {
+    opacity: 1;
+    color: var(--primary-dark);
+}
 .qty-input {
-    width: 80px; padding: 10px; text-align: center;
-    border: 2px solid #e2e8f0; border-radius: 12px;
-    font-weight: 700; color: var(--primary-dark);
+    width: 140px;
+    padding: 10px 32px 10px 15px;
+    text-align: center;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-weight: 700;
+    color: var(--primary-dark);
 }
 .qty-input:focus { border-color: var(--primary); }
 
@@ -717,7 +753,7 @@ const db = firebase.database();
 const screen1 = document.getElementById('screen1');
 const screen2 = document.getElementById('screen2');
 const idInput = document.getElementById('id');
-const idInputGroup = document.getElementById('idInputGroup'); // New wrapper
+const idInputGroup = document.getElementById('idInputGroup');
 const classButtons = document.querySelectorAll('.class-btn');
 const regionSelect = document.getElementById('region');
 const pharmacySelect = document.getElementById('pharmacy');
@@ -1237,7 +1273,14 @@ const pharmacyOptions = {
     }
 };
 
-const fuseOptions = { keys: ['name'], includeScore: true, threshold: 0.4, minMatchCharLength: 2 };
+const fuseOptions = { 
+    keys: ['name'], 
+    includeScore: true, 
+    includeMatches: true, 
+    threshold: 0.4, 
+    ignoreLocation: true, 
+    minMatchCharLength: 1 
+};
 const fuse = new Fuse(items, fuseOptions);
 
 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -1326,19 +1369,6 @@ const Toast = {
 };
 Toast.init();
 
-
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
 function updateIdInputVisuals() {
     const hasValue = idInput.value.length > 0;
     const isFocused = document.activeElement === idInput;
@@ -1402,7 +1432,6 @@ function autoFillFromId() {
     isUpdatingFromId = false;
 }
 
-
 function updateIdFromDropdowns() {
     if (isSubmitting || isUpdatingFromId) return; 
     isUpdatingFromDropdowns = true; 
@@ -1429,7 +1458,6 @@ function updateIdFromDropdowns() {
     }
     isUpdatingFromDropdowns = false;
 }
-
 
 function updatePharmacies() {
     const region = regionSelect.value;
@@ -1458,6 +1486,9 @@ function renderPharmacyList() {
         pharmacyOptions[selectedClass][regionSelect.value].forEach(pharmacy => {
             const div = document.createElement('div');
             div.className = 'pharmacy-chip';
+            if (pharmacySelect.value === pharmacy.name) {
+                div.classList.add('selected');
+            }
             div.textContent = `${pharmacy.name}`;
             div.addEventListener('click', () => {
                 if (!isSubmitting) {
@@ -1477,22 +1508,26 @@ function handleSearch() {
     const query = searchBar.value.trim();
     suggestions.innerHTML = '';
     didYouMean.innerHTML = '';
-    if (query.length < 2) return;
+    if (query.length < 1) return;
 
     const searchResults = fuse.search(query);
     if (searchResults.length > 0) {
         const selectedItemsSet = new Set(selectedItems.map(item => item.name));
         const suggestionsFragment = document.createDocumentFragment();
-        searchResults.slice(0, 5).forEach(({ item }) => {
+        searchResults.slice(0, 5).forEach((result) => {
+            const item = result.item;
             const div = document.createElement('div');
-            div.innerHTML = `<strong>${highlightMatches(item.name, query)}</strong><small>${item.unit} - ${item.price}</small>`;
+            div.innerHTML = `<strong>${highlightFuseMatches(item.name, result.matches)}</strong><small>${item.unit} - ${item.price}</small>`;
             div.addEventListener('click', () => !isSubmitting && addItem(item));
             if (selectedItemsSet.has(item.name)) div.classList.add('duplicate');
             suggestionsFragment.appendChild(div);
         });
         suggestions.appendChild(suggestionsFragment);
 
-        if (searchResults[0].score > 0.1 && searchResults[0].item.name.toLowerCase() !== query.toLowerCase()) {
+        const firstResult = searchResults[0];
+        const isExactSubstring = firstResult.item.name.toLowerCase().includes(query.toLowerCase());
+        
+        if (!isExactSubstring && firstResult.score > 0.05) {
             const didYouMeanHeader = document.createElement('div');
             didYouMeanHeader.textContent = 'Did you mean:';
             didYouMeanHeader.style.background = '#f8fafc';
@@ -1501,10 +1536,10 @@ function handleSearch() {
             didYouMean.appendChild(didYouMeanHeader);
             
             const topSuggestionDiv = document.createElement('div');
-            topSuggestionDiv.textContent = searchResults[0].item.name;
+            topSuggestionDiv.textContent = firstResult.item.name;
             topSuggestionDiv.addEventListener('click', () => {
                 if (!isSubmitting) { 
-                    addItem(searchResults[0].item);
+                    addItem(firstResult.item);
                 }
             });
             didYouMean.appendChild(topSuggestionDiv);
@@ -1514,9 +1549,21 @@ function handleSearch() {
     }
 }
 
-function highlightMatches(text, query) {
-    const regex = new RegExp(`(${query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
-    return text.replace(regex, '<span class="highlight">$1</span>');
+function highlightFuseMatches(text, matches) {
+    if (!matches || matches.length === 0) return text;
+    const match = matches[0]; 
+    if (!match || !match.indices) return text;
+
+    let result = '';
+    let lastIndex = 0;
+    
+    match.indices.forEach(([start, end]) => {
+        result += text.substring(lastIndex, start);
+        result += `<span class="highlight">${text.substring(start, end + 1)}</span>`;
+        lastIndex = end + 1;
+    });
+    result += text.substring(lastIndex);
+    return result;
 }
 
 function addItem(item) {
@@ -1579,6 +1626,9 @@ function renderTable({ isNew = false, newIndex = -1 } = {}) {
         unitsSoldCell.setAttribute('data-label', 'Quantity');
         unitsSoldCell.style.textAlign = 'center';
         
+        const wrapper = document.createElement('div');
+        wrapper.className = 'qty-wrapper';
+
         const unitsSoldInput = document.createElement('input');
         unitsSoldInput.type = 'number';
         unitsSoldInput.className = 'qty-input';
@@ -1595,7 +1645,14 @@ function renderTable({ isNew = false, newIndex = -1 } = {}) {
                 e.preventDefault();
             }
         });
-        unitsSoldCell.appendChild(unitsSoldInput);
+
+        const editIcon = document.createElement('i');
+        editIcon.className = 'material-icons-round';
+        editIcon.textContent = 'edit';
+
+        wrapper.appendChild(unitsSoldInput);
+        wrapper.appendChild(editIcon);
+        unitsSoldCell.appendChild(wrapper);
 
         const actionsCell = row.insertCell(3);
         actionsCell.setAttribute('data-label', 'Action');
@@ -1618,7 +1675,6 @@ function renderTable({ isNew = false, newIndex = -1 } = {}) {
 const styleSheet = document.createElement("style");
 styleSheet.innerText = `@keyframes slideInRight { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }`;
 document.head.appendChild(styleSheet);
-
 
 function saveState() {
     localStorage.setItem('pharmacyAppState', JSON.stringify({
@@ -1669,7 +1725,6 @@ function loadState() {
         renderPharmacyList(); 
     }
 }
-
 
 function validateAndSubmit() {
     if (isSubmitting) return;
@@ -1765,7 +1820,6 @@ function enableInputs() {
     submitBtn.innerHTML = '<i class="material-icons-round">cloud_upload</i> Submit Report';
 }
 
-
 function clearForm() {
     idInput.value = '';
     updateIdInputVisuals();
@@ -1785,10 +1839,9 @@ function clearForm() {
     window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
-idInput.addEventListener('input', debounce(autoFillFromId, 300));
+idInput.addEventListener('input', autoFillFromId);
 idInput.addEventListener('focus', updateIdInputVisuals);
 idInput.addEventListener('blur', updateIdInputVisuals);
-
 
 classButtons.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1832,7 +1885,6 @@ pharmacySelect.addEventListener('change', () => {
     isUpdatingFromDropdowns = false;
 });
 
-
 nextBtn.addEventListener('click', () => {
     const isIdValid = idInput.value.trim() !== '';
     const isClassSelected = selectedClass !== '';
@@ -1868,7 +1920,7 @@ backBtn.addEventListener('click', () => {
     screen1.classList.remove('hidden');
     window.scrollTo({top: 0, behavior: 'smooth'});
 });
-searchBar.addEventListener('input', debounce(handleSearch, 250));
+searchBar.addEventListener('input', handleSearch); 
 submitBtn.addEventListener('click', validateAndSubmit);
 
 loadState();
