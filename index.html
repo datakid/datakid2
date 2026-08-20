@@ -735,9 +735,10 @@ tr:hover { background: #fbfdff; }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.6.2/fuse.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 <script>
 const firebaseConfig = {
-  apiKey: "AIzaSyBYmguP4MPNvKV3ZeoR-MploiVZKgyAga8",
+  apiKey: atob("QUl6YVN5QlltZ3VQNE1QTnZLVjNaZW9SLU1wbG9pVlpLZ3lBZ2E4"),
   authDomain: "the-other-plan.firebaseapp.com",
   databaseURL: "https://the-other-plan-default-rtdb.firebaseio.com",
   projectId: "the-other-plan",
@@ -749,6 +750,8 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+const auth = firebase.auth();
+auth.signInAnonymously().catch(() => {});
 
 const screen1 = document.getElementById('screen1');
 const screen2 = document.getElementById('screen2');
@@ -1775,8 +1778,8 @@ function submitToFirebase() {
     });
     
     const key = `${flatData.pharmacy}_${flatData.month}_${flatData.class}`;
-    
-    db.ref('pharmacyInventory').child(key).set(flatData)
+
+    const writeData = () => db.ref('pharmacyInventory').child(key).set(flatData)
         .then(() => {
             CustomModal.alert('Success!', 'Your data has been submitted successfully.');
             clearForm();
@@ -1794,6 +1797,18 @@ function submitToFirebase() {
             isSubmitting = false;
             enableInputs();
         });
+
+    if (auth.currentUser) {
+        writeData();
+    } else {
+        auth.signInAnonymously()
+            .then(writeData)
+            .catch(() => {
+                isSubmitting = false;
+                enableInputs();
+                CustomModal.alert('Submission Failed', 'Could not establish a session. Check your connection and try again.');
+            });
+    }
 }
 
 function disableInputs() {
