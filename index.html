@@ -733,25 +733,8 @@ tr:hover { background: #fbfdff; }
     </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.6.2/fuse.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 <script>
-const firebaseConfig = {
-  apiKey: atob("QUl6YVN5QlltZ3VQNE1QTnZLVjNaZW9SLU1wbG9pVlpLZ3lBZ2E4"),
-  authDomain: "the-other-plan.firebaseapp.com",
-  databaseURL: "https://the-other-plan-default-rtdb.firebaseio.com",
-  projectId: "the-other-plan",
-  storageBucket: "the-other-plan.appspot.com",
-  messagingSenderId: "465003350934",
-  appId: "1:465003350934:web:ca48924ffad36396cf6bb7",
-  measurementId: "G-6LVGSBLK09"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-const auth = firebase.auth();
-auth.signInAnonymously().catch(() => {});
+const SUBMIT_ENDPOINT = "https://firecloud.rubberylock7.workers.dev/submit/the-other-plan";
 
 const screen1 = document.getElementById('screen1');
 const screen2 = document.getElementById('screen2');
@@ -1769,27 +1752,33 @@ function submitToFirebase() {
     const flatData = {
         id: idInput.value.trim(), class: selectedClass, region: regionSelect.value,
         pharmacy: pharmacySelect.value, month: parseInt(monthInput.value),
-        timestamp: firebase.database.ServerValue.TIMESTAMP, items: {}
+        items: {}
     };
     selectedItems.forEach((item, index) => {
         flatData.items[`item_${index + 1}`] = {
             name: item.name, unit: item.unit, unitsSold: item.unitsSold, price: item.price
         };
     });
-    
-    const key = `${flatData.pharmacy}_${flatData.month}_${flatData.class}`;
 
-    const writeData = () => db.ref('pharmacyInventory').child(key).set(flatData)
-        .then(() => {
+    fetch(SUBMIT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(flatData)
+    })
+        .then(async (res) => {
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                throw new Error(err.error || 'request_failed');
+            }
             CustomModal.alert('Success!', 'Your data has been submitted successfully.');
             clearForm();
-            localStorage.removeItem('pharmacyAppState'); 
+            localStorage.removeItem('pharmacyAppState');
         })
         .catch((error) => {
-            console.error("Error writing document: ", error);
+            console.error("Error submitting report: ", error);
             let errorMessage = 'An error occurred. ';
             if (!navigator.onLine) errorMessage += 'You appear to be offline. Check connection.';
-            else if (error.code === 'PERMISSION_DENIED') errorMessage += 'Submission for this pharmacy, month, and class may already exist or you lack permission.';
+            else if (error.message === 'duplicate') errorMessage += 'Submission for this pharmacy, month, and class may already exist.';
             else errorMessage += 'Please try again. Contact support if issues persist.';
             CustomModal.alert('Submission Failed', errorMessage);
         })
@@ -1797,18 +1786,6 @@ function submitToFirebase() {
             isSubmitting = false;
             enableInputs();
         });
-
-    if (auth.currentUser) {
-        writeData();
-    } else {
-        auth.signInAnonymously()
-            .then(writeData)
-            .catch(() => {
-                isSubmitting = false;
-                enableInputs();
-                CustomModal.alert('Submission Failed', 'Could not establish a session. Check your connection and try again.');
-            });
-    }
 }
 
 function disableInputs() {
